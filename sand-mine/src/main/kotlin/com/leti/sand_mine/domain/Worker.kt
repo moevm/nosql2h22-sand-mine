@@ -8,5 +8,5 @@ import org.springframework.data.neo4j.core.schema.Node
 data class Worker(
     @Id
     @GeneratedValue
-    val i: Long? = null
+    val id: Long? = null
 )

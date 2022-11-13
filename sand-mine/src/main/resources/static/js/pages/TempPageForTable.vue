@@ -1,8 +1,6 @@
 <template>
   <v-app>
-    <Table :dataForTable = "dataForTable" :edit = "edit" :more = "moreInformation">
 
-    </Table>
   </v-app>
 </template>
 

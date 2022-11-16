@@ -2,7 +2,7 @@
   <div class="modal-backdrop" @click="close">
     <div class="modal">
       <header class="modal-header">
-        <span class="modal__title">{{title}}</span>
+        <h1 class="modal-title">{{title}}</h1>
       </header>
       <section class="modal-body">
         <slot name="body"
@@ -26,6 +26,7 @@ export default {
     }
   },
   methods: {
+
   }
 };
 </script>

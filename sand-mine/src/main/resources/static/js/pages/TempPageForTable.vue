@@ -1,17 +1,15 @@
 <template>
   <v-app>
-    <Table :dataForTable = "dataForTable" :edit = "edit" :more = "moreInformation">
-    <Modal
-      v-if="showModal"
-      :title="Заголовок">
-      <template #body>
-        Modal Body
-      </template>
-      <template #footer>
-        <button @click='close'>Cancel</button>
-        <button>Submit</button>
-      </template>
+    <Modal :title="title" v-if="showModal">
+        <template #body>
+          Modal Body
+        </template>
+        <template #footer>
+          <button @click="close">Cancel</button>
+          <button>Submit</button>
+        </template>
     </Modal>
+    <Table :dataForTable = "dataForTable" :edit = "edit" :more = "moreInformation">
     </Table>
   </v-app>
 </template>
@@ -28,7 +26,8 @@ export default {
   data(){
     return {
       dataForTable: testData2,
-      showModal: false
+      showModal: false,
+      title: test_title
       }
   },
   methods:{
@@ -45,6 +44,8 @@ export default {
   }
 
 }
+
+let test_title = "Заголовок"
 
 let testData1 = [
   {columnNames : ["ФИО",'Телефон', 'Должность','Зона', 'Дата смены'],

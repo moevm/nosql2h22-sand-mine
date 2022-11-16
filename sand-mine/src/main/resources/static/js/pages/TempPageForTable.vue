@@ -1,25 +1,41 @@
 <template>
   <v-app>
+    <Modal :title="title" v-if="showModal">
+        <template #body>
+          Modal Body
+        </template>
+        <template #footer>
+          <button @click="close">Cancel</button>
+          <button>Submit</button>
+        </template>
+    </Modal>
     <Table :dataForTable = "dataForTable" :edit = "edit" :more = "moreInformation">
-
     </Table>
   </v-app>
 </template>
 
 <script>
 import Table from "components/table/Table.vue"
+import Modal from "components/modal/Modal.vue";
 
 export default {
   components:{
+    Modal,
     Table
   },
   data(){
     return {
-      dataForTable: testData2
+      dataForTable: testData2,
+      showModal: false,
+      title: test_title
       }
   },
   methods:{
+    close() {
+        this.showModal = false
+    },
     edit(id){
+      this.showModal = true
       console.log('edit:id=',id)
     },
     moreInformation(id){
@@ -28,6 +44,8 @@ export default {
   }
 
 }
+
+let test_title = "Заголовок"
 
 let testData1 = [
   {columnNames : ["ФИО",'Телефон', 'Должность','Зона', 'Дата смены'],

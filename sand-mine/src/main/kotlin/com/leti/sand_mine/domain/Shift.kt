@@ -12,12 +12,11 @@ import org.springframework.data.neo4j.core.schema.Relationship
 import java.time.LocalDateTime
 
 @Node("Shift")
-@EqualsAndHashCode
 data class Shift(
     @Id @GeneratedValue var id: Long? = null,
-    @NotNull @Property(name="date") var date:LocalDateTime?,
-    @NotNull @Property(name="attended") var attended:Boolean?,
+    @Property(name = "date") var date: LocalDateTime?,
+    @Property(name = "attended") var attended: Boolean?,
     @Relationship(type = "IN", direction = Relationship.Direction.OUTGOING)
-    var zone:Zone? = null
-){
+    var zone: Zone? = null
+) {
 }

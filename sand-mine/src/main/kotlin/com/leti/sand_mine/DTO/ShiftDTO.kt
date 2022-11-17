@@ -5,13 +5,11 @@ import lombok.AllArgsConstructor
 import lombok.EqualsAndHashCode
 import java.time.LocalDateTime
 
-@AllArgsConstructor
-@EqualsAndHashCode
 class ShiftDTO(
-    var shiftId:Long? = null,
-    var date:LocalDateTime? = null,
-    var attended:Boolean? = null,
-    var zoneId:Long? = null
+    var shiftId: Long? = null,
+    var date: LocalDateTime? = null,
+    var attended: Boolean? = null,
+    var zoneId: Long? = null
 ) {
-    constructor(shift:Shift):this(shift.id,shift.date,shift.attended,shift.zone?.id)
+    constructor(shift: Shift) : this(shift.id, shift.date, shift.attended, shift.zone?.id)
 }

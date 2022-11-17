@@ -17,10 +17,10 @@ class ShiftController(
     private val zoneRepository: ZoneRepository
 ) {
     @PostMapping("/create")
-    fun createShift(@RequestBody shiftDto:ShiftDTO):ShiftDTO?{
+    fun createShift(@RequestBody shiftDto: ShiftDTO): ShiftDTO? {
         shiftDto.shiftId = null;
         val zone: Zone = zoneRepository.findById(shiftDto.zoneId!!).get();
-        val shift:Shift = Shift(shiftDto.shiftId,shiftDto.date,shiftDto.attended,zone);
+        val shift: Shift = Shift(shiftDto.shiftId, shiftDto.date, shiftDto.attended, zone);
         return ShiftDTO(shiftRepository.save(shift))
     }
 

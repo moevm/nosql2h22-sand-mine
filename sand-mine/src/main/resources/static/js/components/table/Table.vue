@@ -57,8 +57,6 @@ export default {
 
 <style>
 .table_div{
-  margin: 7% auto;
-  width:60%;
   word-wrap: break-word;
   position: page;
 }
@@ -104,7 +102,7 @@ export default {
   overflow-x: auto;
   margin-top: 0;
   margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
+  border-bottom:2px solid rgb(249,168,37);
 }
 
 .button_in_table{

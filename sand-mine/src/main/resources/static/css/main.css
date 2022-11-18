@@ -1,3 +1,23 @@
-.main{
-    background-color:rgb(252,221,118)
+.main {
+    background-color: rgb(252, 221, 118)
+}
+
+/*пока так сделал если что доделаю/переделаю */
+.background {
+    background-color: white;
+    width: 500px;
+    margin: 130px auto;
+    border-radius: 10px;
+    padding: 70px 30px;
+    text-align: center;
+}
+
+.background span, input, button {
+    width: 100%;
+    margin: 4px 0;
+}
+
+.div-for-table{
+    margin:7% auto;
+    width:60%;
 }

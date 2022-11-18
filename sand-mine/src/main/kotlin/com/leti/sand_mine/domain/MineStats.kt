@@ -11,9 +11,9 @@ import java.time.LocalDateTime
 @Node("MineStats")
 data class MineStats(
     @Id @GeneratedValue var id: Long,
-    @Property(name="date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME) var date: LocalDateTime,
-    @Property(name="weight") var weight: Float,
-    @Property(name="last_edit_time") var lastEditTime: LocalDateTime,
+    @Property(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) var date: LocalDateTime,
+    @Property(name = "weight") var weight: Float,
+    @Property(name = "last_edit_time") var lastEditTime: LocalDateTime,
 
-    @Relationship(type="LAST_EDITED", direction= Relationship.Direction.OUTGOING) var lastEditedBy: Worker,
+    @Relationship(type = "LAST_EDITED", direction = Relationship.Direction.OUTGOING) var lastEditedBy: Worker,
 )

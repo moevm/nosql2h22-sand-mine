@@ -29,14 +29,13 @@
 </template>
 
 <script>
-
 export default {
   props: ["dataForTable","more","edit"],
   methods:{
     data(){
       return {
         btn_more:
-          '<button v-on:click="more_">Подробнее</button>'
+            '<button v-on:click="more_">Подробнее</button>'
       }
     },
     edit_(id){
@@ -74,7 +73,6 @@ export default {
 .head_table {
   border: 3px solid rgb(249, 168, 37);
 }
-
 .table_table td{
   text-align: center;
   padding:30px 20px;
@@ -82,21 +80,17 @@ export default {
   horiz-align: center;
   border: 2px solid rgb(249,168,37);
 }
-
 .table_table th{
   padding: 15px;
 }
-
 .table_table tr:first-child td{
   border-top:none;
 }
-
 .table_table th{
   background:  rgb(255,198,110);
   border:none;
   text-align: left;
 }
-
 .scroll-table-body {
   height: 400px;
   overflow-x: auto;
@@ -104,18 +98,15 @@ export default {
   margin-bottom: 20px;
   border-bottom:2px solid rgb(249,168,37);
 }
-
 .button_in_table{
   background: none;
   border: none;
   color:rgb(200,100,40);
   font-size: 12px;
 }
-
 .button_in_table:hover{
   color:rgb(200,150,40);;
 }
-
 ::-webkit-scrollbar {
   width: 7px;
 }

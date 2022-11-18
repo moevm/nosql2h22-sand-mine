@@ -9,8 +9,10 @@
         <button>Submit</button>
       </template>
     </Modal>
-    <Table :dataForTable="dataForTable" :edit="edit" :more="moreInformation">
-    </Table>
+    <div class="div-for-table">
+      <Table :dataForTable="dataForTable" :edit="edit" :more="moreInformation">
+      </Table>
+    </div>
   </v-app>
 </template>
 
@@ -26,7 +28,8 @@ export default {
   data() {
     return {
       dataForTable: testData2,
-      showModal: false,
+      showModal: false
+      ,
       title: test_title
     }
   },

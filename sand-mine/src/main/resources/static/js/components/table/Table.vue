@@ -57,8 +57,6 @@ export default {
 
 <style>
 .table_div{
-  margin: 7% auto;
-  width:60%;
   word-wrap: break-word;
   position: page;
 }

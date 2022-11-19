@@ -2,7 +2,7 @@
   <div class="div-for-table">
     <div class="button-div">
       <div class="div-search-button" >
-        <button class="button btn" style="float:right"  @click = "search()">Поиск</button>
+        <button class="button btn" style="float:right;width:200px"  @click = "search()">Поиск</button>
         <div>
           <span style="float:right">
             Текущие параметры поиска: нет параметров
@@ -49,9 +49,9 @@
             :preselect-first="true"/>
 
 
-        <label for="date_edit">Дата редактирования</label>
+        <label for="date_edit">Время редактирования</label>
         <br>
-        <input class="input" id='date_edit'  name="date_edit" type="date" >
+        <input class="input" id='date_edit'  name="date_edit" type="datetime-local" >
 
         <label for="zones">Зоны</label>
         <br>
@@ -167,9 +167,9 @@ for (let i = 0; i < 100; i++) {
 
 <style>
   .btn{
-    width:200px;
     padding-bottom: 40px;
   }
+
   .button:hover{
     background: #F9C025;
   }

@@ -9,15 +9,19 @@
       <table class ="table_table">
         <tr v-for="[rowNum,rowData] in enumerate(dataForTable[1])" v-bind:id="'row_id_'+dataForTable[2][rowNum][dataForTable[2][rowNum].length-1]">
           <td  v-for="[colNum, elem] in enumerate(rowData)"  v-bind:class="'column_'+colNum" v-bind:id="rowNum+'_'+colNum+'_'+dataForTable[2][rowNum][colNum]">
+            <div v-if="!(dataForTable[0].moreInformationColumn!=null && dataForTable[0].moreInformationColumn===colNum)">
+              <button style=" background: transparent;border: none;"></button>
+            </div>
+
             <div v-if="!(dataForTable[0].editColumn!=null && dataForTable[0].editColumn===colNum)">
               {{elem}}
             </div>
             <div v-if="dataForTable[0].moreInformationColumn!=null && dataForTable[0].moreInformationColumn===colNum">
               <button class='button_in_table' v-on:click="more_(dataForTable[2][rowNum][colNum])">Подробнее</button>
             </div>
-            <div v-if="dataForTable[0].editColumn!=null && dataForTable[0].editColumn===colNum">
+            <div  v-if="dataForTable[0].editColumn!=null && dataForTable[0].editColumn===colNum">
+              <button  class='button_in_table' style=" float: right; width:10px; margin-top: -40px;margin-right: 0px" v-on:click="edit_(dataForTable[2][rowNum][dataForTable[2][rowNum].length-1])"><span style="font-size: 20px"  class="material-icons">edit</span></button>
               {{elem}}
-              <button class='button_in_table' style="float: right; margin-top:-40px; margin-right: -20px" v-on:click="edit_(dataForTable[2][rowNum][dataForTable[2][rowNum].length-1])"><span style="font-size: 20px"  class="material-icons">edit</span></button>
             </div>
           </td>
         </tr>
@@ -29,20 +33,20 @@
 </template>
 
 <script>
+
 export default {
   props: ["dataForTable","more","edit"],
   methods:{
-    data(){
-      return {
-        btn_more:
-            '<button v-on:click="more_">Подробнее</button>'
-      }
-    },
+    // data(){
+    //   return {
+    //     btn_more:
+    //       '<button v-on:click="more_">Подробнее</button>'
+    //   }
+    // },
     edit_(id){
       this.edit(id);
     },
     more_(id){
-      console.log('id='+id)
       this.more(id);
     },
     *enumerate(array) {
@@ -73,6 +77,7 @@ export default {
 .head_table {
   border: 3px solid rgb(249, 168, 37);
 }
+
 .table_table td{
   text-align: center;
   padding:30px 20px;
@@ -80,17 +85,21 @@ export default {
   horiz-align: center;
   border: 2px solid rgb(249,168,37);
 }
+
 .table_table th{
   padding: 15px;
 }
+
 .table_table tr:first-child td{
   border-top:none;
 }
+
 .table_table th{
   background:  rgb(255,198,110);
   border:none;
   text-align: left;
 }
+
 .scroll-table-body {
   height: 400px;
   overflow-x: auto;
@@ -98,15 +107,18 @@ export default {
   margin-bottom: 20px;
   border-bottom:2px solid rgb(249,168,37);
 }
+
 .button_in_table{
   background: none;
   border: none;
   color:rgb(200,100,40);
   font-size: 12px;
 }
+
 .button_in_table:hover{
   color:rgb(200,150,40);;
 }
+
 ::-webkit-scrollbar {
   width: 7px;
 }

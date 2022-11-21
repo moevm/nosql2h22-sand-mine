@@ -9,5 +9,6 @@ import ImportExportPage from "./pages/ImportExportPage.vue"
 import StaffListPage from "./pages/StaffListPage.vue"
 import AccountPage from "./pages/SubordinateAccountPage.vue"
 import WardenAccPage from "./pages/WardenAccountPage.vue"
+import UserPassPage from "./pages/UserPassInformationPage.vue"
 
-createApp(WardenAccPage).mount('#app')
+createApp(UserPassPage).mount('#app')

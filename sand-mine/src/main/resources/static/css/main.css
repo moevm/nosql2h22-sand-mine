@@ -34,3 +34,8 @@
     margin:7% auto;
     width:60%;
 }
+
+.input-hint-text {
+    font-size: 25px;
+    float: left;
+}

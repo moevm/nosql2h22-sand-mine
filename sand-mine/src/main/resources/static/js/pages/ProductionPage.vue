@@ -42,9 +42,9 @@
 
 <script>
 import Table from "../components/table/Table.vue";
-import ModalSearch from "./parts/ModalSearch.vue"
-import ModalParams from "./parts/ModalParams.vue";
-import ModalAddProduction from "./parts/ModalAddProduction.vue";
+import ModalSearch from "../components/modal/ModalSearch.vue"
+import ModalParams from "../components/modal/ModalParams.vue";
+import ModalAddProduction from "../components/modal/ModalAddProduction.vue";
 
 export default {
   components: {

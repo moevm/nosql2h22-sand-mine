@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import Modal from "../../components/modal/Modal.vue";
+import Modal from "./Modal.vue";
 import Multiselect from "@vueform/multiselect";
 
 export default {

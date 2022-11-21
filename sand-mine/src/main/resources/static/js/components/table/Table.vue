@@ -37,12 +37,6 @@
 export default {
   props: ["dataForTable","more","edit"],
   methods:{
-    // data(){
-    //   return {
-    //     btn_more:
-    //       '<button v-on:click="more_">Подробнее</button>'
-    //   }
-    // },
     edit_(id){
       this.edit(id);
     },

@@ -1,199 +1,241 @@
 <template>
   <div class="div-for-table">
     <div class="button-div">
-      <div class="div-search-button" >
-        <button class="button btn" style="float:right;width:200px"  @click = "search()">Поиск</button>
+      <div class="div-search-button">
+        <button class="button btn" style="float:right;width:250px" @click="showSearchModal()">Поиск</button>
         <div>
-          <span style="float:right">
-            Текущие параметры поиска: нет параметров
-          </span>
+          <button class="button_params" style="float:right" @click="showModal_params=true">
+            Текущие параметры поиска
+          </button>
         </div>
       </div>
       <div style="float: left; margin-top:40px">
-        <button class="button btn" @click="add()">Добавить</button>
+        <button class="button btn" @click="showAddModal()">Добавить</button>
       </div>
     </div>
-    <Table :dataForTable="dataForTable" :edit="edit" :more="moreInformation"></Table>
+    <Table :dataForTable="data_for_table" :edit="edit" :more="moreInformation"></Table>
   </div>
-  <Modal :title="title_search" v-if="showModal">
-    <template #body>
-      <div>
-        <label for="date_from">Дата от</label>
-        <br>
-        <input class="input" id='date_from' name="date_from" type="date" >
+  <ModalSearch :options_editor="options_editor"
+               :options_zone="options_zone"
+               :value_editor="value_editor"
+               :value_zone="value_zone"
+               :show_modal="showModal_search"
+               :title="title_search"
+               :submit="submit_search"
+               :close="close_search"
+  />
+  <ModalParams :close="close_params"
+               :show_modal="showModal_params"
+               :data="params"
+  />
+  <!--  если data_for_edit null , то происходит добавление новой записи. Иначе - редактирование старой.-->
+  <ModalAddProduction :close="close_add"
+                      :submit_add="submit_add"
+                      :show_modal="showModal_add"
+                      :title="title_add"
+                      :options_zone="options_zone"
+                      :data_for_edit="data_for_edit"
+                      :submit_edit="submit_edit_production"
+  />
 
-        <label for="date_from">Дата, до</label>
-        <br>
-        <input class="input" id='date_to'  name="date_to" type="date" >
-
-        <label for="weight_from">Вест, т, от</label>
-        <br>
-        <input class="input" id="weight_from" name="weight_from" type="number">
-
-        <label for="weight_to">Вес, т, до</label>
-        <br>
-        <input class="input" id="weight_to" name="weight_to" type="number">
-
-        <label for="last_editor">Последний редактор</label>
-        <br>
-        <Multiselect
-            id="last_editor"
-            name="last_editor"
-            v-model="value_zone"
-            :close-on-select="false"
-            :options=options_editor
-            :multiple="true"
-            :clear-on-select="false"
-            :preserve-search="false"
-            placeholder="Последний редактор"
-            :preselect-first="true"/>
-
-
-        <label for="date_edit">Время редактирования</label>
-        <br>
-        <input class="input" id='date_edit'  name="date_edit" type="datetime-local" >
-
-        <label for="zones">Зоны</label>
-        <br>
-<!--        <input class="input" id="zones" name="zones" type="text">-->
-        <Multiselect
-            name="zones"
-            id="zones"
-            mode="multiple"
-            v-model="value_editor"
-            :close-on-select="false"
-            :options=options_zone
-            :multiple="true"
-            :clear-on-select="false"
-            :preserve-search="false"
-            placeholder="Зоны"
-            :preselect-first="true"/>
-
-      </div>
-    </template>
-    <template #footer>
-      <button class="button" @click="close">Cancel</button>
-      <button class="button" type="submit" >Submit</button>
-    </template>
-  </Modal>
 </template>
 
 <script>
-import Modal from "../components/modal/Modal.vue";
 import Table from "../components/table/Table.vue";
-import Multiselect from "@vueform/multiselect";
+import ModalSearch from "./parts/ModalSearch.vue"
+import ModalParams from "./parts/ModalParams.vue";
+import ModalAddProduction from "./parts/ModalAddProduction.vue";
 
 export default {
   components: {
-    Modal,
     Table,
-    Multiselect
+    ModalSearch,
+    ModalParams,
+    ModalAddProduction
   },
   data() {
     return {
-      dataForTable: testData,
-      showModal: false,
+      data_for_table: test_data,
+      showModal_search: false,
+      showModal_params: false,
+      showModal_add: false,
       title_search: "Поиск",
+      title_add: "Добавление",
       value_editor: [],
       value_zone: [],
       options_editor: [
         "Kirill",
-          "Alex",
-          "Mihail",
-          "Vitaliy",
-          "Roman"
+        "Alex",
+        "Mihail",
+        "Vitaliy",
+        "Roman"
       ],
-      options_zone:[
+      options_zone: [
         "Zone1",
         "Zone2",
         "Zone3",
         "Zone4",
         "Zone5"
-      ]
+      ],
+      params: {empty: true},
+      data_for_edit: null
     }
   },
   methods: {
-    close() {
-      this.showModal = false
+    close_search() {
+      this.showModal_search = false;
     },
-    edit(id) {
-      this.showModal = true
-      console.log('edit:id=', id)
+    close_params() {
+      this.showModal_params = false;
     },
-    moreInformation(id) {
+    close_add() {
+      this.showModal_add = false;
+      this.data_for_edit = null;
+    },
+    edit(id) {//при нажатии кнопки редактирования в Table сюда придет id
+      // console.log('edit:id=', id)
+      let production = this.get_production_by_id(id)
+      if (!production) {
+        console.log('ERROR! PRODUCTION IS NULL IN PRODUCTION PAGE! HELP ME!')
+      }
+      this.data_for_edit = production
+      this.data_for_edit['id'] = id
+      this.showModal_add = true
+    },
+    submit_edit_production(data) {//после редактирования информации о добыче сюда придет отредактированная информация
+      console.log(data)
+    },
+    moreInformation(id) {//при нажатии кнопки "Подробнее" сюда придет id, можно открыть экран "Аккаунт работника"
       console.log('more:id=', id)
     },
-    add(){
-
+    showAddModal() {
+      this.showModal_add = true;
     },
-    search(){
-      this.showModal=true
+    showSearchModal() {
+      this.showModal_search = true
+    },
+    submit_search(data) {//сюда приходят данные из модалки с поиском
+      this.params = data;
+      console.log(this.params)
+      this.add_params();
+    },
+    submit_add(data) {//сюда приходят данные из модалки с добавлением
+      console.log(data)
+      /*
+      * записываем в бд, после получения ответа отображаем таблицу заново
+      * */
+    },
+    add_params() {//добавляются параметры для отображения в "Текущих параметрах поиска"
+      let c = 0
+      for (let i in this.params) {
+        if (this.params[i] != null) {
+          if (typeof (this.params[i]) === 'string') {
+            if (this.params[i].length !== 0) {
+              c += 1;
+            }
+          } else {
+            c += 1;
+          }
+        }
+      }
+      if (c === 1 && this.params['zones'] && this.params['zones'].length === 0) {
+        c = 0;
+      }
+      this.params['empty'] = c === 0;
+    },
+    get_production_by_id(id) {//вместо записи из таблицы потом надо запись из бд выдавать
+      for (let p_ind = 0; p_ind < this.data_for_table[1].length; p_ind++) {
+        if (this.data_for_table[2][p_ind][this.data_for_table[2][p_ind].length - 1] === id) {
+          return this.data_for_table[1][p_ind];
+        }
+      }
+      return null;
     }
   }
 }
 
 let test_title = "Заголовок"
 
-let t = [ {
-  columnNames: ['Дата', 'Вес'],
-  editColumn: 1,
-}, [], []];
-
-for (let i =0;i<222;i++){
-  t[1].push(['aasd','bsdfdsfd']);
-  t[2].push([1,2])
-}
-
-let testData = [
+let test_data = [
   {
     columnNames: ['Дата', 'Вес, Т', 'Последний редактор', 'Время редактирования'],
     editColumn: 1,
-    moreInformationColumn: 2
+    moreInformationColumn: 3
   }, [], []];
 
 for (let i = 0; i < 100; i++) {
   let id = i;
-  testData[1].push([
+  test_data[1].push([
     "21.10.2022",
     "0.31",
+    "Zone2",
     'Пушкин А.С.',
     "21.10.2022 20:20"
   ]);
-  testData[2].push([
-    -1, -1, id, -1, 100 + id//последний айди - айди строки (например айди всей записи о добыче)
+  test_data[2].push([
+    -1, -1, id, id, -1, 100 + id//последний айди - айди строки (например айди всей записи о добыче)
   ])
 }
 </script>
 
 <style>
-  .btn{
-    padding-bottom: 40px;
-  }
+.btn {
+  padding-bottom: 40px;
+}
 
-  .button:hover{
-    background: #F9C025;
-  }
+.button_params {
+  background: none;
+  border: none;
+  color: rgb(200, 100, 40);
+  font-size: 12px;
+  width: 300px;
+}
 
-  .button-div{
-    width: 100%;
-  }
+.button_params:hover {
+  color: #F9C025;
+}
 
-  .div-search-button{
-    float: right;
-    display: inline-block;
-    width: 50%;
-    margin-top: 15px;
-  }
-  .input{
-    width: 100%;
-    height:30px
-  }
-  label{
-    font-size: 16px;
-  }
+.div-search-button {
+  float: right;
+  display: inline-block;
+  width: 50%;
+  margin-top: 15px;
+}
+
+label {
+  font-size: 16px;
+}
+
+.multiselect__input {
+  color: black;
+}
+
+.multiselect-single-label {
+  color: black;
+}
+
+
+.is-selected {
+  background: orange !important;
+}
+
+.multiselect {
+  border-radius: 20px !important;
+  border: 3px solid orange !important;;
+}
+
+.is-open, .is-active {
+  box-shadow: none !important;
+}
+
+.multiselect-search {
+  background: none !important;
+  border: none !important;
+}
+
 
 </style>
 
-<style  src="@vueform/multiselect/themes/default.css">
+<style src="@vueform/multiselect/themes/default.css">
 
 </style>

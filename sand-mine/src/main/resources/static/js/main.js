@@ -7,6 +7,7 @@ import TempBackPage from './pages/TempPageForBackground.vue'
 import ProductionPage from './pages/ProductionPage.vue'
 import ImportExportPage from "./pages/ImportExportPage.vue"
 import StaffListPage from "./pages/StaffListPage.vue"
-import AccountPage from "./pages/AccountPage.vue"
+import AccountPage from "./pages/SubordinateAccountPage.vue"
+import WardenAccPage from "./pages/WardenAccountPage.vue"
 
-createApp(AccountPage).mount('#app')
+createApp(WardenAccPage).mount('#app')

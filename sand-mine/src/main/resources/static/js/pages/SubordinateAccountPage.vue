@@ -1,6 +1,7 @@
 <template>
   <div class="background-parent">
     <div class="background">
+      <span>id: {{id}} - временная запись для проверки роутинга</span>
       <span> ФИО: {{name}} </span> <br>
       <span>Телефон: {{phone_number}} </span> <br>
       <span>Почта: {{email}} </span> <br>
@@ -42,6 +43,10 @@ export default {
     shifts(){
       console.log('shifts')
     }
+  },
+  created() {
+    console.log(this.$route)
+    this.id = this.$route.params.id
   }
 }
 </script>

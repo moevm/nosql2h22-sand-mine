@@ -2,7 +2,7 @@
   <div class="div-for-table">
     <div class="button-div">
       <div class="div-search-button">
-        <button class="button btn" style="float:right;width:250px" @click="showSearchModal()">Поиск</button>
+        <button class="button btn" style="float:right;width:250px" @click="show_search_modal()">Поиск</button>
         <div>
           <button class="button_params" style="float:right" @click="showModal_params=true">
             Текущие параметры поиска
@@ -10,10 +10,10 @@
         </div>
       </div>
       <div style="float: left; margin-top:40px">
-        <button class="button btn" @click="showAddModal()">Добавить</button>
+        <button class="button btn" @click="show_add_modal()">Добавить</button>
       </div>
     </div>
-    <Table :dataForTable="data_for_table" :edit="edit" :more="moreInformation"></Table>
+    <Table :dataForTable="data_for_table" :edit="edit" :more="more_information"></Table>
   </div>
   <ModalSearch :options_editor="options_editor"
                :options_zone="options_zone"
@@ -105,13 +105,14 @@ export default {
     submit_edit_production(data) {//после редактирования информации о добыче сюда придет отредактированная информация
       console.log(data)
     },
-    moreInformation(id) {//при нажатии кнопки "Подробнее" сюда придет id, можно открыть экран "Аккаунт работника"
+    more_information(id) {//при нажатии кнопки "Подробнее" сюда придет id, можно открыть экран "Аккаунт работника"
       console.log('more:id=', id)
+      this.$router.push("/subordinate/"+id)
     },
-    showAddModal() {
+    show_add_modal() {
       this.showModal_add = true;
     },
-    showSearchModal() {
+    show_search_modal() {
       this.showModal_search = true
     },
     submit_search(data) {//сюда приходят данные из модалки с поиском

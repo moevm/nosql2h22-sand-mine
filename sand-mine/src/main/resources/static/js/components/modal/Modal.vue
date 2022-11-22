@@ -48,7 +48,7 @@ export default {
 .modal {
   position: relative;
   padding: 30px 30px 40px 30px;
-  width: 630px;
+  width: 40%;
   z-index: 1000;
   background: #FFFFFF;
   display: flex;

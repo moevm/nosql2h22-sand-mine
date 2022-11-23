@@ -33,3 +33,10 @@
     margin:7% auto;
     width:60%;
 }
+
+.div-search-button {
+    float: right;
+    display: inline-block;
+    width: 50%;
+    margin-top: 20px;
+}

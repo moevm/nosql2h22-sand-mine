@@ -3,28 +3,28 @@
     <template #body>
       <div style="text-align: center">
         <div v-if="data.empty">
-          Нет параметров
+          <span>Нет параметров</span>
         </div>
         <div v-if="data.date_from">
-          Дата, от: {{ data.date_from }}
+          <span>Дата, от: {{ data.date_from }}</span>
         </div>
         <div v-if="data.date_to">
-          Дата, до: {{ data.date_to }}
+          <span>Дата, до: {{ data.date_to }}</span>
         </div>
         <div v-if="data.weight_from">
-          Вес, от: {{ data.weight_from }}
+          <span>Вес, от: {{ data.weight_from }}</span>
         </div>
         <div v-if="data.weight_to">
-          Вес, до: {{ data.weight_to }}
+          <span>Вес, до: {{ data.weight_to }}</span>
         </div>
         <div v-if="data.date_edit">
-          Дата редактирования: {{ data.date_edit }}
+          <span>Дата редактирования: {{ data.date_edit }}</span>
         </div>
         <div v-if="data.last_editor">
-          Последний редактор: {{ data.last_editor }}
+          <span>Последний редактор: {{ data.last_editor }}</span>
         </div>
         <div v-if="data.zones && data.zones.length!==0">
-          Зоны:{{ zones }}
+          <span>Зоны:{{ zones }}</span>
         </div>
 
 
@@ -32,7 +32,7 @@
 
     </template>
     <template #footer>
-      <button class="button" @click="close_">Подтвердить</button>
+      <button class="button" @click="close_">Закрыть</button>
     </template>
   </Modal>
 </template>
@@ -63,8 +63,8 @@ export default {
   updated() {
     this.zones = ''
     if (this.data['zones']) {
-      for (let i of this.data['zones']) {
-        this.zones += i + " "
+      for (let zone of this.data['zones']) {
+        this.zones += zone + " "
       }
     }
   }

@@ -79,7 +79,6 @@ export default {
     "value_zone",
     "show_modal",
     "submit",
-    "title",
     "close"
   ],
   components: {
@@ -98,7 +97,8 @@ export default {
         weight_to: this.weight_to,
         last_editor: this.last_editor,
         date_edit: this.date_edit,
-        zones: this.zones
+        zones: this.zones,
+        title:"Поиск"
       }
       this.submit(data)
       this.close()

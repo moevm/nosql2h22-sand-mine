@@ -56,6 +56,7 @@ export default {
       this.weight = null;
       this.zone = null;
       this.id = null;
+      this.title = add_title;
       this.close()
     },
     submit_() {
@@ -82,7 +83,8 @@ export default {
       zone: null,
       weight: null,
       date: null,
-      id: null
+      id: null,
+      title: add_title
     }
   },
   updated() {
@@ -91,10 +93,13 @@ export default {
       this.weight = this.data_for_edit[1];
       this.date = this.data_for_edit[0].substring(6, 10) + "-" + this.data_for_edit[0].substring(3, 5) + "-" + this.data_for_edit[0].substring(0, 2)
       this.id = this.data_for_edit["id"]
-      console.log(this.date)
+      this.title = edit_title
     }
   }
 }
+
+let edit_title = "Редактирование"
+let add_title = "Добавление"
 </script>
 
 <style>

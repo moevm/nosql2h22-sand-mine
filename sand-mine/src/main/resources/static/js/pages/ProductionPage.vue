@@ -2,7 +2,7 @@
   <div class="div-for-table">
     <div class="button-div">
       <div class="div-search-button">
-        <button class="button btn" style="float:right;width:250px" @click="showSearchModal()">Поиск</button>
+        <button class="button btn search-button"  @click="showSearchModal()">Поиск</button>
         <div>
           <button class="button_params" style="float:right" @click="showModal_params=true">
             Текущие параметры поиска
@@ -20,7 +20,6 @@
                :value_editor="value_editor"
                :value_zone="value_zone"
                :show_modal="showModal_search"
-               :title="title_search"
                :submit="submit_search"
                :close="close_search"
   />
@@ -32,7 +31,6 @@
   <ModalAddProduction :close="close_add"
                       :submit_add="submit_add"
                       :show_modal="showModal_add"
-                      :title="title_add"
                       :options_zone="options_zone"
                       :data_for_edit="data_for_edit"
                       :submit_edit="submit_edit_production"
@@ -42,9 +40,9 @@
 
 <script>
 import Table from "../components/table/Table.vue";
-import ModalSearch from "../components/modal/ModalSearch.vue"
-import ModalParams from "../components/modal/ModalParams.vue";
-import ModalAddProduction from "../components/modal/ModalAddProduction.vue";
+import ModalSearch from "../components/modal/ProductionFilterParamsModal.vue"
+import ModalParams from "../components/modal/ProductionParamsModal.vue";
+import ModalAddProduction from "../components/modal/ProductionAddingModal.vue";
 
 export default {
   components: {
@@ -59,8 +57,6 @@ export default {
       showModal_search: false,
       showModal_params: false,
       showModal_add: false,
-      title_search: "Поиск",
-      title_add: "Добавление",
       value_editor: [],
       value_zone: [],
       options_editor: [
@@ -195,12 +191,7 @@ for (let i = 0; i < 100; i++) {
   color: #F9C025;
 }
 
-.div-search-button {
-  float: right;
-  display: inline-block;
-  width: 50%;
-  margin-top: 15px;
-}
+
 
 label {
   font-size: 16px;
@@ -231,6 +222,11 @@ label {
 .multiselect-search {
   background: none !important;
   border: none !important;
+}
+
+.search-button{
+  float:right;
+  width:250px;
 }
 
 

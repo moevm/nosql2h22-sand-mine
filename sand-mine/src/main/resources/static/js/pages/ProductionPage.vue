@@ -193,9 +193,6 @@ for (let i = 0; i < 100; i++) {
 
 
 
-label {
-  font-size: 16px;
-}
 
 .multiselect__input {
   color: black;

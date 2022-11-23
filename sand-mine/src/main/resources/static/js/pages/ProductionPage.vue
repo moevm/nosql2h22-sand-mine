@@ -194,34 +194,6 @@ for (let i = 0; i < 100; i++) {
 
 
 
-
-.multiselect__input {
-  color: black;
-}
-
-.multiselect-single-label {
-  color: black;
-}
-
-
-.is-selected {
-  background: orange !important;
-}
-
-.multiselect {
-  border-radius: 20px !important;
-  border: 3px solid orange !important;;
-}
-
-.is-open, .is-active {
-  box-shadow: none !important;
-}
-
-.multiselect-search {
-  background: none !important;
-  border: none !important;
-}
-
 .search-button{
   float:right;
   width:250px;

@@ -1,12 +1,12 @@
 <template>
   <div class="background-parent">
     <div class="background">
-      <button class="button with-bot-margin with-start-end-margins with-dynamic-size"
+      <button class="button with-bot-margin-medium"
               @click="export">
         Экспортировать данные
       </button>
       <br>
-      <button class="button with-start-end-margins with-dynamic-size" @click="import">
+      <button class="button" @click="import">
         Импортировать данные
       </button>
     </div>
@@ -30,9 +30,6 @@ export default {
 <style scoped>
 @import '../../css/button.css';
 @import '../../css/main.css';
-
-.with-bot-margin {
-  margin-bottom: 15px;
-}
+@import '../../css/margins.css';
 
 </style>

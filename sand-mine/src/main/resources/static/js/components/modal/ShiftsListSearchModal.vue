@@ -2,15 +2,15 @@
   <Modal :title="title">
     <template #body>
       <div>
-        <label class="input-hint-text" for="date_from">Дата с</label>
+        <label for="date_from">Дата с</label>
         <br>
         <input class="input" id='date_from' name="date_from" type="date" v-model="date_from">
 
-        <label class="input-hint-text" for="date_to">Дата по</label>
+        <label for="date_to">Дата по</label>
         <br>
         <input class="input" id='date_to' name="date_to" v-model="date_to">
 
-        <label class="input-hint-text" for="attended">Присутствовал</label>
+        <label for="attended">Присутствовал</label>
         <br>
         <Multiselect
             class="with-bot-margin-medium"

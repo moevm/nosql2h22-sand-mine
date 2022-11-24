@@ -2,19 +2,19 @@
   <Modal :title="title">
     <template #body>
       <div>
-        <label class="input-hint-text" for="full_name">ФИО</label>
+        <label for="full_name">ФИО</label>
         <br>
         <input class="input" id='full_name' name="full_name" v-model="full_name">
 
-        <label class="input-hint-text" for="phone">Телефон</label>
+        <label for="phone">Телефон</label>
         <br>
         <input class="input" id='phone' name="phone" v-model="phone">
 
-        <label class="input-hint-text" for="role">Должность</label>
+        <label for="role">Должность</label>
         <br>
         <input class="input" id="role" name="role" v-model="role">
 
-        <label class="input-hint-text" for="zones">Зоны доступа</label>
+        <label for="zones">Зоны доступа</label>
         <br>
         <Multiselect
             class="with-bot-margin-medium"

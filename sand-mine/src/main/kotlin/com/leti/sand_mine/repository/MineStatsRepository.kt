@@ -1,3 +1,6 @@
 package com.leti.sand_mine.repository
 
-interface MineStatsRepository
+import com.leti.sand_mine.domain.MineStats
+import org.springframework.data.neo4j.repository.Neo4jRepository
+
+interface MineStatsRepository : Neo4jRepository<MineStats, Long>

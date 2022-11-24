@@ -31,12 +31,13 @@
     width:60%;
 }
 
-.input-hint-text {
-    font-size: 25px;
-    float: left;
+.div-search-button {
+    float: right;
+    display: inline-block;
+    width: 50%;
+    margin-top: 15px;
 }
 
-.input-hint-text-small {
-    font-size: 15px;
-    float: left;
+label {
+    font-size: 20px;
 }

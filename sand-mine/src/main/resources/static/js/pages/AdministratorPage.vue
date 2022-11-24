@@ -1,6 +1,5 @@
 <template>
   <div class="background-parent">
-    <button class="back-button" @click="navigateBack"></button>
     <div class="background">
       <span class="default-size">ФИО: {{fullName}}</span>
       <br />
@@ -64,8 +63,6 @@ export default {
   methods: {
     togglePasswordVisibility() {
       this.revealPassword = !this.revealPassword
-    },
-    navigateBack() {
     },
     navigateShifts() {
     },

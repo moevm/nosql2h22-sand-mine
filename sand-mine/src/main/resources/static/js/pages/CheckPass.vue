@@ -1,6 +1,5 @@
 <template>
   <div class="background-parent">
-    <button class="back-button" @click="navigateBack"></button>
     <div class="background">
       <label class="input-hint-text-small">ID пропуска</label>
       <br />
@@ -25,8 +24,6 @@ export default {
     }
   },
   methods: {
-    navigateBack() {
-    },
     checkPass() {
       console.log(this.passID)
     }

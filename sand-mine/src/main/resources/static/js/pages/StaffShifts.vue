@@ -1,15 +1,32 @@
 <template>
   <div class="background-parent">
-    <button class="back-button" @click="navigateBack"></button>
     <div class="div-for-table">
       <div class="div-search-button">
-        <button class="button one_line_buttons with-bot-margin-large" style="width: 250px; float: right" @click="showSearch()">Поиск</button>
+        <button
+          class="button one_line_buttons with-bot-margin-large"
+          style="width: 250px; float: right"
+          @click="showSearch()"
+        >
+          Поиск
+        </button>
       </div>
       <Table :dataForTable="dataForTable" :more="navigateStaffAccount"></Table>
-      <StaffShiftsSearchModal v-if="showSearchModal" :data="searchData" :options_zones="optionsZone" :submit="submitSearch" :close="closeSearch"></StaffShiftsSearchModal>
-      <StaffShiftsParamsModal v-if="showSearchParamsModal" :data="searchData" :close="closeSearchParams"></StaffShiftsParamsModal>
+      <StaffShiftsSearchModal
+        v-if="showSearchModal"
+        :data="searchData"
+        :options_zones="optionsZone"
+        :submit="submitSearch"
+        :close="closeSearch"
+      ></StaffShiftsSearchModal>
+      <StaffShiftsParamsModal
+        v-if="showSearchParamsModal"
+        :data="searchData"
+        :close="closeSearchParams"
+      ></StaffShiftsParamsModal>
       <div class="div-search-button">
-        <button class="button" style="float: right"  @click="showSearchParams()">Текущие параметры поиска</button>
+        <button class="button" style="float: right" @click="showSearchParams()">
+          Текущие параметры поиска
+        </button>
       </div>
     </div>
   </div>
@@ -51,8 +68,6 @@
       }
     },
     methods: {
-      navigateBack() {
-      },
       navigateStaffAccount(id) {
         console.log(id)
       },

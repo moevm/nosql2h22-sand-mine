@@ -9,7 +9,6 @@
     bottom: 0;
     right: 0;
 }
-
 /*пока так сделал если что доделаю/переделаю */
 .background {
     background-color: white;
@@ -33,4 +32,15 @@
 .div-for-table{
     margin:7% auto;
     width:60%;
+}
+
+.div-search-button {
+    float: right;
+    display: inline-block;
+    width: 50%;
+    margin-top: 15px;
+}
+
+label {
+    font-size: 20px;
 }

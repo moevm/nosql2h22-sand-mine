@@ -45,20 +45,20 @@ function authorize(type, id) {
 
 const routes = [
     {path: AUTHORIZATION_PAGE, name:"Authorization", component: Authorization},
-    {path: PRODUCTION_PAGE, name: "ProductionPage", component: Production},
-    {path: IMPORT_EXPORT_PAGE, name: "ImportExportPage", component: ImportExportPage}
+    {path: PRODUCTION_PAGE, name: "ProductionPage", component: ProductionPage},
+    {path: IMPORT_EXPORT_PAGE, name: "ImportExportPage", component: ImportExportPage},
     {path: STAFF_LIST_PAGE, name: "StaffListPage", component: StaffListPage},
     {path: FIND_STAFF_PAGE, name: "FindStaffPage", component: FindStaffPage},
-    {path: WORKER_ACC_PAGE,name: "WorkerAccPage",component: WorkerAccPage},
+    {path: WORKER_ACC_PAGE,name: "WorkerAccPage",component: StaffPage},
     {path: SHIFTS_PAGE, name: 'ShiftsPage',component: ShiftsPage},
-    {path: SHIFTS_LIST_PAGE, name: 'ShiftsListPage', component: ShiftsListPage}
-    {path: SUBORDINATE_PAGE, name: 'SubordinatePage', component: SubordinatePage}
-    {path: WARDEN_ACC_PAGE, name: 'WardenAccPage', component: WardenAccPage}
-    {path: USER_PASS_PAGE, name: 'UserPassPage', component: UserPassPage}
-    {path: CHECK_PASS, name: 'CheckPassPage', component: CheckPassPage}
-    {path: ADMINISTRATOR_PAGE, name: 'AdministratorPage', component: AdministratorPage}
-    {path: STAFF_SHIFTS_PAGE, name: 'StaffShiftsPage', component: StaffShiftsPage}
-    {path: EDIT_STAFF_PAGE, name: 'EditStaffPage', component: EditStaffPage}
+    {path: SHIFTS_LIST_PAGE, name: 'ShiftsListPage', component: ShiftsListPage},
+    {path: SUBORDINATE_PAGE, name: 'SubordinatePage', component: SubordinatePage},
+    {path: WARDEN_ACC_PAGE, name: 'WardenAccPage', component: WardenAccPage},
+    {path: USER_PASS_PAGE, name: 'UserPassPage', component: UserPassPage},
+    {path: CHECK_PASS, name: 'CheckPassPage', component: CheckPass},
+    {path: ADMINISTRATOR_PAGE, name: 'AdministratorPage', component: AdministratorPage},
+    {path: STAFF_SHIFTS_PAGE, name: 'StaffShiftsPage', component: StaffShifts},
+    {path: EDIT_STAFF_PAGE, name: 'EditStaffPage', component: AddEditStaff}
 ]
 
 const router = createRouter({

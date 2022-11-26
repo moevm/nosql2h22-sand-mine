@@ -12,6 +12,6 @@ interface WorkerRepository : Neo4jRepository<Worker, Long> {
             "(shift: SHIFT) where shift.date > {from} AND shift.date < {to} RETURN shift")
     fun getShiftsByPeriod(workerId: Long, from: DateValue, to: DateValue)
 
-    @Query("MATCH(worker:WORKER) WHERE worker.phone_number={login} OR worker.email={login} RETURN worker")
+    @Query("MATCH(worker:WORKER) WHERE worker.phone_number = \$login OR worker.email = \$login RETURN worker")
     fun findByLogin(@Param("login") login: String) : Worker?
 }

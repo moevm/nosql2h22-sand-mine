@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@vueform/multiselect": "^2.5.6",
+    "axios": "^1.2.0",
     "css-loader": "^6.7.1",
     "path": "^0.12.7",
     "vue": "^3.2.45",

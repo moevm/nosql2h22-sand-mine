@@ -26,6 +26,7 @@
 
 <script>
 import axios from "axios"
+import {ADMINISTRATOR_PAGE_NAME, WARDEN_ACC_PAGE_NAME, WORKER_ACC_PAGE_NAME} from "../router/component_names";
 
 export default {
   name: "AuthorizationPage",
@@ -53,9 +54,13 @@ export default {
       .then(response => {
         let workerId = response.data.workerId
         let workerType = response.data.workerType
-        if (workerId != -1) {
+        if (workerId !== -1) {
           this.wrongLoginCredentials = false
-          // authorize(workerType, workerId)
+          switch (workerType) {
+            case "worker": this.$router.push({name: WORKER_ACC_PAGE_NAME, params: { id: workerId}}); break;
+            case "admin": this.$router.push({name: ADMINISTRATOR_PAGE_NAME, params: { id: workerId}}); break;
+            case "warden": this.$router.push({name: WARDEN_ACC_PAGE_NAME, params: { id: workerId}}); break;
+          }
         }
         else {
           this.wrongLoginCredentials = true
@@ -71,7 +76,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 @import "../../css/text.css";
 @import "../../css/button.css";

@@ -1,6 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import App from '../pages/App.vue'
-import TempBackPage from '../pages/TempPageForBackground.vue'
 import ProductionPage from '../pages/ProductionPage.vue'
 import ImportExportPage from "../pages/ImportExportPage.vue"
 import StaffListPage from "../pages/StaffListPage.vue"
@@ -16,49 +14,55 @@ import CheckPass from "../pages/CheckPass.vue"
 import AdministratorPage from "../pages/AdministratorPage.vue"
 import StaffShifts from "../pages/StaffShifts.vue"
 import AddEditStaff from "../pages/AddEditStaff.vue"
-
-const AUTHORIZATION_PAGE = '/'
-const PRODUCTION_PAGE = '/production'
-const IMPORT_EXPORT_PAGE = '/import_export'
-const STAFF_LIST_PAGE = '/staff_list'
-const FIND_STAFF_PAGE = '/find_staff'
-const WORKER_ACC_PAGE = '/worker_acc'
-const SHIFTS_PAGE = '/shifts'
-const SHIFTS_LIST_PAGE = '/shifts_list'
-const SUBORDINATE_PAGE = '/subordinate'
-const WARDEN_ACC_PAGE = '/warden_acc'
-const USER_PASS_PAGE = '/user_pass'
-const CHECK_PASS = '/check_pass'
-const ADMINISTRATOR_PAGE = '/administrator_acc'
-const STAFF_SHIFTS_PAGE = '/staff_shifts'
-const EDIT_STAFF_PAGE = '/edit_staff_page'
-
-function authorize(type, id) {
-    let relative_path = ""
-    switch (type) {
-        case "worker": relative_path += WORKER_ACC_PAGE; break;
-        case "admin": relative_path += ADMINISTRATOR_PAGE; break;
-        case "warden": relative_path += ADMINISTRATOR_PAGE; break;
-    }
-    router.push(relative_path + "/id")
-}
+import {
+    ADMINISTRATOR_PAGE_NAME,
+    ADMINISTRATOR_PAGE_PATH,
+    AUTHORIZATION_PAGE_NAME,
+    AUTHORIZATION_PAGE_PATH,
+    CHECK_PASS_PAGE_NAME,
+    CHECK_PASS_PAGE_PATH,
+    EDIT_STAFF_PAGE_NAME,
+    EDIT_STAFF_PAGE_PATH,
+    FIND_STAFF_PAGE_NAME,
+    FIND_STAFF_PAGE_PATH,
+    IMPORT_EXPORT_PAGE_NAME,
+    IMPORT_EXPORT_PAGE_PATH,
+    PRODUCTION_PAGE_NAME,
+    PRODUCTION_PAGE_PATH,
+    SHIFTS_LIST_PAGE_NAME,
+    SHIFTS_LIST_PAGE_PATH,
+    SHIFTS_PAGE_NAME,
+    SHIFTS_PAGE_PATH,
+    STAFF_LIST_PAGE_NAME,
+    STAFF_LIST_PAGE_PATH,
+    STAFF_SHIFTS_PAGE_NAME,
+    STAFF_SHIFTS_PAGE_PATH,
+    SUBORDINATE_PAGE_NAME,
+    SUBORDINATE_PAGE_PATH,
+    USER_PASS_PAGE_NAME,
+    USER_PASS_PAGE_PATH,
+    WARDEN_ACC_PAGE_NAME,
+    WARDEN_ACC_PAGE_PATH,
+    WORKER_ACC_PAGE_NAME,
+    WORKER_ACC_PAGE_PATH
+} from "./component_names";
 
 const routes = [
-    {path: AUTHORIZATION_PAGE, name:"Authorization", component: Authorization},
-    {path: PRODUCTION_PAGE, name: "ProductionPage", component: ProductionPage},
-    {path: IMPORT_EXPORT_PAGE, name: "ImportExportPage", component: ImportExportPage},
-    {path: STAFF_LIST_PAGE, name: "StaffListPage", component: StaffListPage},
-    {path: FIND_STAFF_PAGE, name: "FindStaffPage", component: FindStaffPage},
-    {path: WORKER_ACC_PAGE,name: "WorkerAccPage",component: StaffPage},
-    {path: SHIFTS_PAGE, name: 'ShiftsPage',component: ShiftsPage},
-    {path: SHIFTS_LIST_PAGE, name: 'ShiftsListPage', component: ShiftsListPage},
-    {path: SUBORDINATE_PAGE, name: 'SubordinatePage', component: SubordinatePage},
-    {path: WARDEN_ACC_PAGE, name: 'WardenAccPage', component: WardenAccPage},
-    {path: USER_PASS_PAGE, name: 'UserPassPage', component: UserPassPage},
-    {path: CHECK_PASS, name: 'CheckPassPage', component: CheckPass},
-    {path: ADMINISTRATOR_PAGE, name: 'AdministratorPage', component: AdministratorPage},
-    {path: STAFF_SHIFTS_PAGE, name: 'StaffShiftsPage', component: StaffShifts},
-    {path: EDIT_STAFF_PAGE, name: 'EditStaffPage', component: AddEditStaff}
+    {path: AUTHORIZATION_PAGE_PATH, name: AUTHORIZATION_PAGE_NAME, component: Authorization},
+    {path: PRODUCTION_PAGE_PATH, name: PRODUCTION_PAGE_NAME, component: ProductionPage},
+    {path: IMPORT_EXPORT_PAGE_PATH, name: IMPORT_EXPORT_PAGE_NAME, component: ImportExportPage},
+    {path: STAFF_LIST_PAGE_PATH, name: STAFF_LIST_PAGE_NAME, component: StaffListPage},
+    {path: FIND_STAFF_PAGE_PATH, name: FIND_STAFF_PAGE_NAME, component: FindStaffPage},
+    {path: WORKER_ACC_PAGE_PATH,name: WORKER_ACC_PAGE_NAME,component: StaffPage},
+    {path: SHIFTS_PAGE_PATH, name: SHIFTS_PAGE_NAME,component: ShiftsPage},
+    {path: SHIFTS_LIST_PAGE_PATH, name: SHIFTS_LIST_PAGE_NAME, component: ShiftsListPage},
+    {path: SUBORDINATE_PAGE_PATH, name: SUBORDINATE_PAGE_NAME, component: SubordinatePage},
+    {path: WARDEN_ACC_PAGE_PATH, name: WARDEN_ACC_PAGE_NAME, component: WardenAccPage},
+    {path: USER_PASS_PAGE_PATH, name: USER_PASS_PAGE_NAME, component: UserPassPage},
+    {path: CHECK_PASS_PAGE_PATH, name: CHECK_PASS_PAGE_NAME, component: CheckPass},
+    {path: ADMINISTRATOR_PAGE_PATH, name: ADMINISTRATOR_PAGE_NAME, component: AdministratorPage},
+    {path: STAFF_SHIFTS_PAGE_PATH, name: STAFF_SHIFTS_PAGE_NAME, component: StaffShifts},
+    {path: EDIT_STAFF_PAGE_PATH, name: EDIT_STAFF_PAGE_NAME, component: AddEditStaff}
 ]
 
 const router = createRouter({

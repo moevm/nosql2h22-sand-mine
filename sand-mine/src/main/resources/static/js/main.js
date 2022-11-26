@@ -19,5 +19,6 @@ import AddEditStaff from "./pages/AddEditStaff.vue"
 import router from 'router/router'
 
 
+
 const app = createApp(App).use(router)
 app.mount('#app')

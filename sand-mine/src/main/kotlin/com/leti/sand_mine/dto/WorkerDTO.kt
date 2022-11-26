@@ -12,9 +12,7 @@ data class WorkerDTO(
     val passport: String,
     val role: String,
     val passId: Long,
-    val password: String? = null,
     val zonesWithAccess: List<Long?> = emptyList(),
-    val shifts: List<Long?> = emptyList()
 ) {
 
     companion object {
@@ -24,19 +22,16 @@ data class WorkerDTO(
                     id,
                     surname,
                     name,
-                    worker.patronymic,
+                    patronymic,
                     email,
                     phoneNumber,
                     passport,
                     role,
-                    pass_id,
-                    password,
-                    zonesWithAccess.map { it.id },
-                    shifts.map { it.id }
+                    passId,
+                    zonesWithAccess.map { it.id }
                 )
             }
         }
     }
-
 }
 

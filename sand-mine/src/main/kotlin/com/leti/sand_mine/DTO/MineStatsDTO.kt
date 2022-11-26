@@ -9,5 +9,4 @@ data class MineStatsDTO(
     val date: LocalDateTime,
     val weight: Float,
     val lastEditTime: LocalDateTime
-) {
-}
+)

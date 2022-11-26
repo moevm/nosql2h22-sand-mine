@@ -16,7 +16,7 @@ data class Worker(
     @Property(name="phone_number") var phoneNumber: String,
     @Property(name="passport") var passport: String,
     @Property(name="role") var role: String,
-    @Property(name="pass_id") var pass_id: Long,
+    @Property(name="pass_id") var passId: Long,
     @Property(name="password") var password: String,
 
     @Relationship(type="HAS_ACCESS_TO", direction=Relationship.Direction.OUTGOING) var zonesWithAccess: Set<Zone>,

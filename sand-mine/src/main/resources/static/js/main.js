@@ -20,5 +20,5 @@ import router from 'router/router'
 
 
 
-const app = createApp(App).use(router)
+const app = createApp(WardenAccPage).use(router)
 app.mount('#app')

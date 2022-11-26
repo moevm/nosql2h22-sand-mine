@@ -12,6 +12,7 @@ data class WorkerDTO(
     val passport: String,
     val role: String,
     val passId: Long,
+    val password: String? = null,
     val zonesWithAccess: List<Long?> = emptyList(),
 ) {
 
@@ -28,6 +29,7 @@ data class WorkerDTO(
                     passport,
                     role,
                     passId,
+                    password,
                     zonesWithAccess.map { it.id }
                 )
             }

@@ -11,9 +11,7 @@ import com.leti.sand_mine.exceptions.NotFoundException
 import com.leti.sand_mine.repository.WorkerRepository
 import com.leti.sand_mine.repository.ZoneRepository
 import org.neo4j.driver.internal.value.DateValue
-import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.web.bind.annotation.*
-import java.util.stream.Collectors
 
 
 @RestController

@@ -39,8 +39,12 @@ class WorkerController(
         }
     }
 
-    @GetMapping("/{phone}")
-    fun getWorkerByEmailOrPhone() {
+    @GetMapping("/{workerId}")
+    fun getWorker(@PathVariable workerId: Long): WorkerDTO? {
+        val worker = workerRepository
+            .findByIdOrNull(workerId)
+            ?: throw NotFoundException()
+        return WorkerDTO.toDto(worker)
     }
 
     @PostMapping("/edit")

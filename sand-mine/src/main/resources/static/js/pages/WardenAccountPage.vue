@@ -9,6 +9,7 @@
       <span class="default-size">Почта: {{ email }} </span> <br>
       <span class="default-size">Должность: {{ employee_position }} </span> <br>
       <span class="default-size">Паспортные данные: {{ passport }} </span> <br>
+      <span class="default-size">Доступ в зоны: {{ zone }} </span> <br>
       <span class="default-size span_password" v-if="revealPassword" @click="togglePasswordVisibility">Пароль: {{password}}</span>
       <span class="default-size span_password" v-else @click="togglePasswordVisibility">Пароль: {{"*".repeat(password.length)}}</span>
       <br>
@@ -24,25 +25,32 @@
 
 <script>
 import axios from 'axios'
+import router from "../router/router";
 
 export default {
   data() {
     return {
-      name: "Иванов Иван Иванович",
-      phone_number: "89111111111",
-      email: "ivanov@mail.ru",
-      employee_position: "Охрана",
-      passport: "6666 666666",
-      password: "123123",
-      zone:"zone1",
+      name: "",
+      phone_number: "",
+      email: "",
+      employee_position: "",
+      passport: "",
+      password: "",
+      zone:"",
       id: 0,
       revealPassword: false
     }
   },
   created() {
-    axios.get("http://localhost:8080/api/shifts/all")
+    axios.get("/api/worker/2")
         .then(response => {
-          console.log(response)
+          let data = response.data
+          this.name = data.surname + " " + data.name + " " + data.patronymic
+          this.phone_number = data.phoneNumber
+          this.employee_position = data.role
+          this.passport = data.passport
+          this.password = data.password
+          this.zone = this.parse_zones(data.zonesWithAccess)
         })
         .catch(e => {
           console.log(e)
@@ -56,9 +64,20 @@ export default {
       console.log('shifts')
     },
     check_pass(){
-      console.log('check_pass')
+      router.push()
     },
-
+    parse_zones(zones) {
+      let zonesResult = zones
+      if (zonesResult) {
+        let zonesString = zonesResult[0]
+        zonesResult.shift()
+        for (let zone of zonesResult) {
+          zonesString += ", " + zone
+        }
+        return zonesString
+      }
+      return null
+    }
   }
 }
 </script>

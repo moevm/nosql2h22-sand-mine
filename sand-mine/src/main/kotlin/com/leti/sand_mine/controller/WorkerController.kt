@@ -34,8 +34,15 @@ class WorkerController(
             .findByIdOrNull(workerId)
             ?: throw NotFoundException()
         
-        return worker.shifts.map {
-            ShiftDTO(it)
+        with(worker.shifts) {
+            return map {
+                ShiftDTO(
+                    shiftId = it.id,
+                    date = it.date.asLocalDate(),
+                    attended = it.attended,
+                    zoneId = it.zone.id ?: -1
+                )
+            }
         }
     }
 

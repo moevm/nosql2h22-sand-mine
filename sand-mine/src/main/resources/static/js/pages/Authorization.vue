@@ -35,6 +35,8 @@ export default {
   methods: {
     authorize() {
       console.log(this.login, this.password)
+      let login = "ivanov@mail.ru"
+      let password = "0000000000"
     }
   }
 }

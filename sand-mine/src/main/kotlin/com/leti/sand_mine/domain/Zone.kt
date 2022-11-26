@@ -7,6 +7,7 @@ import org.springframework.data.neo4j.core.schema.Property
 
 @Node("ZONE")
 data class Zone(
-    @Id @GeneratedValue val id: Long? = null,
+    @Id @GeneratedValue val id: Long,
     @Property(name = "name") val name: String,
+
 )

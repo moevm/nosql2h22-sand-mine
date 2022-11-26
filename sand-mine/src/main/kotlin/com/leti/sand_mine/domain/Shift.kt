@@ -9,10 +9,10 @@ import org.springframework.data.neo4j.core.schema.Relationship
 
 @Node("SHIFT")
 data class Shift(
-    @Id @GeneratedValue var id: Long? = null,
-    @Property(name = "date") var date: DateValue,
-    @Property(name = "attended") var attended: Boolean?,
+    @Id @GeneratedValue val id: Long?,
+    @Property(name = "date")  val date: DateValue,
+    @Property(name = "attended") val attended: Boolean,
     @Relationship(type = "IN", direction = Relationship.Direction.OUTGOING)
-    var zone: Zone? = null
+    var zone: Zone
 ) {
 }

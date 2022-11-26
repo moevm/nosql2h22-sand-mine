@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import com.leti.sand_mine.DTO.ShiftDTO
 import com.leti.sand_mine.domain.Zone
 import com.leti.sand_mine.repository.ZoneRepository
+import org.neo4j.driver.internal.value.DateValue
 
 @RestController
 @RequestMapping("api/shifts")
@@ -20,7 +21,7 @@ class ShiftController(
     fun createShift(@RequestBody shiftDto: ShiftDTO): ShiftDTO? {
         shiftDto.shiftId = null;
         val zone: Zone = zoneRepository.findById(shiftDto.zoneId!!).get();
-        val shift: Shift = Shift(shiftDto.shiftId, shiftDto.date, shiftDto.attended, zone);
+        val shift: Shift = Shift(shiftDto.shiftId, DateValue(shiftDto.date), shiftDto.attended, zone);
         return ShiftDTO(shiftRepository.save(shift))
     }
 

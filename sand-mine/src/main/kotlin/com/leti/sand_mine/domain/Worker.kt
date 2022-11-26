@@ -6,9 +6,9 @@ import org.springframework.data.neo4j.core.schema.Node
 import org.springframework.data.neo4j.core.schema.Property
 import org.springframework.data.neo4j.core.schema.Relationship
 
-@Node("Worker")
+@Node("WORKER")
 data class Worker(
-    @Id @GeneratedValue var id: Long,
+    @Id @GeneratedValue var id: Long? = null,
     @Property(name="surname") var surname: String,
     @Property(name="name") var name: String,
     @Property(name="patronymic") var patronymic: String,
@@ -20,5 +20,5 @@ data class Worker(
     @Property(name="password") var password: String,
 
     @Relationship(type="HAS_ACCESS_TO", direction=Relationship.Direction.OUTGOING) var zonesWithAccess: Set<Zone>,
-    @Relationship(type="HAS_SHIFT", direction=Relationship.Direction.OUTGOING) var shifts: MutableList<Shift>
+    @Relationship(type="HAS_SHIFT", direction=Relationship.Direction.OUTGOING) var shifts: Set<Shift>
 )

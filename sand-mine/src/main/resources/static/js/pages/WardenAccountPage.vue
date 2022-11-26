@@ -64,7 +64,7 @@ export default {
       console.log('shifts')
     },
     check_pass(){
-      router.push()
+      console.log('check_pass')
     },
     parse_zones(zones) {
       let zonesResult = zones

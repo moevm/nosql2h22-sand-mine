@@ -43,6 +43,7 @@ import Table from "../components/table/Table.vue";
 import ModalSearch from "../components/modal/ProductionFilterParamsModal.vue"
 import ModalParams from "../components/modal/ProductionParamsModal.vue";
 import ModalAddProduction from "../components/modal/ProductionAddingModal.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -51,9 +52,17 @@ export default {
     ModalParams,
     ModalAddProduction
   },
+  created(){
+    axios.get("/api/mine_stats/all")
+        .then(response => {
+          let data = response.data;
+          console.log(data);
+          this.fill_table(data);
+        })
+  },
   data() {
     return {
-      data_for_table: test_data,
+      data_for_table: start_data,
       showModal_search: false,
       showModal_params: false,
       showModal_add: false,
@@ -74,7 +83,8 @@ export default {
         "Zone5"
       ],
       params: {empty: true},
-      data_for_edit: null
+      data_for_edit: null,
+      zones: new Map()
     }
   },
   methods: {
@@ -147,15 +157,74 @@ export default {
         }
       }
       return null;
+    },
+    fill_table(data){
+      for (let stats of data){
+        this.zones.set(stats.zoneId,null)
+      }
+      let config = {
+        headers:{
+          'Content-Type':'application/json'
+        }
+      }
+      console.log(JSON.stringify({zonesIds:this.get_zones_ids()}))
+      this.$zones_mapping
+      axios.post(
+          "/api/zone/ids",
+          JSON.stringify({zonesIds:this.get_zones_ids()}),
+          config
+        )
+          .then(response=>{
+            data=response.data;
+            let index =0;
+            // for(let zone of zones){
+            //   zones.set(zone[0],data[index++]);
+            // }
+            console.log('zones:',data);
+          })
+          .catch(e=>{
+            console.log(e)
+          })
+
+      // for (let stats of data){
+      //   axios.get("/api/zone/"+stats.zoneId)
+      //       .then((response)=>{
+      //         let zone = response.data;
+      //         test_data[1].push([
+      //           stats.date,
+      //           stats.weight,
+      //           zone,
+      //
+      //         ])
+      //       })
+      // }
+    },
+    get_zones_ids(){
+      let zones_ids = []
+      const it = this.zones.keys();
+      while(true){
+        let id = it.next().value;
+        if(id === undefined) break;
+        zones_ids.push(id);
+      }
+      return zones_ids;
     }
   }
 }
+
+let start_data = [
+  {
+    columnNames: ['Дата', 'Вес, Т', 'Зона', 'Последний редактор', 'Время редактирования'],
+    editColumn: 1,
+    moreInformationColumn: 3
+  },[],[]
+]
 
 let test_title = "Заголовок"
 
 let test_data = [
   {
-    columnNames: ['Дата', 'Вес, Т', 'Последний редактор', 'Время редактирования'],
+    columnNames: ['Дата', 'Вес, Т', 'Зона', 'Последний редактор', 'Время редактирования'],
     editColumn: 1,
     moreInformationColumn: 3
   }, [], []];

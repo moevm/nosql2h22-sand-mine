@@ -14,31 +14,25 @@
         <br>
         <Multiselect
             class="with-bot-margin-medium"
-            id="zones"
-            label="zones"
-            name="zones"
             mode="multiple"
+            :multiple="true"
             :close-on-select="false"
             :options=options_zones
             :clear-on-select="false"
             :preserve-search="true"
             placeholder="Зоны доступа"
             :preselect-first="true"
-            v-model="zones"
-            :multiple="true">
+            v-model="zones">
         </Multiselect>
 
         <label for="attended">Присутствовал</label>
         <br>
         <Multiselect
             class="with-bot-margin-medium"
-            id="zones"
-            label="zones"
-            name="zones"
             :options=options
             :clear-on-select="true"
             :preserve-search="true"
-            placeholder="Зоны доступа"
+            placeholder="Присутствовал"
             :preselect-first="true"
             v-model="attended">
         </Multiselect>

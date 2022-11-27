@@ -5,7 +5,7 @@
       <span>Телефон: {{ phone_number }} </span> <br>
       <span>Почта: {{ email }} </span> <br>
       <span>Должность: {{ employee_position }} </span> <br>
-      <span>Доступ в зоны: {{ zones_str }}</span>
+      <span>Доступ в зоны: {{ zones }}</span> <br>
       <span>Паспортные данные: {{ passport }} </span> <br>
 
       <span v-if="pass" style="color:green">Есть доступ</span>
@@ -15,24 +15,62 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   data() {
     return {
-      //данные будут заполнены потом данными с сервера
-      name: "Иванов Иван Иванович",
-      phone_number: "89111111111",
-      email: "ivanov@mail.ru",
-      employee_position: "Администратор",
-      passport: "6666 666666",
-      password: "******",
-      id: 0,
-      pass: true,
-      zones : ["Zone1","Zone2"]
+      name: "",
+      phone_number: "",
+      email: "",
+      employee_position: "",
+      passport: "",
+      pass: false,
+      zones : []
     }
   },
-  methods:{
+  created() {
+    let customConfig = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
 
+    axios.post(
+        "/api/worker/check",
+        JSON.stringify({passId: this.$route.params.passId, wardenId: this.$route.params.id}),
+        customConfig
+    )
+        .then(response => {
+          console.log(response)
+          let data = response.data
+          this.name = data.surname + " " + data.name + " " + data.patronymic
+          this.phone_number = data.phoneNumber
+          this.email = data.email
+          this.employee_position = data.role
+          this.passport = data.passport.slice(0, 4) + " " + data.passport.slice(4)
+          this.zones = this.parse_zones(data.zonesWithAccess)
+          this.pass = data.allowed
+        })
+        .catch(e => {
+          console.log(e)
+        })
+  },
+  methods: {
+    parse_zones(zones) {
+      let zonesResult = zones
+      if (zonesResult) {
+        let zonesString = zonesResult[0]
+        zonesResult.shift()
+        for (let zone of zonesResult) {
+          zonesString += ", " + zone
+        }
+        return zonesString
+      }
+      return null
+    }
   }
+
 }
 </script>
 

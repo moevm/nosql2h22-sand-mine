@@ -45,7 +45,7 @@ export default {
         headers: {
           'Content-Type': 'application/json'
         }
-      };
+      }
       axios.post(
         "/auth",
         JSON.stringify({login: this.login, password: this.password}),

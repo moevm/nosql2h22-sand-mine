@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import {USER_PASS_PAGE_NAME} from "../router/component_names";
+
 export default {
   name: "CheckPassPage",
   data() {
@@ -25,7 +27,7 @@ export default {
   },
   methods: {
     checkPass() {
-      console.log(this.passID)
+      this.$router.push({name: USER_PASS_PAGE_NAME, params: { id: this.$route.params.id, passId: this.passID}})
     }
   }
 }

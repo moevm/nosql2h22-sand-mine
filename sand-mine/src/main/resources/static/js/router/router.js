@@ -4,7 +4,6 @@ import ImportExportPage from "../pages/ImportExportPage.vue"
 import StaffListPage from "../pages/StaffListPage.vue"
 import FindStaffPage from "../pages/FindStaffPage.vue"
 import StaffPage from "../pages/StaffPage.vue"
-import ShiftsPage from "../pages/ShiftsListPage.vue"
 import ShiftsListPage from "../pages/ShiftsListPage.vue";
 import SubordinatePage from "../pages/SubordinateAccountPage.vue"
 import WardenAccPage from "../pages/WardenAccountPage.vue"
@@ -31,8 +30,6 @@ import {
     PRODUCTION_PAGE_PATH,
     SHIFTS_LIST_PAGE_NAME,
     SHIFTS_LIST_PAGE_PATH,
-    SHIFTS_PAGE_NAME,
-    SHIFTS_PAGE_PATH,
     STAFF_LIST_PAGE_NAME,
     STAFF_LIST_PAGE_PATH,
     STAFF_SHIFTS_PAGE_NAME,
@@ -54,7 +51,6 @@ const routes = [
     {path: STAFF_LIST_PAGE_PATH, name: STAFF_LIST_PAGE_NAME, component: StaffListPage},
     {path: FIND_STAFF_PAGE_PATH, name: FIND_STAFF_PAGE_NAME, component: FindStaffPage},
     {path: WORKER_ACC_PAGE_PATH,name: WORKER_ACC_PAGE_NAME,component: StaffPage},
-    {path: SHIFTS_PAGE_PATH, name: SHIFTS_PAGE_NAME,component: ShiftsPage},
     {path: SHIFTS_LIST_PAGE_PATH, name: SHIFTS_LIST_PAGE_NAME, component: ShiftsListPage},
     {path: SUBORDINATE_PAGE_PATH, name: SUBORDINATE_PAGE_NAME, component: SubordinatePage},
     {path: WARDEN_ACC_PAGE_PATH, name: WARDEN_ACC_PAGE_NAME, component: WardenAccPage},

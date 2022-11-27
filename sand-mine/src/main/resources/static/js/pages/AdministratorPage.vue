@@ -47,19 +47,26 @@
 
 <script>
 import axios from 'axios'
-import { AUTHORIZATION_PAGE_NAME } from '../router/component_names'
+import { 
+  AUTHORIZATION_PAGE_NAME, 
+  SHIFTS_LIST_PAGE_NAME, 
+  PRODUCTION_PAGE_NAME,
+  STAFF_LIST_PAGE_NAME,
+  FIND_STAFF_PAGE_NAME,
+  STAFF_SHIFTS_PAGE_NAME
+} from '../router/component_names'
 
 export default {
   name: "AdministratorPage",
   data() {
     return {
-      fullName: "Иванов Иван Иванович",
-      phone: "+7999999999",
-      email: "admin@mail.ru",
-      role: "Администратор",
-      zones: "Всеволожск, Колпино",
-      passportData: "0000 000000",
-      password: "123123123",
+      fullName: "",
+      phone: "",
+      email: "",
+      role: "",
+      zones: "",
+      passportData: "",
+      password: "",
       revealPassword: false
     }
   },
@@ -85,14 +92,19 @@ export default {
       this.revealPassword = !this.revealPassword
     },
     navigateShifts() {
+      this.$router.push({name: SHIFTS_LIST_PAGE_NAME, params: {id: this.$route.params.id}})
     },
     navigateMineStats() {
+      this.$router.push({name: PRODUCTION_PAGE_NAME})
     },
     navigateStaffList() {
+      this.$router.push({name: STAFF_LIST_PAGE_NAME})
     },
     navigateStaffManagement() {
+      this.$router.push({name: FIND_STAFF_PAGE_NAME})
     },
     navigateStaffShifts() {
+      this.$router.push({name: STAFF_SHIFTS_PAGE_NAME})
     },
     parse_zones(zones) {
       let zonesResult = zones

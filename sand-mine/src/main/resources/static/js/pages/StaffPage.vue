@@ -23,7 +23,10 @@
 
 <script>
 import axios from 'axios'
-import { AUTHORIZATION_PAGE_NAME } from '../router/component_names'
+import {
+  AUTHORIZATION_PAGE_NAME,
+  SHIFTS_LIST_PAGE_NAME
+} from '../router/component_names'
 
 export default {
   name: "StaffPage",
@@ -61,6 +64,7 @@ export default {
       this.revealPassword = !this.revealPassword
     },
     navigateShifts() {
+      this.$router.push({name: SHIFTS_LIST_PAGE_NAME, params: {id: this.$route.params.id}})
     },
     parse_zones(zones) {
       let zonesResult = zones

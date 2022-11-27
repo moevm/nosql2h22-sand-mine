@@ -8,7 +8,25 @@
 
         <label for="date_to">Дата по</label>
         <br>
-        <input class="input" id='date_to' name="date_to" v-model="date_to">
+        <input class="input" id='date_to' name="date_to" type="date" v-model="date_to">
+
+        <label for="zones">Зоны доступа</label>
+        <br>
+        <Multiselect
+            class="with-bot-margin-medium"
+            id="zones"
+            label="zones"
+            name="zones"
+            mode="multiple"
+            :close-on-select="false"
+            :options=options_zones
+            :clear-on-select="false"
+            :preserve-search="true"
+            placeholder="Зоны доступа"
+            :preselect-first="true"
+            v-model="zones"
+            :multiple="true">
+        </Multiselect>
 
         <label for="attended">Присутствовал</label>
         <br>
@@ -27,8 +45,8 @@
       </div>
     </template>
     <template #footer>
-      <button class="button with-top-margin-medium" @click="submit">Подтвердить</button>
-      <button class="button with-top-margin-medium" @click="close">Отмена</button>
+      <button class="button with-top-margin-medium" @click="submit_">Подтвердить</button>
+      <button class="button with-top-margin-medium" @click="close_">Отмена</button>
       <button class="button with-light-background with-top-margin-medium" @click="clear_">Очистить</button>
     </template>
   </Modal>
@@ -42,6 +60,7 @@ export default {
   props: [
     "submit",
     "close",
+    "options_zones"
   ],
   components: {
     Modal,
@@ -55,7 +74,8 @@ export default {
       let data = {
         date_from: this.date_from,
         date_to: this.date_to,
-        attended: this.attended
+        attended: this.attended,
+        zones: this.zones
       }
       this.submit(data)
       this.close()
@@ -71,6 +91,7 @@ export default {
       date_from: null,
       date_to: null,
       attended: null,
+      zones: null,
       options: ["Да", "Нет"],
       title: "Поиск"
     }

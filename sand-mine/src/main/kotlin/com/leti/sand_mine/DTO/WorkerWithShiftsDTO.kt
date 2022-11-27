@@ -14,6 +14,7 @@ data class WorkerWithShiftsDTO(
 ) {
     data class Shift(
         val date: LocalDate,
-        val zoneId: Long
+        val zoneId: Long,
+        val attended: Boolean
     )
 }

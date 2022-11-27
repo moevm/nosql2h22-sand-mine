@@ -5,7 +5,8 @@
         <span class="default-size" v-if="is_empty()">Нет параметров  <br> </span>
         <span class="default-size" v-if="data.date_from">Дата с: {{data.date_from}} <br> </span>
         <span class="default-size" v-if="data.date_to">Дата по: {{data.date_to}} <br> </span>
-        <span class="default-size" v-if="data.attended">Присутствовал: {{data.attended}}  <br> </span>
+        <span class="default-size" v-if="data.zones">Зоны: {{this.zones}}  <br> </span>
+        <span class="default-size" v-if="data.attended">Присуттвовал: {{data.attended}}  <br> </span>
       </div>
     </template>
     <template #footer>
@@ -27,12 +28,25 @@ export default {
   data() {
     return {
       title: 'Параметры поиска',
+      zones: this.parse_zones()
     }
   },
   methods: {
     is_empty() {
       return this.data.size
     },
+    parse_zones() {
+      let zones = this.data.zones.slice()
+      if (zones) {
+        let zonesString = zones[0]
+        zones.shift()
+        for (let zone of zones) {
+          zonesString += ", " + zone
+        }
+        return zonesString
+      }
+      return null
+    }
   }
 }
 </script>

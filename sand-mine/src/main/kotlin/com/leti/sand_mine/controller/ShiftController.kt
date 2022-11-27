@@ -1,5 +1,6 @@
 package com.leti.sand_mine.controller
 
+import com.leti.sand_mine.DTO.AuthResponseDto
 import com.leti.sand_mine.domain.Shift
 import com.leti.sand_mine.repository.ShiftRepository
 import com.leti.sand_mine.DTO.ShiftDTO
@@ -11,6 +12,7 @@ import com.leti.sand_mine.exceptions.NotFoundException
 import com.leti.sand_mine.repository.WorkerRepository
 import com.leti.sand_mine.repository.ZoneRepository
 import org.neo4j.driver.internal.value.DateValue
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.bind.annotation.*
 
 
@@ -32,6 +34,35 @@ class ShiftController(
         return ShiftDTO(shiftRepository.save(shift))
     }
 
+    @GetMapping("/{workerId}")
+    fun getWorkerShifts(@PathVariable workerId: Long): WorkerWithShiftsDTO {
+        val worker = workerRepository.findByIdOrNull(workerId)
+
+        if (worker == null) {
+            println("Error: Worker with id $workerId not found")
+            throw NotFoundException()
+        }
+
+        return with(worker) {
+            WorkerWithShiftsDTO(
+                id,
+                surname,
+                name,
+                patronymic,
+                email,
+                phoneNumber,
+                role,
+                shifts.map { shift ->
+                    WorkerWithShiftsDTO.Shift(
+                        shift.date.asLocalDate(),
+                        shift.zone.id ?: -1,
+                        shift.attended
+                    )
+                }
+            )
+        }
+    }
+
     @GetMapping("/all")
     fun getAllShifts() = workerRepository.findAll().map { worker ->
             with(worker) {
@@ -46,7 +77,8 @@ class ShiftController(
                     shifts.map { shift ->
                         WorkerWithShiftsDTO.Shift(
                             shift.date.asLocalDate(),
-                            shift.zone.id ?: -1
+                            shift.zone.id ?: -1,
+                            shift.attended
                         )
                     }
                 )

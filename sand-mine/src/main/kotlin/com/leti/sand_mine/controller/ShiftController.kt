@@ -15,6 +15,7 @@ import com.leti.sand_mine.repository.ZoneRepository
 import org.neo4j.driver.internal.value.DateValue
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 
 
 @RestController
@@ -86,7 +87,48 @@ class ShiftController(
             }
         }
 
-//    @PostMapping("/filter")
-//    fun getFilteredShifts(@RequestBody shiftFilterDto: ShiftFilterDto) : Set<Shift> {
-//    }
+    @PostMapping("/filter")
+    fun getFilteredShifts(@RequestBody shiftFilterDto: ShiftFilterDto) : Set<ShiftDTO> {
+        var needFiltering = false
+        var dateFrom = LocalDate.MIN
+        var dateTo = LocalDate.MAX
+        var attended = listOf(true, false)
+        var zoneIds = emptyList<Long>()
+
+        if (shiftFilterDto.dateFrom != null) {
+            dateFrom = shiftFilterDto.dateFrom
+            needFiltering = true
+        }
+        if (shiftFilterDto.dateTo != null) {
+            dateTo = shiftFilterDto.dateTo
+            needFiltering = true
+        }
+        if (shiftFilterDto.attended != null) {
+            attended = listOf(shiftFilterDto.attended)
+            needFiltering = true
+        }
+        if (shiftFilterDto.zoneIds != null) {
+            zoneIds = shiftFilterDto.zoneIds
+            needFiltering = true
+        }
+
+        val shiftSet = if (!needFiltering) {
+            shiftRepository.findAll().filterNotNull().toSet()
+        } else if (zoneIds.isNotEmpty()) {
+            shiftRepository.getFilteredShiftList(shiftFilterDto.workerId, dateFrom, dateTo, attended, zoneIds)
+        } else {
+            shiftRepository.getFilteredByShiftShiftList(shiftFilterDto.workerId, dateFrom, dateTo, attended)
+        }
+
+        return shiftSet.map {shift ->
+            with(shift) {
+                ShiftDTO(
+                    id,
+                    date.asLocalDate(),
+                    this.attended,
+                    zone.id ?: -1
+                )
+            }
+        }.toSet()
+    }
 }

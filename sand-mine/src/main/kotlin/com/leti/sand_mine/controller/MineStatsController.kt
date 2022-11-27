@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
 @RestController
@@ -88,7 +90,7 @@ class MineStatsController(
             MineStats(
                 date = DateValue(mineStatsDTO.date),
                 weight = mineStatsDTO.weight,
-                lastEditTime = DateTimeValue(ZonedDateTime.from(mineStatsDTO.lastEditTime)),
+                lastEditTime = DateTimeValue(ZonedDateTime.of(mineStatsDTO.lastEditTime, ZoneId.systemDefault())),
                 lastEditedBy = editor,
                 parentZone = zone
             )

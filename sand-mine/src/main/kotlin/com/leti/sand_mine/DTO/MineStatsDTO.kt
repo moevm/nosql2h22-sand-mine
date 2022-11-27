@@ -1,5 +1,7 @@
 package com.leti.sand_mine.DTO
 
+import com.leti.sand_mine.domain.MineStats
+import com.leti.sand_mine.domain.Worker
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -10,4 +12,5 @@ data class MineStatsDTO(
     val date: LocalDate,
     val weight: Double,
     val lastEditTime: LocalDateTime
-)
+) {
+}

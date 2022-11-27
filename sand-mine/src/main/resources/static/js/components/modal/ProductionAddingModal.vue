@@ -91,7 +91,7 @@ export default {
     if (this.data_for_edit) {//если режим редактирования, то заполним данные
       this.zone = this.data_for_edit[2];
       this.weight = this.data_for_edit[1];
-      this.date = this.data_for_edit[0].substring(6, 10) + "-" + this.data_for_edit[0].substring(3, 5) + "-" + this.data_for_edit[0].substring(0, 2)
+      this.date = this.data_for_edit[0].substring(0, 4) + "-" + this.data_for_edit[0].substring(5, 7) + "-" + this.data_for_edit[0].substring(8, 10)
       this.id = this.data_for_edit["id"]
       this.title = edit_title
     }

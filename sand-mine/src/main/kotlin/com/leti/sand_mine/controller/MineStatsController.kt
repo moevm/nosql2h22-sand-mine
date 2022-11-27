@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
 @RestController
@@ -72,23 +73,15 @@ class MineStatsController(
 
     @PostMapping("/create")
     fun createMineStats(@RequestBody mineStatsDTO: MineStatsDTO): MineStatsDTO {
-        val zone: Zone? = zoneRepository.findByIdOrNull(mineStatsDTO.zoneId)
-        if (zone == null) {
-            println("Error: Zone with id ${mineStatsDTO.zoneId} not found")
-            throw NotFoundException()
-        }
+        val zone: Zone = getZone(mineStatsDTO)
 
-        val editor: Worker? = workerRepository.findByIdOrNull(mineStatsDTO.editorId)
-        if (editor == null) {
-            println("Error: Worker with id ${mineStatsDTO.editorId} not found")
-            throw NotFoundException()
-        }
+        val editor: Worker = getWorker(mineStatsDTO)
 
         val mineStats: MineStats = mineStatsRepository.save(
             MineStats(
                 date = DateValue(mineStatsDTO.date),
                 weight = mineStatsDTO.weight,
-                lastEditTime = DateTimeValue(ZonedDateTime.from(mineStatsDTO.lastEditTime)),
+                lastEditTime = DateTimeValue(ZonedDateTime.of(mineStatsDTO.lastEditTime, ZoneId.systemDefault())),
                 lastEditedBy = editor,
                 parentZone = zone
             )
@@ -97,5 +90,46 @@ class MineStatsController(
 
         mineStatsDTO.id = mineStats.id
         return mineStatsDTO
+    }
+
+    @PostMapping("/edit")
+    fun editMineStats(@RequestBody mineStatsDTO: MineStatsDTO): MineStatsDTO {
+        val oldMineStats = mineStatsRepository
+            .findByIdOrNull(mineStatsDTO.id ?: -1)
+            ?: throw NotFoundException()
+
+        val zone: Zone = getZone(mineStatsDTO)
+
+        val editor: Worker = getWorker(mineStatsDTO)
+
+        mineStatsRepository.save(
+            MineStats(
+                id = oldMineStats.id,
+                date = DateValue(mineStatsDTO.date),
+                weight = mineStatsDTO.weight,
+                lastEditTime = DateTimeValue(ZonedDateTime.of(mineStatsDTO.lastEditTime, ZoneId.systemDefault())),
+                lastEditedBy = editor,
+                parentZone = zone
+            )
+        );
+        return mineStatsDTO;
+    }
+
+    fun getZone(mineStatsDTO: MineStatsDTO):Zone{
+        val zone: Zone? = zoneRepository.findByIdOrNull(mineStatsDTO.zoneId)
+        if (zone == null) {
+            println("Error: Zone with id ${mineStatsDTO.zoneId} not found")
+            throw NotFoundException()
+        }
+        return zone;
+    }
+
+    fun getWorker(mineStatsDTO: MineStatsDTO):Worker{
+        val editor:Worker? = workerRepository.findByIdOrNull(mineStatsDTO.editorId)
+        if (editor == null) {
+            println("Error: Worker with id ${mineStatsDTO.editorId} not found")
+            throw NotFoundException()
+        }
+        return editor;
     }
 }

@@ -14,7 +14,7 @@ export const STAFF_SHIFTS_PAGE_NAME = "StaffShiftsPage"
 export const EDIT_STAFF_PAGE_NAME = "EditStaffPage"
 
 export const AUTHORIZATION_PAGE_PATH = "/"
-export const PRODUCTION_PAGE_PATH = '/production'
+export const PRODUCTION_PAGE_PATH = '/production/:id'
 export const IMPORT_EXPORT_PAGE_PATH = '/import_export'
 export const STAFF_LIST_PAGE_PATH = '/staff_list'
 export const FIND_STAFF_PAGE_PATH = '/find_staff'

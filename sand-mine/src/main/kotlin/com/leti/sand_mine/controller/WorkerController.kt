@@ -53,6 +53,7 @@ class WorkerController(
         return WorkerDTO.toDto(worker)
     }
 
+
     @PostMapping("/check")
     fun checkWorker(@RequestBody params: CheckWorkerRequestDTO): CheckWorkerResponseDTO? {
         val worker = workerRepository
@@ -144,6 +145,11 @@ class WorkerController(
                 )
             )
         }
+    }
+
+    @PostMapping("/ids")
+    fun workersById(@RequestBody workersIds:List<Long>):List<WorkerDTO>{
+        return workerRepository.findAllByIdIn(workersIds).map{worker -> WorkerDTO.toDto(worker)}
     }
 
     private fun randomPassword(): String {

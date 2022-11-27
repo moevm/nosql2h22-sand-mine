@@ -90,6 +90,7 @@ export default {
       this.dateStart = null
       this.dateEnd = null
       this.submit(this.getData_())
+      this.close()
     }
   },
   data() {

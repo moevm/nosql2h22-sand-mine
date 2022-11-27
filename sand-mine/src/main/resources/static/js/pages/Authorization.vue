@@ -54,23 +54,20 @@ export default {
       .then(response => {
         let workerId = response.data.workerId
         let workerType = response.data.workerType
-        if (workerId !== -1) {
-          this.wrongLoginCredentials = false
-          switch (workerType) {
-            case "worker": this.$router.push({name: WORKER_ACC_PAGE_NAME, params: { id: workerId}}); break;
-            case "admin": this.$router.push({name: ADMINISTRATOR_PAGE_NAME, params: { id: workerId}}); break;
-            case "warden": this.$router.push({name: WARDEN_ACC_PAGE_NAME, params: { id: workerId}}); break;
-          }
+
+        this.wrongLoginCredentials = false
+        switch (workerType) {
+          case "worker": this.$router.push({name: WORKER_ACC_PAGE_NAME, params: { id: workerId}}); break;
+          case "admin": this.$router.push({name: ADMINISTRATOR_PAGE_NAME, params: { id: workerId}}); break;
+          case "warden": this.$router.push({name: WARDEN_ACC_PAGE_NAME, params: { id: workerId}}); break;
         }
-        else {
-          this.wrongLoginCredentials = true
+        
+      })
+      .catch(e => {
+        this.wrongLoginCredentials = true
           setTimeout(() => {
             this.wrongLoginCredentials = false
           }, 3000);
-        }
-      })
-      .catch(e => {
-        console.log(e)
       })
     }
   }

@@ -8,6 +8,7 @@ import com.leti.sand_mine.repository.WorkerRepository
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 class AuthController(
@@ -15,29 +16,20 @@ class AuthController(
 ) {
     @PostMapping("/auth")
     fun login(@RequestBody authDto: AuthDto): AuthResponseDto {
-        val worker: Worker? = workerRepository.findByLogin(authDto.login)
+        val worker: Worker? = workerRepository.findByLogin(authDto.login.lowercase(Locale.getDefault()))
         if (worker == null) {
             println("Error: Worker with id ${authDto.login} not found")
-            return AuthResponseDto(
-                -1,
-                ""
-            )
+            throw NotFoundException()
         }
 
         val workerId = worker.id
         if (workerId == null) {
             println("Error: Worker with id $workerId not found")
-            return AuthResponseDto(
-                -1,
-                ""
-            )
+            throw NotFoundException()
         }
 
         if (worker.password != authDto.password) {
-            return AuthResponseDto(
-                -1,
-                ""
-            )
+            throw NotFoundException()
         }
 
         return AuthResponseDto(

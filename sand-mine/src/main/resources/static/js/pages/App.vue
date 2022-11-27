@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <button class="back-button" @click="back"><span style="font-size: 40px"  class="material-icons">arrow_back</span></button>
+    <button class="back-button" @click="back" v-if="check_visibility()"><span style="font-size: 40px"  class="material-icons">arrow_back</span></button>
     <router-view>
     </router-view>
   </div>
 </template>
 
 <script>
+import { AUTHORIZATION_PAGE_NAME } from '../router/component_names'
 
 export default {
   methods:{
@@ -14,6 +15,9 @@ export default {
       console.log(this.$router)
 
       this.$router.back();
+    },
+    check_visibility() {
+      return this.$route.name != AUTHORIZATION_PAGE_NAME
     }
   }
 }

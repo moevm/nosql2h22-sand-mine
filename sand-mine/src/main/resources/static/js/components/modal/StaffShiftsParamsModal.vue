@@ -16,7 +16,7 @@
       </template>
     </Modal>
   </template>
-  
+
   <script>
   import Modal from "./Modal.vue";
   export default {
@@ -53,6 +53,6 @@
     }
   }
   </script>
-  
+
   <style scoped>
   </style>

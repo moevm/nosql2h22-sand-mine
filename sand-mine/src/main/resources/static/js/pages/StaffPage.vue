@@ -66,8 +66,8 @@ export default {
     navigateShifts() {
       this.$router.push({name: SHIFTS_LIST_PAGE_NAME, params: {id: this.$route.params.id}})
     },
-    parse_zones(zones) {
-      let zonesResult = zones
+    parse_zones(zonesIds) {
+      let zonesResult = zonesIds
       if (zonesResult) {
         let zonesString = zonesResult[0]
         zonesResult.shift()

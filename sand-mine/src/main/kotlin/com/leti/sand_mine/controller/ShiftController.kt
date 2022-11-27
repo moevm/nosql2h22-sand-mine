@@ -1,5 +1,6 @@
 package com.leti.sand_mine.controller
 
+import com.leti.sand_mine.DTO.AllShiftsDTO
 import com.leti.sand_mine.DTO.AuthResponseDto
 import com.leti.sand_mine.domain.Shift
 import com.leti.sand_mine.repository.ShiftRepository
@@ -15,7 +16,9 @@ import com.leti.sand_mine.repository.ZoneRepository
 import org.neo4j.driver.internal.value.DateValue
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.bind.annotation.*
+import static.js.pages.AllShiftsFilterDTO
 import java.time.LocalDate
+import kotlin.reflect.jvm.internal.impl.descriptors.deserialization.PlatformDependentDeclarationFilter.All
 
 
 @RestController
@@ -66,26 +69,27 @@ class ShiftController(
     }
 
     @GetMapping("/all")
-    fun getAllShifts() = workerRepository.findAll().map { worker ->
+    fun getAllShifts(): List<AllShiftsDTO> {
+        val result = mutableListOf<AllShiftsDTO>()
+        workerRepository.findAll().map { worker ->
             with(worker) {
-                WorkerWithShiftsDTO(
-                    id,
-                    surname,
-                    name,
-                    patronymic,
-                    email,
-                    phoneNumber,
-                    role,
-                    shifts.map { shift ->
-                        WorkerWithShiftsDTO.Shift(
-                            shift.date.asLocalDate(),
-                            shift.zone.id ?: -1,
-                            shift.attended
-                        )
-                    }
-                )
+                result.addAll(shifts.map { shift ->
+                    AllShiftsDTO(
+                        id,
+                        surname,
+                        name,
+                        patronymic,
+                        email,
+                        phoneNumber,
+                        role,
+                        shift.date.asLocalDate(),
+                        shift.zone.id ?: -1,
+                    )
+                }.sortedBy { it.date })
             }
         }
+        return result
+    }
 
     @PostMapping("/filter")
     fun getFilteredShifts(@RequestBody shiftFilterDto: ShiftFilterDto) : Set<ShiftDTO> {
@@ -130,5 +134,16 @@ class ShiftController(
                 )
             }
         }.toSet()
+    }
+
+    @PostMapping("/filter")
+    fun getAllShiftsFiltered(@RequestBody filters: AllShiftsFilterDTO): List<AllShiftsDTO> {
+        val dateFrom = filters.dateFrom ?: LocalDate.MIN
+        val dateTo = filters.dateTo ?: LocalDate.MAX
+        val fullNameRegular = filters.fullName ?: ".*"
+        val phoneRegular = filters.phone ?: ".*"
+        val roleRegular = filters.role ?: ".*"
+        val zoneRegular = filters.zones?.joinToString(separator = "|") ?: ".*"
+        return emptyList()
     }
 }

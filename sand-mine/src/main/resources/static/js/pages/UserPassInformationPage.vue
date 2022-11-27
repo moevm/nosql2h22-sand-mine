@@ -1,15 +1,15 @@
 <template>
   <div class="background-parent">
     <div class="background">
-      <span> ФИО: {{ name }} </span> <br>
-      <span>Телефон: {{ phone_number }} </span> <br>
-      <span>Почта: {{ email }} </span> <br>
-      <span>Должность: {{ employee_position }} </span> <br>
-      <span>Доступ в зоны: {{ zones }}</span> <br>
-      <span>Паспортные данные: {{ passport }} </span> <br>
+      <span class="default-size"> ФИО: {{ name }} </span> <br>
+      <span class="default-size">Телефон: {{ phone_number }} </span> <br>
+      <span class="default-size">Почта: {{ email }} </span> <br>
+      <span class="default-size">Должность: {{ employee_position }} </span> <br>
+      <span class="default-size">Доступ в зоны: {{ zones }}</span> <br>
+      <span class="default-size">Паспортные данные: {{ passport }} </span> <br>
 
-      <span v-if="pass" style="color:green">Есть доступ</span>
-      <span v-else style="color:red">Нет доступа</span>
+      <span class="default-size" v-if="pass" style="color:green">Есть доступ</span>
+      <span class="default-size" v-else style="color:red">Нет доступа</span>
     </div>
   </div>
 </template>
@@ -49,25 +49,31 @@ export default {
           this.email = data.email
           this.employee_position = data.role
           this.passport = data.passport.slice(0, 4) + " " + data.passport.slice(4)
-          this.zones = this.parse_zones(data.zonesWithAccess)
           this.pass = data.allowed
+          this.parse_zones(data.zonesWithAccess)
         })
         .catch(e => {
           console.log(e)
         })
   },
   methods: {
-    parse_zones(zones) {
-      let zonesResult = zones
-      if (zonesResult) {
-        let zonesString = zonesResult[0]
-        zonesResult.shift()
-        for (let zone of zonesResult) {
-          zonesString += ", " + zone
-        }
-        return zonesString
-      }
-      return null
+    parse_zones(zonesIds) {
+      axios.get("/api/zone/all")
+          .then(response => {
+            let map = new Map()
+            response.data.forEach((it) => {
+              map.set(it.zoneId, it.name)
+            })
+
+            if (zonesIds) {
+              let zonesString = map.get(zonesIds[0])
+              zonesIds.shift()
+              for (let zoneId of zonesIds) {
+                zonesString += ", " + map.get(zoneId)
+              }
+              this.zones = zonesString
+            }
+          })
     }
   }
 

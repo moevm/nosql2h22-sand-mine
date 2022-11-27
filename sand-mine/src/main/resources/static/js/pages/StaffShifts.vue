@@ -3,25 +3,25 @@
     <div class="div-for-table">
       <div class="div-search-button">
         <button
-          class="button one_line_buttons with-bot-margin-large"
-          style="width: 250px; float: right"
-          @click="showSearch()"
+            class="button one_line_buttons with-bot-margin-large"
+            style="width: 250px; float: right"
+            @click="showSearch()"
         >
           Поиск
         </button>
       </div>
       <Table :dataForTable="dataForTable" :more="navigateStaffAccount"></Table>
       <StaffShiftsSearchModal
-        v-if="showSearchModal"
-        :data="searchData"
-        :options_zones="optionsZone"
-        :submit="submitSearch"
-        :close="closeSearch"
+          v-if="showSearchModal"
+          :data="searchData"
+          :options_zones="optionsZone"
+          :submit="submitSearch"
+          :close="closeSearch"
       ></StaffShiftsSearchModal>
       <StaffShiftsParamsModal
-        v-if="showSearchParamsModal"
-        :data="searchData"
-        :close="closeSearchParams"
+          v-if="showSearchParamsModal"
+          :data="searchData"
+          :close="closeSearchParams"
       ></StaffShiftsParamsModal>
       <div class="div-search-button">
         <button class="button" style="float: right" @click="showSearchParams()">
@@ -33,80 +33,88 @@
 </template>
 
 <script>
-  import Table from "../components/table/Table.vue";
-  import Modal from "../components/modal/Modal.vue";
-  import StaffShiftsParamsModal from "../components/modal/StaffShiftsParamsModal.vue";
-  import StaffShiftsSearchModal from "../components/modal/StaffShiftsSearchModal.vue";
+import Table from "../components/table/Table.vue";
+import Modal from "../components/modal/Modal.vue";
+import StaffShiftsParamsModal from "../components/modal/StaffShiftsParamsModal.vue";
+import StaffShiftsSearchModal from "../components/modal/StaffShiftsSearchModal.vue";
+import axios from 'axios'
 
-  export default {
-    name: "StaffShiftspage",
-    components: {
-        StaffShiftsSearchModal,
-        StaffShiftsParamsModal,
-        Modal,
-        Table
-    },
-    data() {
-      return {
-        dataForTable: staffShifts,
-        showSearchModal: false,
-        showSearchParamsModal: false,
-        optionsZone: [
-          "Zone1",
-          "Zone2",
-          "Zone3",
-          "Zone4"
-        ],
-        searchData: {
-          fullName: null,
-          phone: null,
-          role: null,
-          zones: null,
-          dateStart: null,
-          dateEnd: null,
-        }
+export default {
+  name: "StaffShiftspage",
+  components: {
+    StaffShiftsSearchModal,
+    StaffShiftsParamsModal,
+    Modal,
+    Table
+  },
+  data() {
+    return {
+      dataForTable: [{
+        columnNames: ['ФИО', 'Телефон', 'Должность', 'Зона', 'Дата смены'],
+        editColumn: -1,
+        moreInformationColumn: 0
+      }, [], []],
+      showSearchModal: false,
+      showSearchParamsModal: false,
+      optionsZone: [],
+      searchData: {
+        fullName: null,
+        phone: null,
+        role: null,
+        zones: null,
+        dateStart: null,
+        dateEnd: null,
       }
+    }
+  },
+  async created() {
+    const [workersWithShifts, zones] = await Promise.all([
+      axios.get(`/api/shifts/all`),
+      axios.get(`/api/zone/all`)
+    ]);
+    console.log(workersWithShifts)
+    zones.data.forEach(zone => this.optionsZone.push(zone.name))
+
+    workersWithShifts.data.forEach((worker) => {
+      this.dataForTable[1].push([
+        worker.surname + " " + worker.name[0] + "." + worker.patronymic[0] + ".",
+        worker.phoneNumber + " / " + worker.email,
+        worker.role,
+        this.parse_zone(worker.zoneId, zones.data),
+        worker.date
+      ])
+      this.dataForTable[2].push([
+        worker.workerId, -1, -1, -1, -1, -1
+      ])
+    })
+  },
+  methods: {
+    navigateStaffAccount(id) {
+      console.log(id)
     },
-    methods: {
-      navigateStaffAccount(id) {
-        console.log(id)
-      },
-      showSearch() {
-        this.showSearchModal = true
-      },
-      closeSearch() {
-        this.showSearchModal = false
-      },
-      submitSearch(searchData) {
-        console.log(searchData)
-        this.searchData = searchData
-      },
-      showSearchParams() {
-        this.showSearchParamsModal = true
-      },
-      closeSearchParams() {
-        this.showSearchParamsModal = false
-      },
+    showSearch() {
+      this.showSearchModal = true
+    },
+    closeSearch() {
+      this.showSearchModal = false
+    },
+    submitSearch(searchData) {
+      this.searchData = searchData
+
+    },
+    showSearchParams() {
+      this.showSearchParamsModal = true
+    },
+    closeSearchParams() {
+      this.showSearchParamsModal = false
+    },
+    parse_zone(zoneId, zonesMappings) {
+      return zonesMappings
+          .find(mapping =>
+              mapping.zoneId = zoneId
+          ).name
     }
   }
-  let staffShifts = [
-  {columnNames : ['ФИО','Телефон','Должность', 'Зона', 'Дата смены'],
-    editColumn: -1,
-    moreInformationColumn: 0
-  }, [],[]];
-
-  for (let i =0;i<100;i++){
-  let id = i;
-  staffShifts[1].push([
-    "Иванов И.И.",
-    "89144444444",
-    'Охрана',
-    "Зона_1",
-    "11.04.2021"
-  ],);
-  staffShifts[2].push([
-      id,-1,-1,-1,-1,-1 //последний айди - айди строки
-  ])
 }
 </script>
 

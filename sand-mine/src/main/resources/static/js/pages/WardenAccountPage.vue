@@ -36,7 +36,7 @@ export default {
       employee_position: "",
       passport: "",
       password: "",
-      zone:"",
+      zone: "",
       id: this.$route.params.id,
       revealPassword: false
     }
@@ -51,7 +51,7 @@ export default {
           this.employee_position = data.role
           this.passport = data.passport.slice(0, 4) + " " + data.passport.slice(4)
           this.password = data.password
-          this.zone = this.parse_zones(data.zonesWithAccess)
+          this.parse_zones(data.zonesWithAccess)
         })
         .catch(e => {
           this.$router.push({name: AUTHORIZATION_PAGE_NAME})
@@ -67,17 +67,23 @@ export default {
     check_pass(){
       this.$router.push({name: CHECK_PASS_PAGE_NAME, params: { id: this.id}});
     },
-    parse_zones(zones) {
-      let zonesResult = zones
-      if (zonesResult) {
-        let zonesString = zonesResult[0]
-        zonesResult.shift()
-        for (let zone of zonesResult) {
-          zonesString += ", " + zone
-        }
-        return zonesString
-      }
-      return null
+    parse_zones(zonesIds) {
+      axios.get("/api/zone/all")
+          .then(response => {
+            let map = new Map()
+            response.data.forEach((it) => {
+              map.set(it.zoneId, it.name)
+            })
+
+            if (zonesIds) {
+              let zonesString = map.get(zonesIds[0])
+              zonesIds.shift()
+              for (let zoneId of zonesIds) {
+                zonesString += ", " + map.get(zoneId)
+              }
+              this.zone = zonesString
+            }
+          })
     }
   }
 }

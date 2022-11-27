@@ -46,6 +46,7 @@ export default {
       show_filter_params_modal: false,
       filter_params: {date_from: "30.01.2001"},
       options_zones: [],
+      zones_mapping: [],
       test: [{id: 0, name: "asdada"}, {id: 1, name: "assadsdad2312311dada"}, {id: 2, name: "asd12312123ada"}]
     }
   },
@@ -58,16 +59,18 @@ export default {
           this.fullName = data.surname + " " + data.name[0] + ". " + data.patronymic[0] + "."
 
           this.dataForTable = [{ columnNames: ["Дата смены", "Зона", "Присутствовал"], moreInformationColumn: -1 }, [], []]
-          for (let i = 0; i < data.shifts.length; i++) {
-            let id = i;
-            this.dataForTable[1].push([
-              data.shifts[i].date,
-              data.shifts[i].zoneId,
-              data.shifts[i].attended ? "Да" : "Нет",
-            ],);
-            this.dataForTable[2].push([
-              id, -1, -1 //последний айди - айди строки
-            ])
+          if (data.shifts) {
+            for (let i = 0; i < data.shifts.length; i++) {
+              let id = i;
+              this.dataForTable[1].push([
+                data.shifts[i].date,
+                data.shifts[i].zoneId,
+                data.shifts[i].attended ? "Да" : "Нет",
+              ],);
+              this.dataForTable[2].push([
+                id, -1, -1 //последний айди - айди строки
+              ])
+            }
           }
         })
         .catch(e => {
@@ -82,8 +85,10 @@ export default {
           console.log(data)
 
           this.options_zones = []
+          this.zones_mapping = []
           for (let i = 0; i < data.length; i++) {
             this.options_zones.push(data[i].name)
+            this.zones_mapping.push({zoneId: data[i].zoneId, name: data[i].name})
           }
 
           this.show_search_modal = true    
@@ -97,7 +102,26 @@ export default {
     },
     submit_search(filter_params) {
       this.filter_params = filter_params
-      console.log(this.filter_params)
+
+      let filterZoneIds = []
+      if (this.filter_params.zones) {
+        this.filter_params.zones.forEach(zone => {
+          let zone_pair = this.zones_mapping.find(zone_pair =>{
+            return zone_pair.name = zone
+          })
+          filterZoneIds.push(zone_pair.zoneId)
+        })
+      }
+
+      let filterParams = {
+        workerId: this.$route.params.id,
+        dateFrom: this.filter_params.date_from,
+        dateTo: this.filter_params.date_to,
+        attended: this.filter_params.attended == "Да" ? true : false,
+        zoneIds: filterZoneIds,
+      }
+
+      console.log(filterParams)
 
       let customConfig = {
         headers: {
@@ -106,11 +130,26 @@ export default {
       };
       axios.post(
         "/api/shifts/filter",
-        JSON.stringify(this.filter_params),
+        JSON.stringify(filterParams),
         customConfig
       )
       .then(response => {
-        console.log(response)
+        let data = response.data
+        console.log("FILTER RESPONSE")
+        console.log(data)
+        
+        this.dataForTable = [{ columnNames: ["Дата смены", "Зона", "Присутствовал"], moreInformationColumn: -1 }, [], []]
+        for (let i = 0; i < data.length; i++) {
+          let id = i;
+          this.dataForTable[1].push([
+            data[i].date,
+            data[i].zoneId,
+            data[i].attended ? "Да" : "Нет",
+          ],);
+          this.dataForTable[2].push([
+            id, -1, -1 //последний айди - айди строки
+          ])
+        }
       })
       .catch(e => {
         console.log(e)

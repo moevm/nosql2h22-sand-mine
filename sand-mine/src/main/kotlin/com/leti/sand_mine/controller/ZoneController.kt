@@ -17,7 +17,7 @@ class ZoneController (
     fun getAllZones(): Set<ZoneDto> {
         return zoneRepository.findAll()
             .filterNotNull()
-            .mapNotNull { zone ->
+            .map { zone ->
                 ZoneDto(
                     zone.id ?: -1,
                     zone.name

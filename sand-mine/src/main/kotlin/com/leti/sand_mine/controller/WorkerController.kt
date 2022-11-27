@@ -1,8 +1,7 @@
 package com.leti.sand_mine.controller
 
+import com.leti.sand_mine.DTO.*
 import com.leti.sand_mine.domain.Worker
-import com.leti.sand_mine.DTO.ShiftDTO
-import com.leti.sand_mine.DTO.WorkerDTO
 import com.leti.sand_mine.domain.Shift
 import com.leti.sand_mine.domain.Zone
 import com.leti.sand_mine.exceptions.NotFoundException
@@ -52,6 +51,36 @@ class WorkerController(
             .findByIdOrNull(workerId)
             ?: throw NotFoundException()
         return WorkerDTO.toDto(worker)
+    }
+
+    @PostMapping("/check")
+    fun checkWorker(@RequestBody params: CheckWorkerRequestDTO): CheckWorkerResponseDTO? {
+        val worker = workerRepository
+            .findByPassId(params.passId)
+            ?: throw NotFoundException()
+
+        val warden = workerRepository
+            .findByIdOrNull(params.wardenId)
+            ?: throw NotFoundException()
+
+        val wardenCurrentShift = warden.shifts.find {
+            //TODO change to LocalDate.now()
+            it.date.asLocalDate() == it.date.asLocalDate()
+        } ?: throw NotFoundException()
+
+        with(worker) {
+            return CheckWorkerResponseDTO(
+                surname = surname,
+                name = name,
+                patronymic = patronymic,
+                email = email,
+                phoneNumber = phoneNumber,
+                role = role,
+                passport = passport,
+                zonesWithAccess = zonesWithAccess.map { it.id },
+                allowed = worker.zonesWithAccess.contains(wardenCurrentShift.zone)
+            )
+        }
     }
 
     @PostMapping("/edit")

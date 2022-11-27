@@ -25,7 +25,7 @@
 
 <script>
 import axios from 'axios'
-import { AUTHORIZATION_PAGE_NAME } from '../router/component_names'
+import { AUTHORIZATION_PAGE_NAME, CHECK_PASS_PAGE_NAME, SHIFTS_LIST_PAGE_NAME} from "../router/component_names";
 
 export default {
   data() {
@@ -37,7 +37,7 @@ export default {
       passport: "",
       password: "",
       zone:"",
-      id: 0,
+      id: this.$route.params.id,
       revealPassword: false
     }
   },
@@ -49,7 +49,7 @@ export default {
           this.phone_number = data.phoneNumber
           this.email = data.email
           this.employee_position = data.role
-          this.passport = data.passport
+          this.passport = data.passport.slice(0, 4) + " " + data.passport.slice(4)
           this.password = data.password
           this.zone = this.parse_zones(data.zonesWithAccess)
         })
@@ -62,10 +62,10 @@ export default {
       this.revealPassword = !this.revealPassword
     },
     shifts() {
-      console.log('shifts')
+      this.$router.push({name: SHIFTS_LIST_PAGE_NAME, params: { id: this.id}})
     },
     check_pass(){
-      console.log('check_pass')
+      this.$router.push({name: CHECK_PASS_PAGE_NAME, params: { id: this.id}});
     },
     parse_zones(zones) {
       let zonesResult = zones

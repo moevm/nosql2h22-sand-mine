@@ -18,6 +18,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.bind.annotation.*
 import static.js.pages.AllShiftsFilterDTO
 import java.time.LocalDate
+import java.util.*
 import kotlin.reflect.jvm.internal.impl.descriptors.deserialization.PlatformDependentDeclarationFilter.All
 
 
@@ -96,8 +97,8 @@ class ShiftController(
         var needFiltering = false
         var dateFrom = LocalDate.MIN
         var dateTo = LocalDate.MAX
-        var attended = listOf(true, false)
-        var zoneIds = emptyList<Long>()
+        var attended = "(?i).*"
+        var zoneIds = "(?i).*"
 
         if (shiftFilterDto.dateFrom != null) {
             dateFrom = shiftFilterDto.dateFrom
@@ -108,20 +109,18 @@ class ShiftController(
             needFiltering = true
         }
         if (shiftFilterDto.attended != null) {
-            attended = listOf(shiftFilterDto.attended)
+            attended = "(?i)".plus(shiftFilterDto.attended.toString())
             needFiltering = true
         }
         if (shiftFilterDto.zoneIds != null) {
-            zoneIds = shiftFilterDto.zoneIds
+            zoneIds = "(?i)".plus(shiftFilterDto.zoneIds.joinToString("|"))
             needFiltering = true
         }
 
         val shiftSet = if (!needFiltering) {
             shiftRepository.findAll().filterNotNull().toSet()
-        } else if (zoneIds.isNotEmpty()) {
-            shiftRepository.getFilteredShiftList(shiftFilterDto.workerId, dateFrom, dateTo, attended, zoneIds)
         } else {
-            shiftRepository.getFilteredByShiftShiftList(shiftFilterDto.workerId, dateFrom, dateTo, attended)
+            shiftRepository.getFilteredShiftList(shiftFilterDto.workerId, dateFrom, dateTo, attended, zoneIds)
         }
 
         return shiftSet.map {shift ->
@@ -136,7 +135,7 @@ class ShiftController(
         }.toSet()
     }
 
-    @PostMapping("/filter")
+    @PostMapping("/all/filter")
     fun getAllShiftsFiltered(@RequestBody filters: AllShiftsFilterDTO): List<AllShiftsDTO> {
         val dateFrom = filters.dateFrom ?: LocalDate.MIN
         val dateTo = filters.dateTo ?: LocalDate.MAX

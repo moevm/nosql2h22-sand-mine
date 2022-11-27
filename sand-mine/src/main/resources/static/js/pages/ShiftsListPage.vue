@@ -107,7 +107,7 @@ export default {
       if (this.filter_params.zones) {
         this.filter_params.zones.forEach(zone => {
           let zone_pair = this.zones_mapping.find(zone_pair =>{
-            return zone_pair.name = zone
+            return zone_pair.name === zone
           })
           filterZoneIds.push(zone_pair.zoneId)
         })

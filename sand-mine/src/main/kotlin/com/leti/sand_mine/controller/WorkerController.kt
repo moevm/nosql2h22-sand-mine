@@ -32,7 +32,7 @@ class WorkerController(
         val worker = workerRepository
             .findByIdOrNull(workerId)
             ?: throw NotFoundException()
-        
+
         with(worker.shifts) {
             return map {
                 ShiftDTO(
@@ -45,12 +45,23 @@ class WorkerController(
         }
     }
 
+    @GetMapping("/all")
+    fun getWorkerAll() = workerRepository
+        .findAll().filterNotNull().map {
+            WorkerDTO.toDto(it)
+        }.toSet()
+
     @GetMapping("/{workerId}")
     fun getWorker(@PathVariable workerId: Long): WorkerDTO? {
         val worker = workerRepository
             .findByIdOrNull(workerId)
             ?: throw NotFoundException()
         return WorkerDTO.toDto(worker)
+    }
+
+    @GetMapping("/roles")
+    fun getRolesAll(): Set<String> {
+        return workerRepository.findAllRoles()
     }
 
 
@@ -148,8 +159,70 @@ class WorkerController(
     }
 
     @PostMapping("/ids")
-    fun workersById(@RequestBody workersIds:List<Long>):List<WorkerDTO>{
-        return workerRepository.findAllByIdIn(workersIds).map{worker -> WorkerDTO.toDto(worker)}
+    fun workersById(@RequestBody workersIds: List<Long>): List<WorkerDTO> {
+        return workerRepository.findAllByIdIn(workersIds).map { worker -> WorkerDTO.toDto(worker) }
+    }
+
+    @PostMapping("/filter")
+    fun getFilteredWorkers(@RequestBody workerFilterDTO: WorkerFilterDTO): Set<WorkerDTO> {
+
+        var needFiltering = false
+        var surname = "(?i).*"
+        var name = "(?i).*"
+        var patronymic = "(?i).*"
+        var phoneNumber = "\\+?\\d*"
+        var roles = ".*"
+        var zoneIds = ".*"
+
+        if (workerFilterDTO.fullName != null) {
+            val splitFullName = workerFilterDTO.fullName.split(" ", "\t", "\n")
+            if (splitFullName.size == 3) {
+                surname = "(?i)".plus(splitFullName[0].plus(".*"))
+                name = "(?i)".plus(splitFullName[1].plus(".*"))
+                patronymic = "(?i)".plus(splitFullName[2].plus(".*"))
+            } else {
+                surname = ""
+                name = ""
+                patronymic = ""
+            }
+            needFiltering = true
+        }
+        if (workerFilterDTO.phoneNumber != null) {
+            phoneNumber = workerFilterDTO.phoneNumber.replace("+", "\\+?").replace(" ", "").plus(".*")
+            needFiltering = true
+        }
+        if (workerFilterDTO.roles != null) {
+            roles = workerFilterDTO.roles.joinToString("|")
+            needFiltering = true
+        }
+        if (workerFilterDTO.zoneIds != null) {
+            zoneIds = workerFilterDTO.zoneIds.joinToString("|")
+            needFiltering = true
+        }
+
+        val workersSet = if (!needFiltering) {
+            workerRepository.findAll().filterNotNull().toSet()
+        } else {
+            workerRepository.getFilteredWorkersList(surname, name, patronymic, phoneNumber, roles, zoneIds)
+        }
+
+        return workersSet.map { worker ->
+            WorkerDTO(
+                worker.id,
+                worker.surname,
+                worker.name,
+                worker.patronymic,
+                worker.email,
+                worker.phoneNumber,
+                worker.passport,
+                worker.role,
+                worker.passId,
+                worker.password,
+                worker.zonesWithAccess.map {
+                    it.id
+                }
+            )
+        }.toSet()
     }
 
     private fun randomPassword(): String {

@@ -25,6 +25,7 @@
 
 <script>
 import axios from 'axios'
+import { AUTHORIZATION_PAGE_NAME } from '../router/component_names'
 
 export default {
   data() {
@@ -41,18 +42,19 @@ export default {
     }
   },
   created() {
-    axios.get("/api/worker/2")
+    axios.get("/api/worker/" + this.$route.params.id)
         .then(response => {
           let data = response.data
           this.name = data.surname + " " + data.name + " " + data.patronymic
           this.phone_number = data.phoneNumber
+          this.email = data.email
           this.employee_position = data.role
           this.passport = data.passport
           this.password = data.password
           this.zone = this.parse_zones(data.zonesWithAccess)
         })
         .catch(e => {
-          console.log(e)
+          this.$router.push({name: AUTHORIZATION_PAGE_NAME})
         })
   },
   methods: {

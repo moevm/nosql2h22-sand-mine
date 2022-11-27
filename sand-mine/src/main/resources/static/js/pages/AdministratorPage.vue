@@ -46,6 +46,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { AUTHORIZATION_PAGE_NAME } from '../router/component_names'
+
 export default {
   name: "AdministratorPage",
   data() {
@@ -60,6 +63,23 @@ export default {
       revealPassword: false
     }
   },
+  created() {
+    axios.get("/api/worker/" + this.$route.params.id)
+        .then(response => {
+          let data = response.data
+          console.log(response)
+          this.fullName = data.surname + " " + data.name + " " + data.patronymic
+          this.phone = data.phoneNumber
+          this.email = data.email
+          this.role = data.role
+          this.passportData = data.passport
+          this.password = data.password
+          this.zones = this.parse_zones(data.zonesWithAccess)
+        })
+        .catch(e => {
+          this.$router.push({name: AUTHORIZATION_PAGE_NAME})
+        })
+  },
   methods: {
     togglePasswordVisibility() {
       this.revealPassword = !this.revealPassword
@@ -73,6 +93,18 @@ export default {
     navigateStaffManagement() {
     },
     navigateStaffShifts() {
+    },
+    parse_zones(zones) {
+      let zonesResult = zones
+      if (zonesResult) {
+        let zonesString = zonesResult[0]
+        zonesResult.shift()
+        for (let zone of zonesResult) {
+          zonesString += ", " + zone
+        }
+        return zonesString
+      }
+      return null
     }
   }
 }

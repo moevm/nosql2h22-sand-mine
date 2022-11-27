@@ -36,6 +36,9 @@ export default {
       return this.data.size
     },
     parse_zones() {
+      if (!this.data.zones) {
+        return null
+      }
       let zones = this.data.zones.slice()
       if (zones) {
         let zonesString = zones[0]

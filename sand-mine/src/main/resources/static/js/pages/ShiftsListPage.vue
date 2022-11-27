@@ -45,7 +45,8 @@ export default {
       show_search_modal: false,
       show_filter_params_modal: false,
       filter_params: {date_from: "30.01.2001"},
-      options_zones: []
+      options_zones: [],
+      test: [{id: 0, name: "asdada"}, {id: 1, name: "assadsdad2312311dada"}, {id: 2, name: "asd12312123ada"}]
     }
   },
   created() {
@@ -96,6 +97,24 @@ export default {
     },
     submit_search(filter_params) {
       this.filter_params = filter_params
+      console.log(this.filter_params)
+
+      let customConfig = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      axios.post(
+        "/api/shifts/filter",
+        JSON.stringify(this.filter_params),
+        customConfig
+      )
+      .then(response => {
+        console.log(response)
+      })
+      .catch(e => {
+        console.log(e)
+      })
     },
     show_filter_params() {
       this.show_filter_params_modal = true

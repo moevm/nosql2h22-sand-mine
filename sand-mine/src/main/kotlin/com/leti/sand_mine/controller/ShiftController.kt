@@ -4,6 +4,7 @@ import com.leti.sand_mine.DTO.AuthResponseDto
 import com.leti.sand_mine.domain.Shift
 import com.leti.sand_mine.repository.ShiftRepository
 import com.leti.sand_mine.DTO.ShiftDTO
+import com.leti.sand_mine.DTO.ShiftFilterDto
 import com.leti.sand_mine.DTO.WorkerWithShiftsDTO
 import com.leti.sand_mine.domain.Worker
 import com.leti.sand_mine.domain.Zone
@@ -84,4 +85,8 @@ class ShiftController(
                 )
             }
         }
+
+//    @PostMapping("/filter")
+//    fun getFilteredShifts(@RequestBody shiftFilterDto: ShiftFilterDto) : Set<Shift> {
+//    }
 }

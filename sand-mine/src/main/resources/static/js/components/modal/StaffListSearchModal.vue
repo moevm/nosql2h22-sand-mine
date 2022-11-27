@@ -14,9 +14,9 @@
         <br>
         <Multiselect
             class="with-bot-margin-medium"
-            id="role"
-            label="role"
-            name="role"
+            id="roles"
+            label="roles"
+            name="roles"
             mode="multiple"
             :close-on-select="false"
             :options=options_roles
@@ -24,7 +24,7 @@
             :preserve-search="true"
             placeholder="Должность"
             :preselect-first="true"
-            v-model="role"
+            v-model="roles"
             :multiple="true">
         </Multiselect>
 
@@ -78,7 +78,7 @@ export default {
       let data = {
         full_name: this.full_name,
         phone: this.phone,
-        role: this.role,
+        roles: this.roles,
         zones: this.zones
       }
       this.submit(data)
@@ -87,7 +87,7 @@ export default {
     clear_() {
       this.full_name = null
       this.phone = null
-      this.role = null
+      this.roles = null
       this.zones = null
     }
   },
@@ -95,7 +95,7 @@ export default {
     return {
       full_name: null,
       phone: null,
-      role: null,
+      roles: null,
       zones: null,
     }
   }

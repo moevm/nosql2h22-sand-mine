@@ -103,8 +103,9 @@ export default {
     submit_search(filter_params) {
       this.filter_params = filter_params
 
-      let filterZoneIds = []
+      let filterZoneIds = null
       if (this.filter_params.zones) {
+        filterZoneIds = []
         this.filter_params.zones.forEach(zone => {
           let zone_pair = this.zones_mapping.find(zone_pair =>{
             return zone_pair.name === zone

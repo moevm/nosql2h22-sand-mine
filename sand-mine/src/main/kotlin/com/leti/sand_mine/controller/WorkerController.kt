@@ -177,9 +177,9 @@ class WorkerController(
         if (workerFilterDTO.fullName != null) {
             val splitFullName = workerFilterDTO.fullName.split(" ", "\t", "\n")
             if (splitFullName.size == 3) {
-                surname = "(?i)".plus(splitFullName[0].plus(".*"))
-                name = "(?i)".plus(splitFullName[1].plus(".*"))
-                patronymic = "(?i)".plus(splitFullName[2].plus(".*"))
+                surname = "(?i)".plus(splitFullName[0])
+                name = "(?i)".plus(splitFullName[1])
+                patronymic = "(?i)".plus(splitFullName[2])
             } else {
                 surname = ""
                 name = ""
@@ -196,7 +196,9 @@ class WorkerController(
             needFiltering = true
         }
         if (workerFilterDTO.zoneIds != null) {
-            zoneIds = workerFilterDTO.zoneIds.joinToString("|")
+            if (zoneIds.isNotEmpty()) {
+                zoneIds = workerFilterDTO.zoneIds.joinToString("|")
+            }
             needFiltering = true
         }
 

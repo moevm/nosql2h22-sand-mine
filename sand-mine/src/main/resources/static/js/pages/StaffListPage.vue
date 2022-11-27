@@ -89,8 +89,9 @@ export default {
     submit_search(filter_params) {
       this.filter_params = filter_params
       
-      let filterZoneIds = []
+      let filterZoneIds = null
       if (this.filter_params.zones) {
+        filterZoneIds = []
         this.filter_params.zones.forEach(zone => {
           let zone_pair = this.zones_mapping.find(zone_pair =>{
             return zone_pair.name === zone
@@ -102,7 +103,7 @@ export default {
       let filterParams = {
         fullName: this.filter_params.full_name,
         phoneNumber: this.filter_params.phone,
-        role: this.filter_params.role,
+        roles: this.filter_params.roles,
         zoneIds: filterZoneIds,
       }
 
@@ -119,9 +120,23 @@ export default {
         customConfig
       )
       .then(response => {
-        let data = response.data
+        let workers = response.data
         console.log("FILTER RESPONSE")
-        console.log(data)
+        console.log(workers)
+
+        this.dataForTable = [{ columnNames: ["ФИО", 'Телефон', 'Должность', "Доступ в зоны"], moreInformationColumn: 0 }, [], []]
+    
+        for (let i = 0; i < workers.length; i++) {
+          this.dataForTable[1].push([
+            workers[i].surname + " " + workers[i].name + " " + workers[i].patronymic,
+            workers[i].phoneNumber,
+            workers[i].role,
+            this.parse_zones(workers[i].zonesWithAccess)
+          ],)
+          this.dataForTable[2].push([
+            workers[i].workerId, -1, -1, -1, -1, -1 //последний айди - айди строки
+          ]) 
+        }
       })
       .catch(e => {
         console.log(e)

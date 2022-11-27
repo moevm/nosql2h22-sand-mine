@@ -27,7 +27,7 @@ interface WorkerRepository : Neo4jRepository<Worker, Long> {
     fun findAllRoles(): Set<String>
 
     @Query("MATCH(worker: WORKER)-[has_access:HAS_ACCESS_TO]->(zone: ZONE) WHERE worker.surname =~ \$surname AND worker.name =~ \$name AND worker.patronymic =~ \$patronymic AND " +
-           "worker.phone_number =~ \$phoneNumber AND worker.role =~ \$roles AND toString(ID(zone)) =~ \$zones " +
+           "worker.phone_number =~ \$phoneNumber AND toString(worker.role) =~ \$roles AND toString(ID(zone)) =~ \$zones " +
            "RETURN worker, has_access, zone")
     fun getFilteredWorkersList(@Param("surname") surname: String, @Param("name") name: String, @Param("patronymic") patronymic: String, @Param("phoneNumber") phoneNumber: String, @Param("roles") roles: String, @Param("zones") zones: String): List<Worker>
 }

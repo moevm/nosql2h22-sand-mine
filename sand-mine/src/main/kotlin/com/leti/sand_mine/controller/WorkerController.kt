@@ -152,6 +152,12 @@ class WorkerController(
         return workerRepository.findAllByIdIn(workersIds).map{worker -> WorkerDTO.toDto(worker)}
     }
 
+    @GetMapping("/admins")
+    fun allAdmins():List<WorkerDTO>{
+        return workerRepository.findAllByRole("admin").map{worker -> WorkerDTO.toDto(worker)}
+    }
+
+
     private fun randomPassword(): String {
         val length = 10
         val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')

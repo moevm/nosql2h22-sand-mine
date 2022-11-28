@@ -22,8 +22,9 @@
         <br>
         <Multiselect
             id="last_editor"
+            mode="multiple"
             name="last_editor"
-            :close-on-select="false"
+            :close-on-select="true"
             :options=options_editor
             :multiple="true"
             :clear-on-select="false"
@@ -32,6 +33,12 @@
             :preselect-first="true"
             :searchable="true"
             v-model="last_editor"/>
+<!--            track-by="name"-->
+<!--            label="name"-->
+<!--            slot-scope="{ values, search, isOpen }"-->
+<!--        >-->
+<!--          <template slot="singlelabel">{{ value }}</template>-->
+<!--        </Multiselect>-->
 
 
         <label for="date_edit">Дата редактирования</label>

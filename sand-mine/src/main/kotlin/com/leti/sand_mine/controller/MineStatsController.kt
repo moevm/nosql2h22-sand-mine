@@ -1,6 +1,8 @@
 package com.leti.sand_mine.controller
 
 import com.leti.sand_mine.DTO.MineStatsDTO
+import com.leti.sand_mine.DTO.MineStatsFilterDto
+import com.leti.sand_mine.DTO.ZoneDto
 import com.leti.sand_mine.domain.MineStats
 import com.leti.sand_mine.domain.Worker
 import com.leti.sand_mine.domain.Zone
@@ -17,9 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.*
 
 @RestController
 @RequestMapping("api/mine_stats")
@@ -30,7 +30,7 @@ class MineStatsController(
 ) {
     @GetMapping("/all")
     fun getMineStatsAll(): List<MineStatsDTO> {
-        return mineStatsRepository.findAll().map { mineStats ->
+        return mineStatsRepository.findAllSortedByDate().map { mineStats ->
             val editorId = mineStats.lastEditedBy.id
             if (editorId == null) {
                 println("Error: Mine Stats was edited by worker with non-existing id")
@@ -116,7 +116,7 @@ class MineStatsController(
         return mineStatsDTO;
     }
 
-    fun getZone(mineStatsDTO: MineStatsDTO):Zone{
+    fun getZone(mineStatsDTO: MineStatsDTO): Zone {
         val zone: Zone? = zoneRepository.findByIdOrNull(mineStatsDTO.zoneId)
         if (zone == null) {
             println("Error: Zone with id ${mineStatsDTO.zoneId} not found")
@@ -125,12 +125,43 @@ class MineStatsController(
         return zone;
     }
 
-    fun getWorker(mineStatsDTO: MineStatsDTO):Worker{
-        val editor:Worker? = workerRepository.findByIdOrNull(mineStatsDTO.editorId)
+    fun getWorker(mineStatsDTO: MineStatsDTO): Worker {
+        val editor: Worker? = workerRepository.findByIdOrNull(mineStatsDTO.editorId)
         if (editor == null) {
             println("Error: Worker with id ${mineStatsDTO.editorId} not found")
             throw NotFoundException()
         }
-        return editor;
+        return editor
+    }
+
+    @PostMapping("/filter")
+    fun getFilterMineStats(@RequestBody mineStatsFilterDto: MineStatsFilterDto): List<MineStatsDTO> {
+        var timeEditStart:LocalDateTime = LocalDateTime.MIN;
+        var timeEditEnd:LocalDateTime = LocalDateTime.MAX.minusDays(3);
+        val diff:Long = 10800;
+        if(mineStatsFilterDto.dateEdit != null){
+            timeEditStart = mineStatsFilterDto.dateEdit.atStartOfDay()
+            timeEditEnd   = mineStatsFilterDto.dateEdit.atTime(23,59,59)
+        }
+        val secondsStart:Long = timeEditStart.toEpochSecond(ZoneOffset.UTC)+diff
+        val secondsEnd:Long = timeEditEnd.toEpochSecond(ZoneOffset.UTC)+diff
+        val filteredMineStats:List<MineStats> = mineStatsRepository.getFilteredMineStats(
+            secondsStart,
+            secondsEnd,
+            mineStatsFilterDto.dateFrom ?: LocalDate.MIN,
+            mineStatsFilterDto.dateTo ?: LocalDate.MAX,
+            mineStatsFilterDto.lastEditorIds ?: emptyList<Long>(),
+            mineStatsFilterDto.weightFrom ?: Double.MIN_VALUE,
+            mineStatsFilterDto.weightTo ?: Double.MAX_VALUE,
+            mineStatsFilterDto.zoneIds ?: emptyList<Long>()
+        )
+        return filteredMineStats.map{mineStats -> MineStatsDTO(
+            id = mineStats.id,
+            zoneId = mineStats.parentZone.id,
+            editorId = mineStats.lastEditedBy.id,
+            date = mineStats.date.asLocalDate(),
+            weight = mineStats.weight,
+            lastEditTime = mineStats.lastEditTime.asZonedDateTime().toLocalDateTime()
+        )}
     }
 }

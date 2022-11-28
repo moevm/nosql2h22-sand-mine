@@ -23,4 +23,6 @@ interface WorkerRepository : Neo4jRepository<Worker, Long> {
     fun findByPassId(@Param("passId") passId: Long): Worker?
 
     fun findAllByIdIn(id: List<Long>):Set<Worker>
+
+    fun findAllByRole(role:String):Set<Worker>
 }

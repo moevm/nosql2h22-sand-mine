@@ -21,7 +21,7 @@
           <span>Дата редактирования: {{ data.date_edit }}</span>
         </div>
         <div v-if="data.last_editor">
-          <span>Последний редактор: {{ data.last_editor }}</span>
+          <span>Последний редактор: {{ last_editors }}</span>
         </div>
         <div v-if="data.zones && data.zones.length!==0">
           <span>Зоны:{{ zones }}</span>
@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       zones: "",
+      last_editors:"",
       title: 'Параметры поиска'
     }
   },
@@ -65,6 +66,12 @@ export default {
     if (this.data['zones']) {
       for (let zone of this.data['zones']) {
         this.zones += zone + " "
+      }
+    }
+    this.last_editors='';
+    if(this.data['last_editor']){
+      for(let editor of this.data['last_editor']){
+        this.last_editors += editor + ", ";
       }
     }
   }

@@ -136,7 +136,7 @@ class ShiftController(
         }.toSet()
     }
 
-    @PostMapping("/filter")
+    @PostMapping("/filte")
     fun getAllShiftsFiltered(@RequestBody filters: AllShiftsFilterDTO): List<AllShiftsDTO> {
         val dateFrom = filters.dateFrom ?: LocalDate.MIN
         val dateTo = filters.dateTo ?: LocalDate.MAX

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/zone")
-class ZoneController (
+class ZoneController(
     private val zoneRepository: ZoneRepository
 ) {
     @GetMapping("/all")

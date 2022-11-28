@@ -2,7 +2,7 @@ package com.leti.sand_mine.DTO
 
 import java.time.LocalDate
 
-data class MineStatsFilterDto (
+data class MineStatsFilterDto(
     val dateEdit: LocalDate?,
     val dateFrom: LocalDate?,
     val dateTo: LocalDate?,

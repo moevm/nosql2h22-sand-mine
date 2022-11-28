@@ -136,16 +136,16 @@ class MineStatsController(
 
     @PostMapping("/filter")
     fun getFilterMineStats(@RequestBody mineStatsFilterDto: MineStatsFilterDto): List<MineStatsDTO> {
-        var timeEditStart:LocalDateTime = LocalDateTime.MIN;
-        var timeEditEnd:LocalDateTime = LocalDateTime.MAX.minusDays(3);
-        val diff:Long = 10800;
-        if(mineStatsFilterDto.dateEdit != null){
+        var timeEditStart: LocalDateTime = LocalDateTime.MIN;
+        var timeEditEnd: LocalDateTime = LocalDateTime.MAX.minusDays(3);
+        val diff: Long = 10800;
+        if (mineStatsFilterDto.dateEdit != null) {
             timeEditStart = mineStatsFilterDto.dateEdit.atStartOfDay()
-            timeEditEnd   = mineStatsFilterDto.dateEdit.atTime(23,59,59)
+            timeEditEnd = mineStatsFilterDto.dateEdit.atTime(23, 59, 59)
         }
-        val secondsStart:Long = timeEditStart.toEpochSecond(ZoneOffset.UTC)+diff
-        val secondsEnd:Long = timeEditEnd.toEpochSecond(ZoneOffset.UTC)+diff
-        val filteredMineStats:List<MineStats> = mineStatsRepository.getFilteredMineStats(
+        val secondsStart: Long = timeEditStart.toEpochSecond(ZoneOffset.UTC) + diff
+        val secondsEnd: Long = timeEditEnd.toEpochSecond(ZoneOffset.UTC) + diff
+        val filteredMineStats: List<MineStats> = mineStatsRepository.getFilteredMineStats(
             secondsStart,
             secondsEnd,
             mineStatsFilterDto.dateFrom ?: LocalDate.MIN,
@@ -155,13 +155,15 @@ class MineStatsController(
             mineStatsFilterDto.weightTo ?: Double.MAX_VALUE,
             mineStatsFilterDto.zoneIds ?: emptyList<Long>()
         )
-        return filteredMineStats.map{mineStats -> MineStatsDTO(
-            id = mineStats.id,
-            zoneId = mineStats.parentZone.id,
-            editorId = mineStats.lastEditedBy.id,
-            date = mineStats.date.asLocalDate(),
-            weight = mineStats.weight,
-            lastEditTime = mineStats.lastEditTime.asZonedDateTime().toLocalDateTime()
-        )}
+        return filteredMineStats.map { mineStats ->
+            MineStatsDTO(
+                id = mineStats.id,
+                zoneId = mineStats.parentZone.id,
+                editorId = mineStats.lastEditedBy.id,
+                date = mineStats.date.asLocalDate(),
+                weight = mineStats.weight,
+                lastEditTime = mineStats.lastEditTime.asZonedDateTime().toLocalDateTime()
+            )
+        }
     }
 }

@@ -11,13 +11,14 @@
     width: 100%;
 }
 
-.button:hover{
-    background: rgb(200,150,40);
+.button:hover {
+    background: rgb(200, 150, 40);
 }
 
 .with-light-background {
     background-color: #FFEE58
 }
+
 .with-light-background:hover {
     background-color: #ffeea7;
 }

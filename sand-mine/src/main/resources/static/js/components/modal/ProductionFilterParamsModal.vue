@@ -33,12 +33,12 @@
             :preselect-first="true"
             :searchable="true"
             v-model="last_editor"/>
-<!--            track-by="name"-->
-<!--            label="name"-->
-<!--            slot-scope="{ values, search, isOpen }"-->
-<!--        >-->
-<!--          <template slot="singlelabel">{{ value }}</template>-->
-<!--        </Multiselect>-->
+        <!--            track-by="name"-->
+        <!--            label="name"-->
+        <!--            slot-scope="{ values, search, isOpen }"-->
+        <!--        >-->
+        <!--          <template slot="singlelabel">{{ value }}</template>-->
+        <!--        </Multiselect>-->
 
 
         <label for="date_edit">Дата редактирования</label>
@@ -105,7 +105,7 @@ export default {
         last_editor: this.last_editor,
         date_edit: this.date_edit,
         zones: this.zones,
-        title:"Поиск"
+        title: "Поиск"
       }
       this.submit(data)
       this.close()

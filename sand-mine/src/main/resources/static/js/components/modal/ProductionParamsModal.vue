@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       zones: "",
-      last_editors:"",
+      last_editors: "",
       title: 'Параметры поиска'
     }
   },
@@ -68,9 +68,9 @@ export default {
         this.zones += zone + " "
       }
     }
-    this.last_editors='';
-    if(this.data['last_editor']){
-      for(let editor of this.data['last_editor']){
+    this.last_editors = '';
+    if (this.data['last_editor']) {
+      for (let editor of this.data['last_editor']) {
         this.last_editors += editor + ", ";
       }
     }

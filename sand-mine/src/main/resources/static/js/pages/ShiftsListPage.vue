@@ -1,10 +1,12 @@
 <template>
   <div class="div-for-table">
     <div class="div_left_top">
-      <span class="default-size">Смены {{fullName}}</span>
+      <span class="default-size">Смены {{ fullName }}</span>
     </div>
     <div class="div-search-button">
-      <button class="button one_line_buttons with-bot-margin-large" style="width: 250px; float: right" @click="show_search()">Поиск</button>
+      <button class="button one_line_buttons with-bot-margin-large" style="width: 250px; float: right"
+              @click="show_search()">Поиск
+      </button>
     </div>
     <Table :data-for-table="dataForTable">
     </Table>
@@ -29,7 +31,7 @@
 
 <script>
 import axios from 'axios'
-import { AUTHORIZATION_PAGE_NAME } from '../router/component_names'
+import {AUTHORIZATION_PAGE_NAME} from '../router/component_names'
 import Table from "../components/table/Table.vue";
 import Modal from "../components/modal/Modal.vue";
 import ShiftsListParamsModal from "../components/modal/ShiftsListParamsModal.vue";
@@ -41,7 +43,7 @@ export default {
   data() {
     return {
       fullName: "",
-      dataForTable: [{ columnNames: ["Дата смены", "Зона", "Присутствовал"], moreInformationColumn: -1 }, [], []],
+      dataForTable: [{columnNames: ["Дата смены", "Зона", "Присутствовал"], moreInformationColumn: -1}, [], []],
       show_search_modal: false,
       show_filter_params_modal: false,
       filter_params: {date_from: "30.01.2001"},
@@ -58,7 +60,10 @@ export default {
 
           this.fullName = data.surname + " " + data.name[0] + ". " + data.patronymic[0] + "."
 
-          this.dataForTable = [{ columnNames: ["Дата смены", "Зона", "Присутствовал"], moreInformationColumn: -1 }, [], []]
+          this.dataForTable = [{
+            columnNames: ["Дата смены", "Зона", "Присутствовал"],
+            moreInformationColumn: -1
+          }, [], []]
           if (data.shifts) {
             for (let i = 0; i < data.shifts.length; i++) {
               let id = i;
@@ -80,22 +85,22 @@ export default {
   methods: {
     show_search() {
       axios.get("/api/zone/all")
-        .then(response => {
-          let data = response.data
-          console.log(data)
+          .then(response => {
+            let data = response.data
+            console.log(data)
 
-          this.options_zones = []
-          this.zones_mapping = []
-          for (let i = 0; i < data.length; i++) {
-            this.options_zones.push(data[i].name)
-            this.zones_mapping.push({zoneId: data[i].zoneId, name: data[i].name})
-          }
+            this.options_zones = []
+            this.zones_mapping = []
+            for (let i = 0; i < data.length; i++) {
+              this.options_zones.push(data[i].name)
+              this.zones_mapping.push({zoneId: data[i].zoneId, name: data[i].name})
+            }
 
-          this.show_search_modal = true    
-        })
-        .catch(e => {
-          console.log(e)
-        })
+            this.show_search_modal = true
+          })
+          .catch(e => {
+            console.log(e)
+          })
     },
     close_search() {
       this.show_search_modal = false
@@ -107,7 +112,7 @@ export default {
       if (this.filter_params.zones) {
         filterZoneIds = []
         this.filter_params.zones.forEach(zone => {
-          let zone_pair = this.zones_mapping.find(zone_pair =>{
+          let zone_pair = this.zones_mapping.find(zone_pair => {
             return zone_pair.name === zone
           })
           filterZoneIds.push(zone_pair.zoneId)
@@ -130,31 +135,34 @@ export default {
         }
       };
       axios.post(
-        "/api/shifts/filter",
-        JSON.stringify(filterParams),
-        customConfig
+          "/api/shifts/filter",
+          JSON.stringify(filterParams),
+          customConfig
       )
-      .then(response => {
-        let data = response.data
-        console.log("FILTER RESPONSE")
-        console.log(data)
-        
-        this.dataForTable = [{ columnNames: ["Дата смены", "Зона", "Присутствовал"], moreInformationColumn: -1 }, [], []]
-        for (let i = 0; i < data.length; i++) {
-          let id = i;
-          this.dataForTable[1].push([
-            data[i].date,
-            data[i].zoneId,
-            data[i].attended ? "Да" : "Нет",
-          ],);
-          this.dataForTable[2].push([
-            id, -1, -1 //последний айди - айди строки
-          ])
-        }
-      })
-      .catch(e => {
-        console.log(e)
-      })
+          .then(response => {
+            let data = response.data
+            console.log("FILTER RESPONSE")
+            console.log(data)
+
+            this.dataForTable = [{
+              columnNames: ["Дата смены", "Зона", "Присутствовал"],
+              moreInformationColumn: -1
+            }, [], []]
+            for (let i = 0; i < data.length; i++) {
+              let id = i;
+              this.dataForTable[1].push([
+                data[i].date,
+                data[i].zoneId,
+                data[i].attended ? "Да" : "Нет",
+              ],);
+              this.dataForTable[2].push([
+                id, -1, -1 //последний айди - айди строки
+              ])
+            }
+          })
+          .catch(e => {
+            console.log(e)
+          })
     },
     show_filter_params() {
       this.show_filter_params_modal = true

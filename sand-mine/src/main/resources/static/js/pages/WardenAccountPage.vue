@@ -10,8 +10,10 @@
       <span class="default-size">Должность: {{ employee_position }} </span> <br>
       <span class="default-size">Паспортные данные: {{ passport }} </span> <br>
       <span class="default-size">Доступ в зоны: {{ zone }} </span> <br>
-      <span class="default-size span_password" v-if="revealPassword" @click="togglePasswordVisibility">Пароль: {{password}}</span>
-      <span class="default-size span_password" v-else @click="togglePasswordVisibility">Пароль: {{"*".repeat(password.length)}}</span>
+      <span class="default-size span_password" v-if="revealPassword"
+            @click="togglePasswordVisibility">Пароль: {{ password }}</span>
+      <span class="default-size span_password" v-else
+            @click="togglePasswordVisibility">Пароль: {{ "*".repeat(password.length) }}</span>
       <br>
 
       <button class="button small_button" @click="shifts">Смены</button>
@@ -25,7 +27,7 @@
 
 <script>
 import axios from 'axios'
-import { AUTHORIZATION_PAGE_NAME, CHECK_PASS_PAGE_NAME, SHIFTS_LIST_PAGE_NAME} from "../router/component_names";
+import {AUTHORIZATION_PAGE_NAME, CHECK_PASS_PAGE_NAME, SHIFTS_LIST_PAGE_NAME} from "../router/component_names";
 
 export default {
   data() {
@@ -62,10 +64,10 @@ export default {
       this.revealPassword = !this.revealPassword
     },
     shifts() {
-      this.$router.push({name: SHIFTS_LIST_PAGE_NAME, params: { id: this.id}})
+      this.$router.push({name: SHIFTS_LIST_PAGE_NAME, params: {id: this.id}})
     },
-    check_pass(){
-      this.$router.push({name: CHECK_PASS_PAGE_NAME, params: { id: this.id}});
+    check_pass() {
+      this.$router.push({name: CHECK_PASS_PAGE_NAME, params: {id: this.id}});
     },
     parse_zones(zonesIds) {
       axios.get("/api/zone/all")

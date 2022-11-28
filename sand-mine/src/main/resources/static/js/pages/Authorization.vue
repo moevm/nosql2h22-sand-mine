@@ -2,22 +2,22 @@
   <div class="background-parent">
     <div class="background">
       <label>Телефон или электронная почта</label>
-      <br />
+      <br/>
       <input
-        placeholder="Телефон/e-mail"
-        v-model="login"
-        class="with-bot-margin-medium"
+          placeholder="Телефон/e-mail"
+          v-model="login"
+          class="with-bot-margin-medium"
       />
-      <br />
+      <br/>
       <label>Пароль</label>
-      <br />
+      <br/>
       <input
-        type="password"
-        v-model="password"
-        placeholder="Пароль"
-        class="with-bot-margin-medium"
+          type="password"
+          v-model="password"
+          placeholder="Пароль"
+          class="with-bot-margin-medium"
       />
-      <br />
+      <br/>
       <div class="default_text error_text" v-show="wrongLoginCredentials" visible>Введены неправильные данные</div>
       <button class="button" @click="authorize">Авторизоваться</button>
     </div>
@@ -40,35 +40,41 @@ export default {
   methods: {
     authorize() {
       console.log(this.login, this.password)
-      
+
       let customConfig = {
         headers: {
           'Content-Type': 'application/json'
         }
       }
       axios.post(
-        "/auth",
-        JSON.stringify({login: this.login, password: this.password}),
-        customConfig
+          "/auth",
+          JSON.stringify({login: this.login, password: this.password}),
+          customConfig
       )
-      .then(response => {
-        let workerId = response.data.workerId
-        let workerType = response.data.workerType
+          .then(response => {
+            let workerId = response.data.workerId
+            let workerType = response.data.workerType
 
-        this.wrongLoginCredentials = false
-        switch (workerType) {
-          case "worker": this.$router.push({name: WORKER_ACC_PAGE_NAME, params: { id: workerId}}); break;
-          case "admin": this.$router.push({name: ADMINISTRATOR_PAGE_NAME, params: { id: workerId}}); break;
-          case "warden": this.$router.push({name: WARDEN_ACC_PAGE_NAME, params: { id: workerId}}); break;
-        }
-        
-      })
-      .catch(e => {
-        this.wrongLoginCredentials = true
-          setTimeout(() => {
             this.wrongLoginCredentials = false
-          }, 3000);
-      })
+            switch (workerType) {
+              case "worker":
+                this.$router.push({name: WORKER_ACC_PAGE_NAME, params: {id: workerId}});
+                break;
+              case "admin":
+                this.$router.push({name: ADMINISTRATOR_PAGE_NAME, params: {id: workerId}});
+                break;
+              case "warden":
+                this.$router.push({name: WARDEN_ACC_PAGE_NAME, params: {id: workerId}});
+                break;
+            }
+
+          })
+          .catch(e => {
+            this.wrongLoginCredentials = true
+            setTimeout(() => {
+              this.wrongLoginCredentials = false
+            }, 3000);
+          })
     }
   }
 }

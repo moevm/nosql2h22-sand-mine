@@ -26,7 +26,7 @@ export default {
       employee_position: "",
       passport: "",
       pass: false,
-      zones : []
+      zones: []
     }
   },
   created() {

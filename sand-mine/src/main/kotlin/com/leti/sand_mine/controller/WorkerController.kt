@@ -228,8 +228,8 @@ class WorkerController(
     }
 
     @GetMapping("/admins")
-    fun allAdmins():List<WorkerDTO>{
-        return workerRepository.findAllByRole("admin").map{worker -> WorkerDTO.toDto(worker)}
+    fun allAdmins(): List<WorkerDTO> {
+        return workerRepository.findAllByRole("admin").map { worker -> WorkerDTO.toDto(worker) }
     }
 
 

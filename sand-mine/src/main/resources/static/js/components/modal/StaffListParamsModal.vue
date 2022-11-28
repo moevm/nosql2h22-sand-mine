@@ -3,10 +3,10 @@
     <template #body>
       <div style="text-align: center" class="with-bot-margin-medium">
         <span class="default-size" v-if="is_empty()">Нет параметров  <br> </span>
-        <span class="default-size" v-if="data.full_name">ФИО: {{data.full_name}} <br> </span>
-        <span class="default-size" v-if="data.phone">Телефон: {{data.phone}} <br> </span>
-        <span class="default-size" v-if="roles">Должность: {{roles}}  <br> </span>
-        <span class="default-size" v-if="zones">Доступ в зоны: {{zones}} </span>
+        <span class="default-size" v-if="data.full_name">ФИО: {{ data.full_name }} <br> </span>
+        <span class="default-size" v-if="data.phone">Телефон: {{ data.phone }} <br> </span>
+        <span class="default-size" v-if="roles">Должность: {{ roles }}  <br> </span>
+        <span class="default-size" v-if="zones">Доступ в зоны: {{ zones }} </span>
       </div>
     </template>
     <template #footer>
@@ -22,8 +22,8 @@ export default {
   name: "StaffListParamsModal",
   components: {Modal},
   props: [
-      "close",
-      "data"
+    "close",
+    "data"
   ],
   data() {
     return {

@@ -3,10 +3,10 @@
     <template #body>
       <div style="text-align: center" class="with-bot-margin-medium">
         <span class="default-size" v-if="is_empty()">Нет параметров  <br> </span>
-        <span class="default-size" v-if="data.date_from">Дата с: {{data.date_from}} <br> </span>
-        <span class="default-size" v-if="data.date_to">Дата по: {{data.date_to}} <br> </span>
-        <span class="default-size" v-if="data.zones">Зоны: {{this.zones}}  <br> </span>
-        <span class="default-size" v-if="data.attended">Присуттвовал: {{data.attended}}  <br> </span>
+        <span class="default-size" v-if="data.date_from">Дата с: {{ data.date_from }} <br> </span>
+        <span class="default-size" v-if="data.date_to">Дата по: {{ data.date_to }} <br> </span>
+        <span class="default-size" v-if="data.zones">Зоны: {{ this.zones }}  <br> </span>
+        <span class="default-size" v-if="data.attended">Присуттвовал: {{ data.attended }}  <br> </span>
       </div>
     </template>
     <template #footer>

@@ -16,8 +16,8 @@
 
 <script>
 export default {
-  methods:{
-    goToProductionPage(){
+  methods: {
+    goToProductionPage() {
       this.$router.push('/production');
     }
   }

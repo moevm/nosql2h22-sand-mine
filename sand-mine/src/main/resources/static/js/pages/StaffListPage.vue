@@ -1,7 +1,9 @@
 <template>
   <div class="div-for-table">
     <div class="div-search-button">
-      <button class="button one_line_buttons with-bot-margin-large" style="width: 250px; float: right" @click="show_search()">Поиск</button>
+      <button class="button one_line_buttons with-bot-margin-large" style="width: 250px; float: right"
+              @click="show_search()">Поиск
+      </button>
     </div>
     <Table :data-for-table="dataForTable" :more="more_information">
     </Table>
@@ -27,7 +29,7 @@
 
 <script>
 import axios from 'axios'
-import { SUBORDINATE_PAGE_NAME } from '../router/component_names'
+import {SUBORDINATE_PAGE_NAME} from '../router/component_names'
 import Table from "../components/table/Table.vue";
 import Modal from "../components/modal/Modal.vue";
 import StaffListSearchModal from "../components/modal/StaffListSearchModal.vue";
@@ -38,7 +40,7 @@ export default {
   components: {StaffListParamsModal, StaffListSearchModal, Modal, Table},
   data() {
     return {
-      dataForTable: [{ columnNames: ["ФИО", 'Телефон', 'Должность', "Доступ в зоны"], moreInformationColumn: 0 }, [], []],
+      dataForTable: [{columnNames: ["ФИО", 'Телефон', 'Должность', "Доступ в зоны"], moreInformationColumn: 0}, [], []],
       title: "Поиск",
       options_zones: [],
       options_roles: [],
@@ -65,8 +67,11 @@ export default {
 
     let workers = workers_response.data
 
-    this.dataForTable = [{ columnNames: ["ФИО", 'Телефон', 'Должность', "Доступ в зоны"], moreInformationColumn: 0 }, [], []]
-    
+    this.dataForTable = [{
+      columnNames: ["ФИО", 'Телефон', 'Должность', "Доступ в зоны"],
+      moreInformationColumn: 0
+    }, [], []]
+
     for (let i = 0; i < workers.length; i++) {
       this.dataForTable[1].push([
         workers[i].surname + " " + workers[i].name + " " + workers[i].patronymic,
@@ -76,7 +81,7 @@ export default {
       ],)
       this.dataForTable[2].push([
         workers[i].workerId, -1, -1, -1, -1, -1 //последний айди - айди строки
-      ]) 
+      ])
     }
   },
   methods: {
@@ -88,12 +93,12 @@ export default {
     },
     submit_search(filter_params) {
       this.filter_params = filter_params
-      
+
       let filterZoneIds = null
       if (this.filter_params.zones) {
         filterZoneIds = []
         this.filter_params.zones.forEach(zone => {
-          let zone_pair = this.zones_mapping.find(zone_pair =>{
+          let zone_pair = this.zones_mapping.find(zone_pair => {
             return zone_pair.name === zone
           })
           filterZoneIds.push(zone_pair.zoneId)
@@ -115,32 +120,35 @@ export default {
         }
       };
       axios.post(
-        "/api/worker/filter",
-        JSON.stringify(filterParams),
-        customConfig
+          "/api/worker/filter",
+          JSON.stringify(filterParams),
+          customConfig
       )
-      .then(response => {
-        let workers = response.data
-        console.log("FILTER RESPONSE")
-        console.log(workers)
+          .then(response => {
+            let workers = response.data
+            console.log("FILTER RESPONSE")
+            console.log(workers)
 
-        this.dataForTable = [{ columnNames: ["ФИО", 'Телефон', 'Должность', "Доступ в зоны"], moreInformationColumn: 0 }, [], []]
-    
-        for (let i = 0; i < workers.length; i++) {
-          this.dataForTable[1].push([
-            workers[i].surname + " " + workers[i].name + " " + workers[i].patronymic,
-            workers[i].phoneNumber,
-            workers[i].role,
-            this.parse_zones(workers[i].zonesWithAccess)
-          ],)
-          this.dataForTable[2].push([
-            workers[i].workerId, -1, -1, -1, -1, -1 //последний айди - айди строки
-          ]) 
-        }
-      })
-      .catch(e => {
-        console.log(e)
-      })
+            this.dataForTable = [{
+              columnNames: ["ФИО", 'Телефон', 'Должность', "Доступ в зоны"],
+              moreInformationColumn: 0
+            }, [], []]
+
+            for (let i = 0; i < workers.length; i++) {
+              this.dataForTable[1].push([
+                workers[i].surname + " " + workers[i].name + " " + workers[i].patronymic,
+                workers[i].phoneNumber,
+                workers[i].role,
+                this.parse_zones(workers[i].zonesWithAccess)
+              ],)
+              this.dataForTable[2].push([
+                workers[i].workerId, -1, -1, -1, -1, -1 //последний айди - айди строки
+              ])
+            }
+          })
+          .catch(e => {
+            console.log(e)
+          })
     },
     show_filter_params() {
       this.show_filter_params_modal = true
@@ -155,7 +163,7 @@ export default {
       let mapped_zones = []
       if (zones) {
         zones.forEach(zone_id => {
-          let zone_pair = this.zones_mapping.find(zone_pair =>{
+          let zone_pair = this.zones_mapping.find(zone_pair => {
             return zone_pair.zoneId === zone_id
           })
           mapped_zones.push(zone_pair.name)

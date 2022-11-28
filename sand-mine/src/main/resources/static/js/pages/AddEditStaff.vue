@@ -2,66 +2,66 @@
   <div class="background-parent">
     <div class="background">
       <label class="input-hint-text-small">ФИО</label>
-      <br />
+      <br/>
       <input
-        placeholder="ФИО"
-        v-model="fullName"
-        class="with-bot-margin-medium"
+          placeholder="ФИО"
+          v-model="fullName"
+          class="with-bot-margin-medium"
       />
-      <br />
+      <br/>
 
       <label class="input-hint-text-small">Телефон</label>
-      <br />
+      <br/>
       <input
-        placeholder="Телефон"
-        v-model="phone"
-        class="with-bot-margin-medium"
+          placeholder="Телефон"
+          v-model="phone"
+          class="with-bot-margin-medium"
       />
-      <br />
+      <br/>
 
       <label class="input-hint-text-small">Почта</label>
-      <br />
+      <br/>
       <input
-        placeholder="Почта"
-        v-model="email"
-        class="with-bot-margin-medium"
+          placeholder="Почта"
+          v-model="email"
+          class="with-bot-margin-medium"
       />
-      <br />
+      <br/>
 
       <label class="input-hint-text-small">Серия и номер паспорта</label>
-      <br />
+      <br/>
       <input
-        placeholder="Серия и номер паспорта"
-        v-model="passport"
-        class="with-bot-margin-medium"
+          placeholder="Серия и номер паспорта"
+          v-model="passport"
+          class="with-bot-margin-medium"
       />
-      <br />
+      <br/>
 
       <label class="input-hint-text-small">Должность</label>
-      <br />
+      <br/>
       <input
-        placeholder="Должность"
-        v-model="role"
-        class="with-bot-margin-medium"
+          placeholder="Должность"
+          v-model="role"
+          class="with-bot-margin-medium"
       />
-      <br />
+      <br/>
 
       <label class="input-hint-text-small">Зоны доступа</label>
-      <br />
+      <br/>
       <Multiselect
-        class="with-bot-margin-medium"
-        mode="multiple"
-        :close-on-select="false"
-        :options="this.optionsZone"
-        :clear-on-select="false"
-        :preserve-search="true"
-        placeholder="Зоны доступа"
-        :preselect-first="true"
-        v-model="zones"
-        :multiple="true"
+          class="with-bot-margin-medium"
+          mode="multiple"
+          :close-on-select="false"
+          :options="this.optionsZone"
+          :clear-on-select="false"
+          :preserve-search="true"
+          placeholder="Зоны доступа"
+          :preselect-first="true"
+          v-model="zones"
+          :multiple="true"
       >
       </Multiselect>
-      <br />
+      <br/>
 
       <button class="button" @click="addOrEditStaff">
         Добавить (Изменить)
@@ -73,10 +73,11 @@
 
 <script>
 import Multiselect from "@vueform/multiselect";
+
 export default {
   name: "AddEditStaffPage",
   components: {
-      Multiselect
+    Multiselect
   },
   data() {
     return {
@@ -99,12 +100,12 @@ export default {
     },
     addOrEditStaff(staffData) {
       let data = {
-          fullName: this.fullName,
-          phone: this.phone,
-          email: this.email,
-          passport: this.passport,
-          role: this.role,
-          zones: this.zones
+        fullName: this.fullName,
+        phone: this.phone,
+        email: this.email,
+        passport: this.passport,
+        role: this.role,
+        zones: this.zones
       }
       console.log(data)
     },

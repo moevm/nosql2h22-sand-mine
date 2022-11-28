@@ -354,9 +354,9 @@ export default {
           continue;
         }
 
-        if (params.zones || params.last_editor){//zones and editors
+        if (params.zones || params.last_editor) {//zones and editors
           let flag = false;
-          if(params.last_editor && params.last_editor.length>0) {
+          if (params.last_editor && params.last_editor.length > 0) {
             for (let editor of params.last_editor) {
               if (editor === this.data_for_table[1][row_ind][3]) {
                 flag = true;
@@ -364,7 +364,7 @@ export default {
               }
             }
           }
-          if(params.zones && params.zones.length>0) {
+          if (params.zones && params.zones.length > 0) {
             for (let zone of params.zones) {
               if (zone === this.data_for_table[1][row_ind][2]) {
                 flag = true;
@@ -372,9 +372,9 @@ export default {
               }
             }
           }
-          if(flag){
+          if (flag) {
             row_ind++;
-          }else{
+          } else {
             this.data_for_table[1].splice(row_ind, 1)
             this.data_for_table[2].splice(row_ind, 1)
           }

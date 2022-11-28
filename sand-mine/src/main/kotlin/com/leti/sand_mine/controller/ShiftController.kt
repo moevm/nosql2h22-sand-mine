@@ -177,7 +177,7 @@ class ShiftController(
             shiftRepository.getFilteredShiftList(shiftFilterDto.workerId, dateFrom, dateTo, attended, zoneIds)
         }
 
-        return shiftSet.map {shift ->
+        return shiftSet.map { shift ->
             with(shift) {
                 ShiftDTO(
                     id,

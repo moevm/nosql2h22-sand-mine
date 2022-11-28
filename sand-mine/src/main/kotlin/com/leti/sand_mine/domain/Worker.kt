@@ -9,16 +9,16 @@ import org.springframework.data.neo4j.core.schema.Relationship
 @Node("WORKER")
 data class Worker(
     @Id @GeneratedValue var id: Long? = null,
-    @Property(name="surname") var surname: String,
-    @Property(name="name") var name: String,
-    @Property(name="patronymic") var patronymic: String,
-    @Property(name="email") var email: String,
-    @Property(name="phone_number") var phoneNumber: String,
-    @Property(name="passport") var passport: String,
-    @Property(name="role") var role: String,
-    @Property(name="pass_id") var passId: Long,
-    @Property(name="password") var password: String,
+    @Property(name = "surname") var surname: String,
+    @Property(name = "name") var name: String,
+    @Property(name = "patronymic") var patronymic: String,
+    @Property(name = "email") var email: String,
+    @Property(name = "phone_number") var phoneNumber: String,
+    @Property(name = "passport") var passport: String,
+    @Property(name = "role") var role: String,
+    @Property(name = "pass_id") var passId: Long,
+    @Property(name = "password") var password: String,
 
-    @Relationship(type="HAS_ACCESS_TO", direction=Relationship.Direction.OUTGOING) var zonesWithAccess: Set<Zone>,
-    @Relationship(type="HAS_SHIFT", direction=Relationship.Direction.OUTGOING) var shifts: Set<Shift>
+    @Relationship(type = "HAS_ACCESS_TO", direction = Relationship.Direction.OUTGOING) var zonesWithAccess: Set<Zone>,
+    @Relationship(type = "HAS_SHIFT", direction = Relationship.Direction.OUTGOING) var shifts: Set<Shift>
 )

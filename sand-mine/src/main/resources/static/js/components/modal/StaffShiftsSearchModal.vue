@@ -52,6 +52,7 @@
 <script>
 import Modal from "./Modal.vue";
 import Multiselect from "@vueform/multiselect";
+
 export default {
   props: [
     "submit",

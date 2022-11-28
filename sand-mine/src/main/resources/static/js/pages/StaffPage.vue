@@ -1,20 +1,22 @@
 <template>
   <div class="background-parent">
     <div class="background">
-      <span class="default-size">ФИО: {{fullName}}</span>
+      <span class="default-size">ФИО: {{ fullName }}</span>
       <br>
-      <span class="default-size">Телефон: {{phone}}</span>
+      <span class="default-size">Телефон: {{ phone }}</span>
       <br>
-      <span class="default-size">Почта: {{email}}</span>
+      <span class="default-size">Почта: {{ email }}</span>
       <br>
-      <span class="default-size">Должность: {{role}}</span>
+      <span class="default-size">Должность: {{ role }}</span>
       <br>
-      <span class="default-size">Доступ в зоны: {{zones}}</span>
+      <span class="default-size">Доступ в зоны: {{ zones }}</span>
       <br>
-      <span class="default-size">Паспортные данные: {{passportData}}</span>
+      <span class="default-size">Паспортные данные: {{ passportData }}</span>
       <br>
-      <span class="default-size span_password" v-if="revealPassword" @click="togglePasswordVisibility">Пароль: {{password}}</span>
-      <span class="default-size span_password" v-else @click="togglePasswordVisibility">Пароль: {{"*".repeat(password.length)}}</span>
+      <span class="default-size span_password" v-if="revealPassword"
+            @click="togglePasswordVisibility">Пароль: {{ password }}</span>
+      <span class="default-size span_password" v-else
+            @click="togglePasswordVisibility">Пароль: {{ "*".repeat(password.length) }}</span>
       <br>
       <button class="button small_button" @click="navigateShifts">Смены</button>
     </div>

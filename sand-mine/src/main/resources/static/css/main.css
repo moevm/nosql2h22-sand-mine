@@ -1,6 +1,7 @@
 .main {
     background-color: rgb(252, 221, 118)
 }
+
 .background-parent {
     position: absolute;
     top: 0;
@@ -8,6 +9,7 @@
     bottom: 0;
     right: 0;
 }
+
 /*пока так сделал если что доделаю/переделаю */
 .background {
     background-color: white;
@@ -22,13 +24,15 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
+
 .background span, input, button {
     width: 100%;
     margin: 4px 0;
 }
-.div-for-table{
-    margin:7% auto;
-    width:60%;
+
+.div-for-table {
+    margin: 7% auto;
+    width: 60%;
 }
 
 .div-search-button {

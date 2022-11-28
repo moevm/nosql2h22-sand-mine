@@ -11,11 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 
 @Configuration
-class WebMvcConfig : WebMvcConfigurer{
+class WebMvcConfig : WebMvcConfigurer {
     @Bean
     fun webServerCustomizer(): WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
-        return WebServerFactoryCustomizer {container: ConfigurableServletWebServerFactory ->
-            container.addErrorPages(ErrorPage(HttpStatus.NOT_FOUND,"/"))
+        return WebServerFactoryCustomizer { container: ConfigurableServletWebServerFactory ->
+            container.addErrorPages(ErrorPage(HttpStatus.NOT_FOUND, "/"))
         }
     }
 }

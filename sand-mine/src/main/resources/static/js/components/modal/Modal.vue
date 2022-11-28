@@ -1,8 +1,8 @@
-<template >
+<template>
   <div class="modal-backdrop" @click="close">
     <div class="modal">
       <header class="modal-header">
-        <h1 class="modal-title">{{title}}</h1>
+        <h1 class="modal-title">{{ title }}</h1>
       </header>
       <section class="modal-body">
         <slot name="body"
@@ -25,9 +25,7 @@ export default {
       required: false
     }
   },
-  methods: {
-
-  }
+  methods: {}
 };
 </script>
 
@@ -54,18 +52,23 @@ export default {
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-  &__title {
-    font-weight: 600;
-    font-size: 24px;
-    display: block;
-    color: var(--black-title);
-    margin-bottom: 30px;
-  }
-  &-footer {
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
-  }
+
+&
+__title {
+  font-weight: 600;
+  font-size: 24px;
+  display: block;
+  color: var(--black-title);
+  margin-bottom: 30px;
+}
+
+&
+-footer {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+}
+
 }
 
 .btn-close {

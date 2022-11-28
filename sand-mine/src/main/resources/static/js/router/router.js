@@ -50,7 +50,7 @@ const routes = [
     {path: IMPORT_EXPORT_PAGE_PATH, name: IMPORT_EXPORT_PAGE_NAME, component: ImportExportPage},
     {path: STAFF_LIST_PAGE_PATH, name: STAFF_LIST_PAGE_NAME, component: StaffListPage},
     {path: FIND_STAFF_PAGE_PATH, name: FIND_STAFF_PAGE_NAME, component: FindStaffPage},
-    {path: WORKER_ACC_PAGE_PATH,name: WORKER_ACC_PAGE_NAME,component: StaffPage},
+    {path: WORKER_ACC_PAGE_PATH, name: WORKER_ACC_PAGE_NAME, component: StaffPage},
     {path: SHIFTS_LIST_PAGE_PATH, name: SHIFTS_LIST_PAGE_NAME, component: ShiftsListPage},
     {path: SUBORDINATE_PAGE_PATH, name: SUBORDINATE_PAGE_NAME, component: SubordinatePage},
     {path: WARDEN_ACC_PAGE_PATH, name: WARDEN_ACC_PAGE_NAME, component: WardenAccPage},

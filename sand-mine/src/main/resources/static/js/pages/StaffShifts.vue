@@ -64,29 +64,19 @@ export default {
         zones: null,
         dateStart: null,
         dateEnd: null,
-      }
+      },
+      zones: null
     }
   },
   async created() {
     const [workersWithShifts, zones] = await Promise.all([
       axios.get(`/api/shifts/all`),
       axios.get(`/api/zone/all`)
-    ]);
+    ])
     console.log(workersWithShifts)
     zones.data.forEach(zone => this.optionsZone.push(zone.name))
-
-    workersWithShifts.data.forEach((worker) => {
-      this.dataForTable[1].push([
-        worker.surname + " " + worker.name[0] + "." + worker.patronymic[0] + ".",
-        worker.phoneNumber + " / " + worker.email,
-        worker.role,
-        this.parse_zone(worker.zoneId, zones.data),
-        worker.date
-      ])
-      this.dataForTable[2].push([
-        worker.workerId, -1, -1, -1, -1, -1
-      ])
-    })
+    this.zones = zones.data
+    this.apply_data(workersWithShifts.data)
   },
   methods: {
     navigateStaffAccount(id) {
@@ -100,7 +90,38 @@ export default {
     },
     submitSearch(searchData) {
       this.searchData = searchData
+      let customConfig = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
 
+      let zoneIds = []
+      if (searchData.zones) {
+        searchData.zones.forEach(zone => {
+          let temp = this.zones.find((it) => {
+            return it.name === zone
+          })?.zoneId
+          if (temp) {
+            zoneIds.push(temp)
+          }
+        })
+      }
+
+      axios.post(
+          "/api/shifts/all/filter",
+          JSON.stringify({
+            fullName: searchData.fullName,
+            phone: searchData.phone,
+            role: searchData.role,
+            zoneIds: zoneIds,
+            dateFrom: searchData.dateStart,
+            dateTo: searchData.dateEnd
+          }),
+          customConfig
+      ).then(response => {
+        this.apply_data(response.data)
+      })
     },
     showSearchParams() {
       this.showSearchParamsModal = true
@@ -111,8 +132,28 @@ export default {
     parse_zone(zoneId, zonesMappings) {
       return zonesMappings
           .find(mapping =>
-              mapping.zoneId = zoneId
+              mapping.zoneId === zoneId
           ).name
+    },
+    apply_data(data) {
+      let dataForTable = [{
+        columnNames: ['ФИО', 'Телефон', 'Должность', 'Зона', 'Дата смены'],
+        editColumn: -1,
+        moreInformationColumn: 0
+      }, [], []]
+      data.forEach((worker) => {
+        dataForTable[1].push([
+          worker.surname + " " + worker.name[0] + "." + worker.patronymic[0] + ".",
+          worker.phoneNumber + " / " + worker.email,
+          worker.role,
+          this.parse_zone(worker.zoneId, this.zones),
+          worker.date
+        ])
+        dataForTable[2].push([
+          worker.workerId, -1, -1, -1, -1, -1
+        ])
+      })
+      this.dataForTable = dataForTable
     }
   }
 }

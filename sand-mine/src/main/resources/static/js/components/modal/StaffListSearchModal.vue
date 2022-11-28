@@ -12,7 +12,21 @@
 
         <label for="role">Должность</label>
         <br>
-        <input class="input" id="role" name="role" v-model="role">
+        <Multiselect
+            class="with-bot-margin-medium"
+            id="roles"
+            label="roles"
+            name="roles"
+            mode="multiple"
+            :close-on-select="false"
+            :options=options_roles
+            :clear-on-select="false"
+            :preserve-search="true"
+            placeholder="Должность"
+            :preselect-first="true"
+            v-model="roles"
+            :multiple="true">
+        </Multiselect>
 
         <label for="zones">Зоны доступа</label>
         <br>
@@ -34,8 +48,8 @@
       </div>
     </template>
     <template #footer>
-      <button class="button with-top-margin-medium" @click="submit">Подтвердить</button>
-      <button class="button with-top-margin-medium" @click="close">Отмена</button>
+      <button class="button with-top-margin-medium" @click="submit_">Подтвердить</button>
+      <button class="button with-top-margin-medium" @click="close_">Отмена</button>
       <button class="button with-light-background with-top-margin-medium" @click="clear_">Очистить</button>
     </template>
   </Modal>
@@ -49,7 +63,8 @@ export default {
   props: [
     "submit",
     "close",
-    "options_zones"
+    "options_zones",
+    "options_roles"
   ],
   components: {
     Modal,
@@ -63,7 +78,7 @@ export default {
       let data = {
         full_name: this.full_name,
         phone: this.phone,
-        role: this.role,
+        roles: this.roles,
         zones: this.zones
       }
       this.submit(data)
@@ -72,7 +87,7 @@ export default {
     clear_() {
       this.full_name = null
       this.phone = null
-      this.role = null
+      this.roles = null
       this.zones = null
     }
   },
@@ -80,7 +95,7 @@ export default {
     return {
       full_name: null,
       phone: null,
-      role: null,
+      roles: null,
       zones: null,
     }
   }

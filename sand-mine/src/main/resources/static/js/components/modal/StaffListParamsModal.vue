@@ -5,7 +5,7 @@
         <span class="default-size" v-if="is_empty()">Нет параметров  <br> </span>
         <span class="default-size" v-if="data.full_name">ФИО: {{data.full_name}} <br> </span>
         <span class="default-size" v-if="data.phone">Телефон: {{data.phone}} <br> </span>
-        <span class="default-size" v-if="data.role">Должность: {{data.role}}  <br> </span>
+        <span class="default-size" v-if="roles">Должность: {{roles}}  <br> </span>
         <span class="default-size" v-if="zones">Доступ в зоны: {{zones}} </span>
       </div>
     </template>
@@ -28,18 +28,20 @@ export default {
   data() {
     return {
       title: 'Параметры поиска',
-      zones: this.parse_zones()
+      zones: this.parse_array(this.data.zones),
+      roles: this.parse_array(this.data.roles),
     }
   },
   methods: {
     is_empty() {
       return this.data.size
     },
-    parse_zones() {
-      if (!this.data.zones) {
+    parse_array(zones_to_parse) {
+      console.log(zones_to_parse)
+      if (!zones_to_parse) {
         return null
       }
-      let zones = this.data.zones.slice()
+      let zones = zones_to_parse.slice()
       if (zones) {
         let zonesString = zones[0]
         zones.shift()

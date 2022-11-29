@@ -32,6 +32,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     // https://mvnrepository.com/artifact/org.neo4j/neo4j-ogm-bolt-native-types
     compileOnly("org.neo4j:neo4j-ogm-bolt-native-types:3.2.38")
+    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
+//    implementation("org.thymeleaf:thymeleaf:3.1.0.RELEASE")
+
 }
 
 tasks.withType<KotlinCompile> {

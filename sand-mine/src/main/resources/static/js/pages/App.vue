@@ -14,16 +14,13 @@ import {AUTHORIZATION_PAGE_NAME} from '../router/component_names'
 export default {
   methods: {
     back() {
-      console.log(this.$router)
-
       this.$router.back();
     },
     check_visibility() {
       return this.$route.name != AUTHORIZATION_PAGE_NAME
     }
-  }
+  },
 }
-
 </script>
 
 <style>

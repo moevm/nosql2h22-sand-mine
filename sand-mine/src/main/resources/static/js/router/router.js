@@ -41,7 +41,9 @@ import {
     WARDEN_ACC_PAGE_NAME,
     WARDEN_ACC_PAGE_PATH,
     WORKER_ACC_PAGE_NAME,
-    WORKER_ACC_PAGE_PATH
+    WORKER_ACC_PAGE_PATH,
+    ADD_STAFF_PAGE_NAME,
+    ADD_STAFF_PAGE_PATH
 } from "./component_names";
 
 const routes = [
@@ -58,7 +60,8 @@ const routes = [
     {path: CHECK_PASS_PAGE_PATH, name: CHECK_PASS_PAGE_NAME, component: CheckPass},
     {path: ADMINISTRATOR_PAGE_PATH, name: ADMINISTRATOR_PAGE_NAME, component: AdministratorPage},
     {path: STAFF_SHIFTS_PAGE_PATH, name: STAFF_SHIFTS_PAGE_NAME, component: StaffShifts},
-    {path: EDIT_STAFF_PAGE_PATH, name: EDIT_STAFF_PAGE_NAME, component: AddEditStaff}
+    {path: EDIT_STAFF_PAGE_PATH, name: EDIT_STAFF_PAGE_NAME, component: AddEditStaff},
+    {path: ADD_STAFF_PAGE_PATH, name: ADD_STAFF_PAGE_NAME, component: AddEditStaff}
 ]
 
 const router = createRouter({

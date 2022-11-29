@@ -1,12 +1,16 @@
 package com.leti.sand_mine.controller
 
+import com.leti.sand_mine.repository.ZoneRepository
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
 @Controller
-class MainController {
+class MainController(private val zoneRepository: ZoneRepository,) {
     @GetMapping
-    fun main(): String {
+    fun main(model: Model): String {
+        val zones = zoneRepository.findAll();
+        model.addAttribute("zones",zones);
         return "index"
     }
 

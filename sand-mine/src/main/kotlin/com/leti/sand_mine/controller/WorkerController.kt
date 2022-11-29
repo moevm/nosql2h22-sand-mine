@@ -228,8 +228,49 @@ class WorkerController(
     }
 
     @GetMapping("/admins")
-    fun allAdmins(): List<WorkerDTO> {
+    fun getAdmins(): List<WorkerDTO> {
         return workerRepository.findAllByRole("admin").map { worker -> WorkerDTO.toDto(worker) }
+    }
+
+    @PostMapping("/phone")
+    fun getWorkerByPhone(@RequestBody phoneNumber:String):WorkerDTO?{
+        val worker: Worker = workerRepository.getWorkerByPhoneNumber(phoneNumber) ?: return null;
+        return WorkerDTO(
+            worker.id,
+            worker.surname,
+            worker.name,
+            worker.patronymic,
+            worker.email,
+            worker.phoneNumber,
+            worker.passport,
+            worker.role,
+            worker.passId,
+            worker.password,
+            worker.zonesWithAccess.map {
+                it.id
+            }
+        )
+    }
+
+    @PostMapping("/email")
+    fun getWorkerByEmail(@RequestBody email:String):WorkerDTO?{
+        val emailFormat:String= email.substring(1,email.length-1)
+        val worker: Worker = workerRepository.getWorkerByEmail(emailFormat) ?: return null;
+        return WorkerDTO(
+            worker.id,
+            worker.surname,
+            worker.name,
+            worker.patronymic,
+            worker.email,
+            worker.phoneNumber,
+            worker.passport,
+            worker.role,
+            worker.passId,
+            worker.password,
+            worker.zonesWithAccess.map {
+                it.id
+            }
+        )
     }
 
 

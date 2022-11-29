@@ -55,4 +55,8 @@ interface WorkerRepository : Neo4jRepository<Worker, Long> {
         @Param("roles") roles: String,
         @Param("zones") zones: String
     ): List<Worker>
+
+    fun getWorkerByPhoneNumber(@Param("phoneNumber") phoneNumber: String):Worker?
+
+    fun getWorkerByEmail(@Param("email") email: String):Worker?
 }

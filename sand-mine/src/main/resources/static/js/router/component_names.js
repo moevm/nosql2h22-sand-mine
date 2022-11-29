@@ -12,6 +12,7 @@ export const CHECK_PASS_PAGE_NAME = "CheckPassPage"
 export const ADMINISTRATOR_PAGE_NAME = "AdministratorPage"
 export const STAFF_SHIFTS_PAGE_NAME = "StaffShiftsPage"
 export const EDIT_STAFF_PAGE_NAME = "EditStaffPage"
+export const ADD_STAFF_PAGE_NAME = "AddStaffPage"
 
 export const AUTHORIZATION_PAGE_PATH = "/"
 export const PRODUCTION_PAGE_PATH = '/production/:id'
@@ -26,4 +27,5 @@ export const USER_PASS_PAGE_PATH = '/user_pass/id=:id&passId=:passId'
 export const CHECK_PASS_PAGE_PATH = '/check_pass/:id'
 export const ADMINISTRATOR_PAGE_PATH = '/administrator_acc/:id'
 export const STAFF_SHIFTS_PAGE_PATH = '/staff_shifts'
-export const EDIT_STAFF_PAGE_PATH = '/edit_staff_page'
+export const EDIT_STAFF_PAGE_PATH = '/edit_staff_page/:id'
+export const ADD_STAFF_PAGE_PATH = '/add_staff_page'

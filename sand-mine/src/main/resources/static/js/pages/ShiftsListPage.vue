@@ -126,7 +126,7 @@ export default {
         })
       }
 
-      let attended = this.filter_params.atteded;
+      let attended = this.filter_params.attended;
       if(attended != null){
         attended = this.filter_params.attended === "Да"
       }

@@ -47,6 +47,9 @@ class ShiftController(
             throw NotFoundException()
         }
 
+        val sortedShifts:Set<Shift> = shiftRepository.getAllShiftsByWorker(workerId);
+        worker.shifts = sortedShifts;
+
         return with(worker) {
             WorkerWithShiftsDTO(
                 id,
@@ -172,7 +175,7 @@ class ShiftController(
         }
 
         val shiftSet = if (!needFiltering) {
-            shiftRepository.findAll().filterNotNull().toSet()
+            shiftRepository.getAllShiftsByWorker(shiftFilterDto.workerId).filterNotNull().toSet()
         } else {
             shiftRepository.getFilteredShiftList(shiftFilterDto.workerId, dateFrom, dateTo, attended, zoneIds)
         }

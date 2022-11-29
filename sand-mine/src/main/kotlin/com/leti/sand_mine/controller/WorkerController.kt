@@ -29,20 +29,34 @@ class WorkerController(
 
     @GetMapping("/get_shifts/{workerId}")
     fun getWorkerShifts(@PathVariable workerId: Long): List<ShiftDTO> {
-        val worker = workerRepository
-            .findByIdOrNull(workerId)
-            ?: throw NotFoundException()
+//        val worker = workerRepository
+//            .findByIdOrNull(workerId)
+//            ?: throw NotFoundException()
+//
+//        with(worker.shifts) {
+//            return map {
+//                ShiftDTO(
+//                    shiftId = it.id,
+//                    date = it.date.asLocalDate(),
+//                    attended = it.attended,
+//                    zoneId = it.zone.id ?: -1
+//                )
+//            }
+//        }
+        val worker = workerRepository.findByIdOrNull(workerId)
 
-        with(worker.shifts) {
-            return map {
-                ShiftDTO(
-                    shiftId = it.id,
-                    date = it.date.asLocalDate(),
-                    attended = it.attended,
-                    zoneId = it.zone.id ?: -1
-                )
-            }
+        if (worker == null) {
+            println("Error: Worker with id $workerId not found")
+            throw NotFoundException()
         }
+
+        return shiftsRepository.getAllShiftsByWorker(workerId)
+            .map{shift -> ShiftDTO(
+                shiftId = shift.id,
+                date = shift.date.asLocalDate(),
+                attended = shift.attended,
+                zoneId = shift.id ?: -1
+            )}.toList();
     }
 
     @GetMapping("/all")
@@ -137,6 +151,9 @@ class WorkerController(
             .mapNotNull { zoneRepository.findByIdOrNull(it) }
             .toSet()
 
+
+        val shifts:Set<Shift> = generateShifts(zonesWithAccess);
+
         with(workerDto) {
             return WorkerDTO.toDto(
                 workerRepository.save(
@@ -151,7 +168,7 @@ class WorkerController(
                         passId = passId,
                         password = randomPassword(),
                         zonesWithAccess = zonesWithAccess,
-                        shifts = generateShifts(zonesWithAccess)
+                        shifts = shifts
                     )
                 )
             )
@@ -289,15 +306,21 @@ class WorkerController(
 
     private fun generateShifts(zones: Set<Zone>): Set<Shift> {
         val shifts = mutableListOf<Shift>()
-        for (i in 1..365) {
-            val today = LocalDate.now()
+        for (i in -365..365) {
+            val today = LocalDate.now().minusDays(i.toLong());
             if (today.dayOfWeek == DayOfWeek.SUNDAY || today.dayOfWeek == DayOfWeek.SATURDAY) {
                 continue
+            }
+            val attended:Boolean;
+            if(i>0){
+                attended = (0..10).random() < 9;
+            }else{
+                attended = false;
             }
             shifts.add(
                 Shift(
                     date = DateValue(today),
-                    attended = (0..10).random() < 9,
+                    attended = attended,
                     zone = zones.random()
                 )
             )

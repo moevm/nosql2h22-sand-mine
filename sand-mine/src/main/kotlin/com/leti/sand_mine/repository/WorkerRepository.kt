@@ -26,7 +26,8 @@ interface WorkerRepository : Neo4jRepository<Worker, Long> {
     @Query(
         "MATCH(worker: WORKER)-[has_shift: HAS_SHIFT]->(shift: SHIFT)-[in:IN]->(zone:ZONE) WHERE worker.name =~ \$name AND worker.surname =~ \$surname " +
                 "AND worker.patronymic =~ \$patronymic AND worker.phone_number =~ \$phone AND worker.role =~ \$role " +
-                "AND shift.date >= \$dateFrom AND shift.date <= \$dateTo AND toString(ID(zone)) =~ \$zoneIds RETURN worker, has_shift, shift, in, zone"
+                "AND shift.date >= \$dateFrom AND shift.date <= \$dateTo AND toString(ID(zone)) =~ \$zoneIds RETURN worker, has_shift, shift, in, zone " +
+                "ORDER BY shift.date"
     )
     fun allShiftsFilter(
         @Param("name") name: String,

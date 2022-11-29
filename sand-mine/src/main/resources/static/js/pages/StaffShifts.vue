@@ -38,6 +38,7 @@ import Modal from "../components/modal/Modal.vue";
 import StaffShiftsParamsModal from "../components/modal/StaffShiftsParamsModal.vue";
 import StaffShiftsSearchModal from "../components/modal/StaffShiftsSearchModal.vue";
 import axios from 'axios'
+import {SUBORDINATE_PAGE_NAME} from "../router/component_names";
 
 export default {
   name: "StaffShiftspage",
@@ -80,7 +81,7 @@ export default {
   },
   methods: {
     navigateStaffAccount(id) {
-      console.log(id)
+      this.$router.push({name: SUBORDINATE_PAGE_NAME, params: {id: id}})
     },
     showSearch() {
       this.showSearchModal = true

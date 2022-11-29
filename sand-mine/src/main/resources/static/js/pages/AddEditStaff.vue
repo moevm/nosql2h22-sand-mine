@@ -182,15 +182,14 @@ export default {
       if(this.$route.params.id) {//edit
         axios.post("/api/worker/edit", JSON.stringify(data), config)
             .then(response => {
-              this.$router.push({name: FIND_STAFF_PAGE_NAME})
+              this.$router.back()
             })
       }else{//add
         axios.post("/api/worker/new",JSON.stringify(data),config)
             .then(response =>{
-              this.$router.push({name:FIND_STAFF_PAGE_NAME})
+              this.$router.back()
             })
       }
-
     },
     fill_options_zone(zones, selected = null) {
       let options_zone = []

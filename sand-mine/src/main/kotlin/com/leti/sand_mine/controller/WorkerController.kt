@@ -273,6 +273,11 @@ class WorkerController(
         )
     }
 
+    @PostMapping("/remove")
+    fun removeWorker(@RequestBody workerId:Long){
+        workerRepository.deleteById(workerId)
+    }
+
 
     private fun randomPassword(): String {
         val length = 10

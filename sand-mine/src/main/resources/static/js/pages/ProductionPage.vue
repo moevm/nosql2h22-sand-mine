@@ -56,7 +56,7 @@ export default {
     axios.get("/api/mine_stats/all")
         .then(response => {
           let data = response.data;
-          this.fill_table(data);
+          this.fill_table(data, true);
         })
     axios.get("/api/worker/admins")
         .then(response => {

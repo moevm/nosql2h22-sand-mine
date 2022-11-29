@@ -69,16 +69,22 @@ export default {
       this.$router.push({name: SHIFTS_LIST_PAGE_NAME, params: {id: this.$route.params.id}})
     },
     parse_zones(zonesIds) {
-      let zonesResult = zonesIds
-      if (zonesResult) {
-        let zonesString = zonesResult[0]
-        zonesResult.shift()
-        for (let zone of zonesResult) {
-          zonesString += ", " + zone
-        }
-        return zonesString
-      }
-      return null
+      axios.get("/api/zone/all")
+        .then(response => {
+          let map = new Map()
+          response.data.forEach((it) => {
+            map.set(it.zoneId, it.name)
+          })
+          if (zonesIds) {
+            let zonesString = map.get(zonesIds[0])
+            
+            zonesIds.shift()
+            for (let zoneId of zonesIds) {
+              zonesString += ", " + map.get(zoneId)
+            }
+            this.zones = zonesString
+          }
+        })
     }
   }
 }

@@ -90,10 +90,16 @@ class WorkerController(
             ?: throw NotFoundException()
 
         val wardenCurrentShift = warden.shifts.find {
-            //TODO change to LocalDate.now()
-            it.date.asLocalDate() == it.date.asLocalDate()
+            it.date.asLocalDate() == LocalDate.now()
         } ?: throw NotFoundException()
 
+        if(worker.zonesWithAccess.contains(wardenCurrentShift.zone)) {//добавляем присутствие
+            val shift:Shift? = worker.shifts.find { it.date.asLocalDate() == LocalDate.now() }
+            if(shift != null){
+                val newShift:Shift = shift.copy(shift.id,shift.date,true,shift.zone)
+                shiftsRepository.save(newShift)
+            }
+        }
         with(worker) {
             return CheckWorkerResponseDTO(
                 surname = surname,

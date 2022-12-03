@@ -27,6 +27,7 @@
 <script>
 import axios from "axios"
 import {ADMINISTRATOR_PAGE_NAME, WARDEN_ACC_PAGE_NAME, WORKER_ACC_PAGE_NAME} from "../router/component_names";
+import Cookies from 'js-cookie'
 
 export default {
   name: "AuthorizationPage",
@@ -67,7 +68,8 @@ export default {
                 this.$router.push({name: WARDEN_ACC_PAGE_NAME, params: {id: workerId}});
                 break;
             }
-
+             localStorage.setItem('role',workerType)
+            localStorage.setItem('name',response.data.workerFullname)
           })
           .catch(e => {
             this.wrongLoginCredentials = true

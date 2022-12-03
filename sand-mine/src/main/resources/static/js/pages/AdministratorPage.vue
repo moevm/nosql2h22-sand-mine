@@ -82,6 +82,10 @@ export default {
           this.passportData = data.passport
           this.password = data.password
           this.zones = this.parse_zones(data.zonesWithAccess)
+
+          //vuex
+          this.$store.state.userName = this.fullName;
+          this.$store.state.userRole = this.role;
         })
         .catch(e => {
           this.$router.push({name: AUTHORIZATION_PAGE_NAME})

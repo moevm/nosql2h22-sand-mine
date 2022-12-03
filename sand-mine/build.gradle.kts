@@ -34,7 +34,6 @@ dependencies {
     compileOnly("org.neo4j:neo4j-ogm-bolt-native-types:3.2.38")
     // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
 //    implementation("org.thymeleaf:thymeleaf:3.1.0.RELEASE")
-
 }
 
 tasks.withType<KotlinCompile> {

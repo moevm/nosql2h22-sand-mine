@@ -102,7 +102,7 @@ export default {
 }
 
 .scroll-table-body {
-  height: 400px;
+  height: 600px;
   overflow-x: auto;
   margin-top: 0;
   margin-bottom: 20px;

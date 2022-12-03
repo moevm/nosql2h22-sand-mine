@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus
 
 data class AuthResponseDto(
     val workerId: Long,
-    val workerType: String
+    val workerType: String,
+    val workerFullname: String
 ) {
 }

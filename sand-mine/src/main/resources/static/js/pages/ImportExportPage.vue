@@ -13,7 +13,7 @@
         Импортировать данные
       </button>
       <button class="button" @click="clear">
-       Очистить данные
+        Очистить данные
       </button>
     </div>
 
@@ -22,44 +22,35 @@
         :close="close_clear"
         :show_modal="show_modal_clear"
     />
+
+    <ImportDataModal
+        :submit="submit_import"
+        :close="close_import"
+        :show_modal="show_modal_import"
+    ></ImportDataModal>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import ClearDataModal from "../components/modal/ClearDataModal.vue";
+import ImportDataModal from "../components/modal/ImportDataModal.vue";
 // import * as fs from "fs/promises"
 
 export default {
   name: "ImportExportPage",
-  components: {ClearDataModal},
+  components: {ImportDataModal, ClearDataModal},
   data() {
     return {
       fileName: "Выберите файл",
       file: null,
-      show_modal_clear:false
+      show_modal_clear: false,
+      show_modal_import:false
     }
   },
   methods: {
     import_() {
-      console.log(this.fileName)
-      let reader = new FileReader();
-      reader.readAsText(this.file)
-
-      reader.onload = () => {
-        // console.log(reader.result)
-        let config = {headers: {'Content-Type': 'application/json'}}
-        let importObject = {
-          data:reader.result,
-          fileName:"asd"
-        }
-        axios.post("/import",
-            JSON.stringify(importObject),
-            config
-        )
-        console.log(importObject)
-        // axios.post("/clear","",config)
-      }
+      this.show_modal_import = true;
     },
     download(data, filename, type) {
       var file = new Blob([data], {type: type});
@@ -81,32 +72,43 @@ export default {
     export_() {
       let parser = new DOMParser();
       axios.get("/export").then(result => {
-        this.download(result.data.data,"new.xml","text/plain");
-        // const link = document.createElement("a");
-        // let blob = new Blob([result.data], {type: 'text/plain'})
-        // console.log(result.data)
-        //
-        // // const url = URL.createObjectURL(blob);
-        // // this.download(url,"a.xml")
-        // // link.href = URL.createObjectURL(blob)
-        // // link.download = "new.xml"
-        // // link.click()
-        // // URL.revokeObjectURL(link.href)
-        // fs.writeFile("new.xml", result.data, "utf-8")
+        this.download(result.data.data, "new.xml", "text/plain");
       })
     },
     change(event) {
       this.fileName = event.target.files[0].name
       this.file = event.target.files[0]
     },
-    clear(){
+    clear() {
       this.show_modal_clear = true;
     },
-    submit_clear(){
+    submit_clear() {
       axios.post("/clear")
     },
-    close_clear(){
+    close_clear() {
       this.show_modal_clear = false;
+    },
+    submit_import(){
+      if(!this.file){
+        alert("Выберите файл!")
+        return
+      }
+      let reader = new FileReader();
+      reader.readAsText(this.file)
+      reader.onload = () => {
+        let config = {headers: {'Content-Type': 'application/json'}}
+        let importObject = {
+          data: reader.result,
+          fileName: "asd"
+        }
+        axios.post("/import",
+            JSON.stringify(importObject),
+            config
+        )
+      }
+    },
+    close_import(){
+      this.show_modal_import=false;
     }
   }
 }

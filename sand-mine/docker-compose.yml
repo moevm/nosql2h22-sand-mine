@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  neo4j:
+    container_name: "sand_mine_neo4j_container"
+    build:
+      context: .
+      dockerfile: "./dockerfile-neo4j"
+      network: host
+      args:
+        - NEO4J_PASSWORD=$NEO4J_PASSWORD
+    network_mode: "host"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  backend:
+    container_name: "sand_mine_backend_container"
+    build:
+      context: .
+      dockerfile: "./dockerfile-backend"
+      network: host
+      args:
+        - NEO4J_PASSWORD=$NEO4J_PASSWORD
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    network_mode: "host"
+    depends_on:
+      - neo4j
+
+  frontend:
+    container_name: "sand_mine_frontend_container"
+    build:
+      context: .
+      dockerfile: "./dockerfile-frontend"
+      network: host
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    network_mode: "host"
+    depends_on:
+      - neo4j

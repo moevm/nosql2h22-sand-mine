@@ -1,0 +1,6 @@
+.gradle
+.idea
+.gitignore
+build
+node_modules
+neo4j

@@ -1,0 +1,23 @@
+FROM ubuntu:16.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Moscow
+
+WORKDIR /
+COPY / /
+
+RUN apt-get update -qq && apt-get install -qq -y curl wget unzip apt-transport-https ca-certificates software-properties-common
+
+# Amazon Corretto 17
+RUN wget -O- https://apt.corretto.aws/corretto.key | apt-key add - 
+RUN add-apt-repository 'deb https://apt.corretto.aws stable main'
+RUN apt-get update -qq && apt-get install -qq -y java-17-amazon-corretto-jdk --fix-missing --no-install-recommends
+
+# Gradle https://services.gradle.org/distributions/gradle-7.4.2-all.zip
+RUN wget https://services.gradle.org/distributions/gradle-7.4.2-all.zip -P /tmp
+RUN unzip -d /opt/gradle /tmp/gradle-7.4.2-all.zip
+ENV PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
+ARG NEO4J_PASSWORD
+ENV NEO4J_PASSWORD=$NEO4J_PASSWORD
+RUN gradle build
+CMD gradle run

@@ -16,19 +16,28 @@
        Очистить данные
       </button>
     </div>
+
+    <ClearDataModal
+        :submit="submit_clear"
+        :close="close_clear"
+        :show_modal="show_modal_clear"
+    />
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import ClearDataModal from "../components/modal/ClearDataModal.vue";
 // import * as fs from "fs/promises"
 
 export default {
   name: "ImportExportPage",
+  components: {ClearDataModal},
   data() {
     return {
       fileName: "Выберите файл",
-      file: null
+      file: null,
+      show_modal_clear:false
     }
   },
   methods: {
@@ -91,7 +100,13 @@ export default {
       this.file = event.target.files[0]
     },
     clear(){
+      this.show_modal_clear = true;
+    },
+    submit_clear(){
       axios.post("/clear")
+    },
+    close_clear(){
+      this.show_modal_clear = false;
     }
   }
 }

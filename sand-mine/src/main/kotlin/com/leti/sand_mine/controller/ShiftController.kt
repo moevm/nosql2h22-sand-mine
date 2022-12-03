@@ -19,7 +19,6 @@ import java.time.LocalDate
 import java.util.*
 import kotlin.reflect.jvm.internal.impl.descriptors.deserialization.PlatformDependentDeclarationFilter.All
 
-
 @RestController
 @RequestMapping("api/shifts")
 class ShiftController(

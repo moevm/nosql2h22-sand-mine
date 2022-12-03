@@ -1,0 +1,16 @@
+FROM ubuntu:16.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Moscow
+
+WORKDIR /
+COPY / /
+
+RUN apt-get update -qq && apt-get install -qq -y curl wget unzip software-properties-common
+
+# Yarn
+RUN apt-get update -qq && curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -qq -y nodejs --fix-missing --no-install-recommends
+RUN npm install -g yarn
+RUN yarn install --locked
+CMD yarn start

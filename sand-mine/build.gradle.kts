@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.14.RELEASE"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
+    application
 }
 
 group = "com.leti"
@@ -34,6 +35,10 @@ dependencies {
     compileOnly("org.neo4j:neo4j-ogm-bolt-native-types:3.2.38")
     // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
 //    implementation("org.thymeleaf:thymeleaf:3.1.0.RELEASE")
+}
+
+application {
+    mainClass.set("com.leti.sand_mine.ApplicationKt")
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,0 +1,35 @@
+FROM ubuntu:16.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Moscow
+
+WORKDIR /
+COPY / /
+
+RUN apt-get update -qq && apt-get install -qq -y curl wget unzip apt-transport-https ca-certificates software-properties-common --fix-missing --no-install-recommends
+
+# Installing Neo4j
+RUN curl -fsSL https://debian.neo4j.com/neotechnology.gpg.key | gpg --dearmor -o /usr/share/keyrings/neo4j.gpg
+RUN echo "deb [signed-by=/usr/share/keyrings/neo4j.gpg] https://debian.neo4j.com stable 4.1" | tee -a /etc/apt/sources.list.d/neo4j.list
+RUN add-apt-repository ppa:openjdk-r/ppa
+RUN apt-get update -qq && apt-get install openjdk-11-jdk -qq -y
+RUN apt update && apt install -y cypher-shell=1:4.1.11 neo4j=1:4.1.11
+
+# Setting up neo4j.conf
+ENV NEO4J_AUTH=neo4j/test
+RUN echo "dbms.default_listen_address=0.0.0.0" | tee -a /etc/neo4j/neo4j.conf
+RUN echo "dbms.allow_upgrade=true" | tee -a /etc/neo4j/neo4j.conf
+RUN echo "apoc.export.file.enabled=true" | tee -a /etc/neo4j/neo4j.conf
+RUN echo "apoc.import.file.enabled=true" | tee -a /etc/neo4j/neo4j.conf
+RUN echo "apoc.import.file.use_neo4j_config=true" | tee -a /etc/neo4j/neo4j.conf
+RUN echo "dbms.security.procedures.unrestricted=apoc.*" | tee -a /etc/neo4j/neo4j.conf
+
+# Installing APOC plugin
+RUN wget https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/4.1.0.10/apoc-4.1.0.10-all.jar \
+    -P /var/lib/neo4j/plugins
+
+RUN systemctl enable neo4j.service
+ARG NEO4J_PASSWORD
+RUN neo4j-admin set-initial-password $NEO4J_PASSWORD
+CMD neo4j console
+    

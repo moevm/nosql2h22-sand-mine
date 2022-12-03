@@ -65,7 +65,7 @@ class ImportExportController {
             it.beginTransaction().use { tx ->
                 tx.run(
                     "CALL apoc.export.graphml.all('$fileName', " +
-                            "{useTypes:true})"
+                            "{batchSize: 10000, readLabels: true, storeNodeIds: false, useTypes:true})"
                 )
                 tx.commit()
             }
@@ -89,7 +89,7 @@ class ImportExportController {
                 )
                 tx.run(
                     "CALL apoc.import.graphml('${importDto.fileName}', " +
-                            "{batchSize: 10000, readLabels: true, storeNodeIds: false})"
+                            "{batchSize: 10000, readLabels: true, storeNodeIds: false, useTypes:true})"
                 )
                 tx.commit()
             }

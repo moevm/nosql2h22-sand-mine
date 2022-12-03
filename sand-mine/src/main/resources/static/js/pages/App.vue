@@ -38,7 +38,7 @@ updated() {
 
   data(){
     return {
-      rolesMap : {"admin":"Администратор", "warden":"Охранник","worker":"Работник"}
+      rolesMap : {"admin-admin":"Администратор","admin":"Администратор", "warden":"Охранник","worker":"Работник"}
     }
   }
 }

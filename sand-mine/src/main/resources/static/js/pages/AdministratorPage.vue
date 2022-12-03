@@ -41,6 +41,9 @@
       <button class="button" @click="navigateStaffShifts">
         Смены персонала
       </button>
+      <button v-if="this.$store.state.userRole==='admin-admin'" class="button" @click="navigateImportExport">
+        Данные
+      </button>
     </div>
   </div>
 </template>
@@ -53,7 +56,7 @@ import {
   PRODUCTION_PAGE_NAME,
   STAFF_LIST_PAGE_NAME,
   FIND_STAFF_PAGE_NAME,
-  STAFF_SHIFTS_PAGE_NAME
+  STAFF_SHIFTS_PAGE_NAME, IMPORT_EXPORT_PAGE_NAME
 } from '../router/component_names'
 
 export default {
@@ -109,6 +112,9 @@ export default {
     },
     navigateStaffShifts() {
       this.$router.push({name: STAFF_SHIFTS_PAGE_NAME})
+    },
+    navigateImportExport(){
+      this.$router.push({name: IMPORT_EXPORT_PAGE_NAME})
     },
     parse_zones(zones) {
       let zonesResult = zones

@@ -1,11 +1,13 @@
 package com.leti.sand_mine.controller
 
+import com.leti.sand_mine.DTO.ExportDTO
 import com.leti.sand_mine.DTO.ImportDTO
 import org.neo4j.driver.AuthTokens
 import org.neo4j.driver.Driver
 import org.neo4j.driver.GraphDatabase
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.io.File
 import java.util.Properties
@@ -57,26 +59,26 @@ class ImportExportController {
     }
 
     @GetMapping("/export")
-    fun exportDatabase(): String {
+    fun exportDatabase(): ExportDTO {
         val fileName = "graph"
         driver.session().use {
             it.beginTransaction().use { tx ->
                 tx.run(
                     "CALL apoc.export.graphml.all('$fileName', " +
-                            "{useTypes:true})"
+                            "{batchSize: 10000, readLabels: true, storeNodeIds: false, useTypes:true})"
                 )
                 tx.commit()
             }
         }
 
-        return File("$importFullPath/$fileName").bufferedReader().use {
+        return ExportDTO(File("$importFullPath/$fileName").bufferedReader().use {
             it.readText()
-        }
+        })
     }
 
 
     @PostMapping("/import")
-    fun importDatabase(importDto: ImportDTO) {
+    fun importDatabase(@RequestBody importDto: ImportDTO) {
         File("$importFullPath/${importDto.fileName}").printWriter().use { out ->
             out.println(importDto.data)
         }
@@ -87,7 +89,7 @@ class ImportExportController {
                 )
                 tx.run(
                     "CALL apoc.import.graphml('${importDto.fileName}', " +
-                            "{batchSize: 10000, readLabels: true, storeNodeIds: false})"
+                            "{batchSize: 10000, readLabels: true, storeNodeIds: false, useTypes:true})"
                 )
                 tx.commit()
             }

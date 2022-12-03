@@ -67,6 +67,9 @@ export default {
               case "warden":
                 this.$router.push({name: WARDEN_ACC_PAGE_NAME, params: {id: workerId}});
                 break;
+              case "admin-admin":
+                this.$router.push({name: ADMINISTRATOR_PAGE_NAME, params: {id: workerId}});
+                break;
             }
              localStorage.setItem('role',workerType)
             localStorage.setItem('name',response.data.workerFullname)

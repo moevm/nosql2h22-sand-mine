@@ -28,20 +28,7 @@ class ImportExportController {
         )
     }
 
-    private val homeDirectory: String by lazy {
-        driver.session().use {
-            it.beginTransaction().use { tx ->
-                val result = tx.run(
-                    "CALL dbms.listConfig() YIELD name, value " +
-                            "WHERE name='dbms.directories.neo4j_home'" +
-                            "RETURN value"
-                )
-                return@lazy result.next().get("value").asString()
-            }
-        }
-    }
-
-    private val importRelativePath: String by lazy {
+    private val importPath: String by lazy {
         driver.session().use {
             it.beginTransaction().use { tx ->
                 val result = tx.run(
@@ -52,10 +39,6 @@ class ImportExportController {
                 return@lazy result.next().get("value").asString()
             }
         }
-    }
-
-    private val importFullPath: String by lazy {
-        "$homeDirectory/$importRelativePath"
     }
 
     @GetMapping("/export")
@@ -71,7 +54,7 @@ class ImportExportController {
             }
         }
 
-        return ExportDTO(File("$importFullPath/$fileName").bufferedReader().use {
+        return ExportDTO(File("$importPath/$fileName").bufferedReader().use {
             it.readText()
         })
     }
@@ -79,7 +62,7 @@ class ImportExportController {
 
     @PostMapping("/import")
     fun importDatabase(@RequestBody importDto: ImportDTO) {
-        File("$importFullPath/${importDto.fileName}").printWriter().use { out ->
+        File("$importPath/${importDto.fileName}").printWriter().use { out ->
             out.println(importDto.data)
         }
         driver.session().use {

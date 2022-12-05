@@ -17,7 +17,5 @@ RUN apt-get update -qq && apt-get install -qq -y java-17-amazon-corretto-jdk --f
 RUN wget https://services.gradle.org/distributions/gradle-7.4.2-all.zip -P /tmp
 RUN unzip -d /opt/gradle /tmp/gradle-7.4.2-all.zip
 ENV PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
-ARG NEO4J_PASSWORD
-ENV NEO4J_PASSWORD=$NEO4J_PASSWORD
 RUN gradle build
 CMD gradle run

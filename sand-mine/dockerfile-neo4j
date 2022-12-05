@@ -16,7 +16,7 @@ RUN apt-get update -qq && apt-get install openjdk-11-jdk -qq -y
 RUN apt update && apt install -y cypher-shell=1:4.1.11 neo4j=1:4.1.11
 
 # Setting up neo4j.conf
-RUN echo "dbms.directories.import=/tmp" | tee -a /etc/neo4j/neo4j.conf
+RUN echo "dbms.directories.import=/shared/tmp" | tee -a /etc/neo4j/neo4j.conf
 RUN echo "dbms.default_listen_address=0.0.0.0" | tee -a /etc/neo4j/neo4j.conf
 RUN echo "dbms.allow_upgrade=true" | tee -a /etc/neo4j/neo4j.conf
 RUN echo "apoc.export.file.enabled=true" | tee -a /etc/neo4j/neo4j.conf

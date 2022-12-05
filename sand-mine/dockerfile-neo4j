@@ -29,7 +29,7 @@ RUN wget https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/downloa
     -P /var/lib/neo4j/plugins
 
 RUN systemctl enable neo4j.service
-ARG NEO4J_PASSWORD
-RUN neo4j-admin set-initial-password $NEO4J_PASSWORD
+RUN neo4j-admin set-initial-password 123456
+RUN neo4j-admin load --database=neo4j --from=init.dump --force
 CMD neo4j console
     

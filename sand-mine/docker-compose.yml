@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: "./dockerfile-neo4j"
       network: host
-      args:
-        - NEO4J_PASSWORD=$NEO4J_PASSWORD
     network_mode: "host"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
@@ -18,8 +16,6 @@ services:
       context: .
       dockerfile: "./dockerfile-backend"
       network: host
-      args:
-        - NEO4J_PASSWORD=$NEO4J_PASSWORD
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     network_mode: "host"

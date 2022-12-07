@@ -23,7 +23,7 @@ class ImportExportController {
         }
         val authTokens = AuthTokens.basic(properties.getProperty(usernameKey), properties.getProperty(passwordKey))
         driver = GraphDatabase.driver(
-            "bolt://localhost:7687",
+            "bolt://neo4j:7687",
             authTokens
         )
     }

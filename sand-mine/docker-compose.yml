@@ -2,36 +2,29 @@ version: "3.9"
 services:
   neo4j:
     container_name: "sand_mine_neo4j_container"
+    ports:
+      - 7474:7474
+      - 7687:7687
     build:
       context: .
       dockerfile: "./dockerfile-neo4j"
-      network: host
-    network_mode: "host"
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
       - "/shared/tmp:/shared/tmp"
 
   backend:
     container_name: "sand_mine_backend_container"
+    ports:
+      - 8080:8080
     build:
       context: .
       dockerfile: "./dockerfile-backend"
-      network: host
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
       - "/shared/tmp:/shared/tmp"
-    network_mode: "host"
-    depends_on:
-      - neo4j
 
   frontend:
     container_name: "sand_mine_frontend_container"
+    ports:
+      - 8000:8000
     build:
       context: .
       dockerfile: "./dockerfile-frontend"
-      network: host
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    network_mode: "host"
-    depends_on:
-      - neo4j

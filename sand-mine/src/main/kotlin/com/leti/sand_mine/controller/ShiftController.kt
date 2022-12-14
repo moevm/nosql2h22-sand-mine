@@ -15,7 +15,9 @@ import org.neo4j.driver.internal.value.DateValue
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.bind.annotation.*
 import com.leti.sand_mine.DTO.AllShiftsFilterDTO
+import com.leti.sand_mine.domain.Worker
 import java.time.LocalDate
+import java.time.ZoneOffset
 import java.util.*
 import kotlin.reflect.jvm.internal.impl.descriptors.deserialization.PlatformDependentDeclarationFilter.All
 
@@ -46,7 +48,7 @@ class ShiftController(
             throw NotFoundException()
         }
 
-        val sortedShifts:Set<Shift> = shiftRepository.getAllShiftsByWorker(workerId);
+        val sortedShifts: Set<Shift> = shiftRepository.getAllShiftsByWorker(workerId);
         worker.shifts = sortedShifts;
 
         return with(worker) {
@@ -98,38 +100,29 @@ class ShiftController(
         val dateTo = filters.dateTo ?: LocalDate.MAX
         val phoneRegular = filters.phone?.replace("+", "\\+?")?.replace(" ", "") ?: ".*"
         val roleRegular = filters.role ?: ".*"
-        val fio = filters.fullName?.split(" ", "\t", "\n", ignoreCase = true)
-        val nameRegular: String
-        val surnameRegular: String
-        val patronymicRegular: String
-        if (fio == null) {
-            nameRegular = ".*"
-            surnameRegular = ".*"
-            patronymicRegular = ".*"
-        } else if (fio.size != 3) {
-            nameRegular = ""
-            surnameRegular = ""
-            patronymicRegular = ""
-        } else {
-            nameRegular = fio[1]
-            surnameRegular = fio[0]
-            patronymicRegular = fio[2]
-        }
+        val nameRegular: String = filters.name ?: ""
+        val surnameRegular: String = filters.surname ?: ""
+        val patronymicRegular: String = filters.patronymic ?: ""
+
         val zoneIdsRegular = filters.zoneIds.takeIf { !it.isNullOrEmpty() }?.joinToString(separator = "|") ?: ".*"
 
         val result = mutableListOf<AllShiftsDTO>()
-        workerRepository.allShiftsFilter(
-            "(?i)$nameRegular",
-            "(?i)$surnameRegular",
-            "(?i)$patronymicRegular",
-            "(?i)${phoneRegular}",
-            "(?i)$roleRegular",
+
+        val shifts: List<Shift> = shiftRepository.allShiftsFilter(
+            "(?i).*${nameRegular}.*",
+            "(?i).*${surnameRegular}.*",
+            "(?i).*${patronymicRegular}.*",
+            "(?i)[0-9]*${phoneRegular}[0-9]*",
+            "(?i)${roleRegular}",
             dateFrom,
             dateTo,
-            "(?i)$zoneIdsRegular"
-        ).map { worker ->
+            "(?i)${zoneIdsRegular}"
+        )
+
+        shifts.map { shift ->
+            val worker: Worker = workerRepository.getWorkerByShift(shift.id)
             with(worker) {
-                result.addAll(shifts.map { shift ->
+                result.add(
                     AllShiftsDTO(
                         id,
                         surname,
@@ -141,9 +134,27 @@ class ShiftController(
                         shift.date.asLocalDate(),
                         shift.zone.id ?: -1,
                     )
-                }.sortedBy { it.date })
+                )
             }
         }
+
+//        workers.map { worker ->
+//            with(worker) {
+//                result.addAll(shifts.map { shift ->
+//                    AllShiftsDTO(
+//                        id,
+//                        surname,
+//                        name,
+//                        patronymic,
+//                        email,
+//                        phoneNumber,
+//                        role,
+//                        shift.date.asLocalDate(),
+//                        shift.zone.id ?: -1,
+//                    )
+//                }.sortedBy { it.date })
+//            }
+//        }
 
         return result
     }

@@ -59,7 +59,9 @@ export default {
       showSearchParamsModal: false,
       optionsZone: [],
       searchData: {
-        fullName: null,
+        surname: null,
+        name: null,
+        patronymic: null,
         phone: null,
         role: null,
         zones: null,
@@ -112,7 +114,9 @@ export default {
       axios.post(
           "/api/shifts/all/filter",
           JSON.stringify({
-            fullName: searchData.fullName,
+            surname: searchData.surname,
+            name: searchData.name,
+            patronymic: searchData.patronymic,
             phone: searchData.phone,
             role: searchData.role,
             zoneIds: zoneIds,

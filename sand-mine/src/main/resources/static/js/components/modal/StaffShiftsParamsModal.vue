@@ -3,7 +3,9 @@
     <template #body>
       <div style="text-align: center" class="with-bot-margin-medium">
         <span class="default-size" v-if="isEmpty()">Нет параметров  <br> </span>
-        <span class="default-size" v-if="data.fullName">ФИО: {{ data.fullName }} <br> </span>
+        <span class="default-size" v-if="data.surname">Фамилия: {{ data.surname }} <br> </span>
+        <span class="default-size" v-if="data.name">Имя: {{ data.name }} <br> </span>
+        <span class="default-size" v-if="data.patronymic">Отчество: {{ data.patronymic }} <br> </span>
         <span class="default-size" v-if="data.phone">Телефон: {{ data.phone }} <br> </span>
         <span class="default-size" v-if="data.role">Должность: {{ data.role }}  <br> </span>
         <span class="default-size" v-if="zones">Зоны: {{ zones }} <br> </span>

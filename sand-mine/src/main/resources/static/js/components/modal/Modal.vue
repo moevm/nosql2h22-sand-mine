@@ -52,6 +52,7 @@ export default {
   display: flex;
   flex-direction: column;
   border-radius: 8px;
+}
 
 &
 __title {
@@ -69,7 +70,7 @@ __title {
   align-items: center;
 }
 
-}
+
 
 .btn-close {
   position: absolute;

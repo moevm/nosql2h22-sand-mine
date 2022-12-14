@@ -2,9 +2,17 @@
   <Modal :title="title">
     <template #body>
       <div>
-        <label class="input-hint-text" for="fullName">ФИО</label>
+        <label class="input-hint-text" for="surname">Фамилия</label>
         <br>
-        <input class="input" id='fullName' name="fullName" v-model="fullName">
+        <input class="input" id='surname' name="surname" v-model="surname">
+
+        <label class="input-hint-text" for="name">Имя</label>
+        <br>
+        <input class="input" id='name' name="name" v-model="name">
+
+        <label class="input-hint-text" for="patronymic">Отчество</label>
+        <br>
+        <input class="input" id='patronymic' name="patronymic" v-model="patronymic">
 
         <label class="input-hint-text" for="phone">Телефон</label>
         <br>
@@ -70,7 +78,9 @@ export default {
     },
     getData_() {
       let data = {
-        fullName: this.fullName,
+        name: this.name,
+        surname: this.surname,
+        patronymic: this.patronymic,
         phone: this.phone,
         role: this.role,
         zones: this.zones,
@@ -84,7 +94,9 @@ export default {
       this.close()
     },
     clear_() {
-      this.fullName = null
+      this.name = null,
+      this.patronymic = null,
+      this.surname = null
       this.phone = null
       this.role = null
       this.zones = null
@@ -97,7 +109,9 @@ export default {
   data() {
     return {
       title: "Поиск смены персонала",
-      fullName: this.data.fullName,
+      surname: this.data.surname,
+      name: this.data.name,
+      patronymic: this.data.patronymic,
       phone: this.data.phone,
       role: this.data.role,
       zones: this.data.zones,

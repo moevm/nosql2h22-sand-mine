@@ -24,27 +24,32 @@ interface WorkerRepository : Neo4jRepository<Worker, Long> {
     fun findAllByIdIn(id: List<Long>): Set<Worker>
 
     @Query(
-        "MATCH(worker: WORKER)-[has_shift: HAS_SHIFT]->(shift: SHIFT)-[in:IN]->(zone:ZONE) WHERE worker.name =~ \$name AND worker.surname =~ \$surname " +
-                "AND worker.patronymic =~ \$patronymic AND worker.phone_number =~ \$phone AND worker.role =~ \$role " +
-                "AND shift.date >= \$dateFrom AND shift.date <= \$dateTo AND toString(ID(zone)) =~ \$zoneIds RETURN worker, has_shift, shift, in, zone " +
-                "ORDER BY shift.date"
+        "MATCH (worker:WORKER) where worker.role = 'admin-admin' OR worker.role = 'admin' return worker"
     )
-    fun allShiftsFilter(
-        @Param("name") name: String,
-        @Param("surname") surname: String,
-        @Param("patronymic") patronymic: String,
-        @Param("phone") phone: String,
-        @Param("role") role: String,
-        @Param("dateFrom") dateFrom: LocalDate,
-        @Param("dateTo") dateTo: LocalDate,
-        @Param("zoneIds") zoneIds: String
-    ): List<Worker>
+    fun findAdmins(): Set<Worker>
+
+
+//    @Query(
+//        "MATCH(worker: WORKER)-[has_shift: HAS_SHIFT]->(shift: SHIFT)-[in:IN]->(zone:ZONE) WHERE toLower(worker.name) =~ toLower(\$name) AND toLower(worker.surname) =~ toLower(\$surname) " +
+//                "AND toLower(worker.patronymic) =~ toLower(\$patronymic) AND worker.phone_number =~ \$phone AND worker.role =~ \$role " +
+//                "AND shift.date >= \$dateFrom AND shift.date <= \$dateTo AND toString(ID(zone)) =~ \$zoneIds RETURN  worker, has_shift, shift, in, zone "
+//    )
+//    fun allShiftsFilter(
+//        @Param("name") name: String,
+//        @Param("surname") surname: String,
+//        @Param("patronymic") patronymic: String,
+//        @Param("phone") phone: String,
+//        @Param("role") role: String,
+//        @Param("dateFrom") dateFrom: LocalDate,
+//        @Param("dateTo") dateTo: LocalDate,
+//        @Param("zoneIds") zoneIds: String
+//    ): List<Worker>
 
     @Query("MATCH(worker: WORKER) RETURN DISTINCT worker.role")
     fun findAllRoles(): Set<String>
 
     @Query(
-        "MATCH(worker: WORKER)-[has_access:HAS_ACCESS_TO]->(zone: ZONE) WHERE worker.surname =~ \$surname AND worker.name =~ \$name AND worker.patronymic =~ \$patronymic AND " +
+        "MATCH(worker: WORKER)-[has_access:HAS_ACCESS_TO]->(zone: ZONE) WHERE toLower(worker.surname) =~ toLower(\$surname) AND toLower(worker.name) =~ toLower(\$name) AND toLower(worker.patronymic) =~ toLower(\$patronymic) AND " +
                 "worker.phone_number =~ \$phoneNumber AND toString(worker.role) =~ \$roles AND toString(ID(zone)) =~ \$zones " +
                 "RETURN worker, has_access, zone"
     )
@@ -57,7 +62,12 @@ interface WorkerRepository : Neo4jRepository<Worker, Long> {
         @Param("zones") zones: String
     ): List<Worker>
 
-    fun getWorkerByPhoneNumber(@Param("phoneNumber") phoneNumber: String):Worker?
+    fun getWorkerByPhoneNumber(@Param("phoneNumber") phoneNumber: String): Worker?
 
-    fun getWorkerByEmail(@Param("email") email: String):Worker?
+    fun getWorkerByEmail(@Param("email") email: String): Worker?
+
+    @Query(
+        "MATCH (worker:WORKER)-[has_shift:HAS_SHIFT]->(shift:SHIFT) where ID(shift) = \$shiftId RETURN worker"
+    )
+    fun getWorkerByShift(@Param("shiftId") shiftId: Long?): Worker
 }

@@ -106,7 +106,9 @@ export default {
       }
 
       let filterParams = {
-        fullName: this.filter_params.full_name,
+        name: this.filter_params.name,
+        surname: this.filter_params.surname,
+        patronymic: this.filter_params.patronymic,
         phoneNumber: this.filter_params.phone,
         roles: this.filter_params.roles,
         zoneIds: filterZoneIds,

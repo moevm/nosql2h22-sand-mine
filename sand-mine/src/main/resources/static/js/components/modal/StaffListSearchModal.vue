@@ -2,9 +2,17 @@
   <Modal :title="title">
     <template #body>
       <div>
-        <label for="full_name">ФИО</label>
+        <label for="surname">Фамилия</label>
         <br>
-        <input class="input" id='full_name' name="full_name" v-model="full_name">
+        <input class="input" id='surname' name="surname" v-model="surname">
+
+        <label for="name">Имя</label>
+        <br>
+        <input class="input" id='name' name="name" v-model="name">
+
+        <label for="patronymic">Отчество</label>
+        <br>
+        <input class="input" id='patronymic' name="patronymic" v-model="patronymic">
 
         <label for="phone">Телефон</label>
         <br>
@@ -76,7 +84,9 @@ export default {
     },
     submit_() {
       let data = {
-        full_name: this.full_name,
+        name: this.name,
+        surname: this.surname,
+        patronymic: this.patronymic,
         phone: this.phone,
         roles: this.roles,
         zones: this.zones
@@ -85,7 +95,9 @@ export default {
       this.close()
     },
     clear_() {
-      this.full_name = null
+      this.name = null
+      this.surname = null
+      this.patronymic = null
       this.phone = null
       this.roles = null
       this.zones = null
@@ -93,7 +105,9 @@ export default {
   },
   data() {
     return {
-      full_name: null,
+      name: null,
+      surname: null,
+      patronymic: null,
       phone: null,
       roles: null,
       zones: null,

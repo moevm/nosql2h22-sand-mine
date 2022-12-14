@@ -51,12 +51,14 @@ class WorkerController(
         }
 
         return shiftsRepository.getAllShiftsByWorker(workerId)
-            .map{shift -> ShiftDTO(
-                shiftId = shift.id,
-                date = shift.date.asLocalDate(),
-                attended = shift.attended,
-                zoneId = shift.id ?: -1
-            )}.toList();
+            .map { shift ->
+                ShiftDTO(
+                    shiftId = shift.id,
+                    date = shift.date.asLocalDate(),
+                    attended = shift.attended,
+                    zoneId = shift.id ?: -1
+                )
+            }.toList();
     }
 
     @GetMapping("/all")
@@ -93,10 +95,10 @@ class WorkerController(
             it.date.asLocalDate() == LocalDate.now()
         } ?: throw NotFoundException()
 
-        if(worker.zonesWithAccess.contains(wardenCurrentShift.zone)) {//добавляем присутствие
-            val shift:Shift? = worker.shifts.find { it.date.asLocalDate() == LocalDate.now() }
-            if(shift != null){
-                val newShift:Shift = shift.copy(shift.id,shift.date,true,shift.zone)
+        if (worker.zonesWithAccess.contains(wardenCurrentShift.zone)) {//добавляем присутствие
+            val shift: Shift? = worker.shifts.find { it.date.asLocalDate() == LocalDate.now() }
+            if (shift != null) {
+                val newShift: Shift = shift.copy(shift.id, shift.date, true, shift.zone)
                 shiftsRepository.save(newShift)
             }
         }
@@ -158,7 +160,7 @@ class WorkerController(
             .toSet()
 
 
-        val shifts:Set<Shift> = generateShifts(zonesWithAccess);
+        val shifts: Set<Shift> = generateShifts(zonesWithAccess);
 
         with(workerDto) {
             return WorkerDTO.toDto(
@@ -197,21 +199,21 @@ class WorkerController(
         var roles = ".*"
         var zoneIds = ".*"
 
-        if (workerFilterDTO.fullName != null) {
-            val splitFullName = workerFilterDTO.fullName.split(" ", "\t", "\n")
-            if (splitFullName.size == 3) {
-                surname = "(?i)".plus(splitFullName[0])
-                name = "(?i)".plus(splitFullName[1])
-                patronymic = "(?i)".plus(splitFullName[2])
-            } else {
-                surname = ""
-                name = ""
-                patronymic = ""
-            }
+        if (workerFilterDTO.surname != null) {
+            surname = "(?i)".plus(".*").plus(workerFilterDTO.surname).plus(".*");
             needFiltering = true
         }
+        if (workerFilterDTO.name != null) {
+            name = "(?i)".plus(".*").plus(workerFilterDTO.name).plus(".*");
+            needFiltering = true
+        }
+        if (workerFilterDTO.patronymic != null) {
+            patronymic = "(?i)".plus(".*").plus(workerFilterDTO.patronymic).plus(".*");
+            needFiltering = true
+        }
+
         if (workerFilterDTO.phoneNumber != null) {
-            phoneNumber = workerFilterDTO.phoneNumber.replace("+", "\\+?").replace(" ", "").plus(".*")
+            phoneNumber = "\\+?\\d*".plus(workerFilterDTO.phoneNumber.replace("+", "").replace(" ", "").plus("\\d*"))
             needFiltering = true
         }
         if (workerFilterDTO.roles != null) {
@@ -252,11 +254,11 @@ class WorkerController(
 
     @GetMapping("/admins")
     fun getAdmins(): List<WorkerDTO> {
-        return workerRepository.findAllByRole("admin").map { worker -> WorkerDTO.toDto(worker) }
+        return workerRepository.findAdmins().map { worker -> WorkerDTO.toDto(worker) }
     }
 
     @PostMapping("/phone")
-    fun getWorkerByPhone(@RequestBody phoneNumber:String):WorkerDTO?{
+    fun getWorkerByPhone(@RequestBody phoneNumber: String): WorkerDTO? {
         val worker: Worker = workerRepository.getWorkerByPhoneNumber(phoneNumber) ?: return null;
         return WorkerDTO(
             worker.id,
@@ -276,8 +278,8 @@ class WorkerController(
     }
 
     @PostMapping("/email")
-    fun getWorkerByEmail(@RequestBody email:String):WorkerDTO?{
-        val emailFormat:String= email.substring(1,email.length-1)
+    fun getWorkerByEmail(@RequestBody email: String): WorkerDTO? {
+        val emailFormat: String = email.substring(1, email.length - 1)
         val worker: Worker = workerRepository.getWorkerByEmail(emailFormat) ?: return null;
         return WorkerDTO(
             worker.id,
@@ -297,7 +299,7 @@ class WorkerController(
     }
 
     @PostMapping("/remove")
-    fun removeWorker(@RequestBody workerId:Long){
+    fun removeWorker(@RequestBody workerId: Long) {
         workerRepository.deleteById(workerId)
     }
 
@@ -317,10 +319,10 @@ class WorkerController(
             if (today.dayOfWeek == DayOfWeek.SUNDAY || today.dayOfWeek == DayOfWeek.SATURDAY) {
                 continue
             }
-            val attended:Boolean;
-            if(i>0){
+            val attended: Boolean;
+            if (i > 0) {
                 attended = (0..10).random() < 9;
-            }else{
+            } else {
                 attended = false;
             }
             shifts.add(

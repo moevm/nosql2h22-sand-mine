@@ -62,6 +62,19 @@ interface WorkerRepository : Neo4jRepository<Worker, Long> {
         @Param("zones") zones: String
     ): List<Worker>
 
+    @Query(
+        "MATCH(worker: WORKER) WHERE toLower(worker.surname) =~ toLower(\$surname) AND toLower(worker.name) =~ toLower(\$name) AND toLower(worker.patronymic) =~ toLower(\$patronymic) AND " +
+                "worker.phone_number =~ \$phoneNumber AND toString(worker.role) =~ \$roles " +
+                "RETURN worker"
+    )
+    fun getFilteredWorkersListWithoutZones(
+        @Param("surname") surname: String,
+        @Param("name") name: String,
+        @Param("patronymic") patronymic: String,
+        @Param("phoneNumber") phoneNumber: String,
+        @Param("roles") roles: String
+    ): List<Worker>
+
     fun getWorkerByPhoneNumber(@Param("phoneNumber") phoneNumber: String): Worker?
 
     fun getWorkerByEmail(@Param("email") email: String): Worker?

@@ -199,6 +199,8 @@ class WorkerController(
         var roles = ".*"
         var zoneIds = ".*"
 
+        var searchWithZones = false
+
         if (workerFilterDTO.surname != null) {
             surname = "(?i)".plus(".*").plus(workerFilterDTO.surname).plus(".*");
             needFiltering = true
@@ -223,14 +225,17 @@ class WorkerController(
         if (workerFilterDTO.zoneIds != null) {
             if (zoneIds.isNotEmpty()) {
                 zoneIds = workerFilterDTO.zoneIds.joinToString("|")
+                searchWithZones = true;
             }
             needFiltering = true
         }
 
         val workersSet = if (!needFiltering) {
             workerRepository.findAll().filterNotNull().toSet()
-        } else {
+        } else if(searchWithZones) {
             workerRepository.getFilteredWorkersList(surname, name, patronymic, phoneNumber, roles, zoneIds)
+        } else{
+            workerRepository.getFilteredWorkersListWithoutZones(surname, name, patronymic, phoneNumber, roles)
         }
 
         return workersSet.map { worker ->
